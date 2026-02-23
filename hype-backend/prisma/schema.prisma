@@ -6,3 +6,20 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+
+// pnx prisma migrate dev --name init_user
+/*CREACIÓN DE LA BASE DE DATOS*/
+
+model User {
+  id          Int       @id @default(autoincrement())
+  name        String
+  lastName    String
+  username    String    @unique
+  email       String    @unique
+  password    String    
+  location    String
+  bio         String?
+  avatarUrl   String?
+  createdAt   DateTime  @default(now())
+}
+
