@@ -16,9 +16,11 @@ export const register = async (req: Request, res: Response) => {
 
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        const baseUsername = `${name.toLowerCase()}${lastName.toLowerCase()}`.replace(/\s/g, "")
+        const normalizedName = name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+        const normalizedLastName = lastName.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+        const baseUsername = `${normalizedName}${normalizedLastName}`.replace(/\s/g, "")
         const randomNum = Math.floor(Math.random() * 9000) + 1000
-        const username = `${baseUsername}_${randomNum}` 
+        const username = `${baseUsername}_${randomNum}`
 
         const user = await prisma.user.create({
             data: {
