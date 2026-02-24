@@ -49,10 +49,45 @@ export const register = async (req: Request, res: Response) => {
         });
 
     }catch (error){
-        res.status(500).json({message: "Error interno del servidor"})
+        return res.status(500).json({message: "Error interno del servidor"})
     }
 }
 
-export const login = () => {
+export const login =  async (req: Request, res:Response) => {
+    try{
+        const  {email, password} =  req.body;
 
+        const existsUser = await prisma.user.findUnique({
+            where : {email}
+        });
+
+        const validPwd = existsUser && await bcrypt.compare(password, password);
+
+        if (!existsUser){
+            return res.status(401).json({message:"Email o contraseña incorrectos"})
+        }
+        if (!validPwd){
+            return res.status(401).json({message:"Contraseña incorrecta"})
+        }
+
+        const userToken = jwt.sign(
+            { userId: existsUser.id },
+            process.env.JWT_SECRET as string,
+            { expiresIn: "7d" }
+        );
+
+        res.status(201).json({
+            message:"El usuario ha iniciado sesión correctamente",
+            userToken, 
+            user : {
+                id: existsUser.id,
+                name: existsUser.name,
+                username: existsUser.username,
+                email: existsUser.email
+            }
+        })
+    }catch(error){
+        return res.status(501).json({message: error})
+    }
+    
 }
