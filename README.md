@@ -19,4 +19,4 @@ A full-stack web app to discover events, organize them in folders and share them
 - **nodemon + ts-node** — auto-restart server on file changes during development
 
 ### Frontend
-- **React** — coming soon
+- **React** 
