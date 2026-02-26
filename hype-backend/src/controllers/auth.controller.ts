@@ -72,7 +72,7 @@ export const login =  async (req: Request, res:Response) => {
             return res.status(401).json({message:"Contraseña incorrecta"})
         }
 
-        const userToken = jwt.sign(
+        const token = jwt.sign(
             { userId: existsUser.id },
             process.env.JWT_SECRET as string,
             { expiresIn: "7d" }
@@ -80,7 +80,7 @@ export const login =  async (req: Request, res:Response) => {
 
         res.status(201).json({
             message:"El usuario ha iniciado sesión correctamente",
-            userToken, 
+            token, 
             user : {
                 id: existsUser.id,
                 name: existsUser.name,
