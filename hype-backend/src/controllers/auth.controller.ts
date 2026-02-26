@@ -40,7 +40,7 @@ export const register = async (req: Request, res: Response) => {
         );
 
         res.status(201).json({
-            message:"Usiario creado correctamente",
+            message:"Usuario creado correctamente",
             userToken, 
             user : {
                 id: user.id,
