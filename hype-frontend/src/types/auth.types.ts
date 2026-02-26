@@ -26,3 +26,10 @@ export interface RegisterForm {
     password: string
     location: string
 }
+export interface AuthContextType {
+    user: User | null
+    token: string | null
+    isAuthenticated: boolean
+    saveAuth: (token: string, user: User) => void
+    logout: () => void
+}
