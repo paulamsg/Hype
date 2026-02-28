@@ -8,6 +8,6 @@ export const login = async (data:LoginForm): Promise <AuthResponse> =>{
     return response.data;
 }
 export const register = async (data:RegisterForm): Promise <AuthResponse> =>{
-    const response = await axios.post(`${SERVER_URL}/auth/login`,data);
+    const response = await axios.post(`${SERVER_URL}/auth/register`,data);
     return response.data;
 }

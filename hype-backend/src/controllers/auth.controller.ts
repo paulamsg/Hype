@@ -33,7 +33,7 @@ export const register = async (req: Request, res: Response) => {
             }
         });
 
-        const userToken = jwt.sign(
+        const token = jwt.sign(
             {userId: user.id},
             process.env.JWT_SECRET as string,
             {expiresIn: "7d"}
@@ -41,7 +41,7 @@ export const register = async (req: Request, res: Response) => {
 
         res.status(201).json({
             message:"Usuario creado correctamente",
-            userToken, 
+            token, 
             user : {
                 id: user.id,
                 name: user.name,
