@@ -9,3 +9,8 @@ export interface Event {
     category: string
     subGenre: string 
 }
+export interface EventFilters {
+    location?: string;
+    category?: string;
+    date?: string;
+};
