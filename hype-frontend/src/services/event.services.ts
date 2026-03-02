@@ -6,5 +6,5 @@ export const getEvents = async ( filters:EventFilters ): Promise<Event[]> =>{
     const response = await axios.get(`${SERVER_URL}/events/`,{
         params: filters
     })
-    return response.data;
+    return response.data.events;
 }
