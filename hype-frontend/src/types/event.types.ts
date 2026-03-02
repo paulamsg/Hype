@@ -1,6 +1,6 @@
-
 export interface Event {
     id: string
+    city: string
     name: string
     date: string
     time: string
@@ -10,7 +10,7 @@ export interface Event {
     subGenre: string 
 }
 export interface EventFilters {
-    location?: string;
+    city?: string;
     category?: string;
     date?: string;
 };
