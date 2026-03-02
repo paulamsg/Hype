@@ -5,16 +5,16 @@ const BASE_URL = "https://app.ticketmaster.com/discovery/v2/";
 
 export const getEvents = async (req: Request, res: Response) =>{
     try{
-        const {location, category, startDateTime, endDateTime, page=0 } = req.query
-        const response = await axios.get(`${BASE_URL}/events.json`,{
+        const {city, category, startDateTime, endDateTime, page=0 } = req.query
+        const response = await axios.get(`${BASE_URL}events.json`,{
             params : {
                 apikey : process.env.API_KEY_TICKETMASTER,
-                city: location,
+                city: city,
                 countryCode: "ES",
                 classificationName: category || undefined,
                 startDateTime: startDateTime || undefined,
                 endDateTime: endDateTime || undefined,
-                size: 20,
+                size: 50,
                 page: page,
                 sort: "date,asc"
             }
@@ -30,13 +30,17 @@ export const getEvents = async (req: Request, res: Response) =>{
             city: event._embedded?.venues?.[0]?.city?.name,
             image: event.images?.[0]?.url,
             category: event.classifications?.[0]?.segment?.name,
-            //priceMin: event.priceRanges?.[0]?.min,
-            //priceMax: event.priceRanges?.[0]?.max,
+            priceMin: event.priceRanges?.[0]?.min,
+            priceMax: event.priceRanges?.[0]?.max,
+            genre: event.classifications?.[0]?.genre?.name,
+            subGenre: event.classifications?.[0]?.subGenre?.name,
             url: event.url
         }));
-
+        const uniqueEvents = eventInformation.filter((event: any, index: any, self: any[])=>{
+            return index === self.findIndex((e:any) => e.name === event.name)
+        })
         res.status(200).json({
-            events: eventInformation,
+            events: uniqueEvents,
         })
         
     }catch (err){
