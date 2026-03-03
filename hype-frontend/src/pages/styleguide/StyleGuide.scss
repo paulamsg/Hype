@@ -1,0 +1,31 @@
+:root{
+    --color-primary: #0057FF;
+    --color-secondary: #E8FF00;
+    --color-black: #111111;
+    --color-background: #FFF
+}
+.display-colors{
+    display: flex;
+}
+.colors{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 200px;
+    width: 200px;
+    border-radius: 24px;
+    
+}
+.color-primary{
+    background-color: var(--color-primary);
+}
+.color-secondary{
+    background-color: var(--color-secondary);
+}
+.color-black{
+    background-color: var(--color-black);
+}
+.color-background{
+    background-color: var(--color-background);
+    border: 1px solid black;
+}

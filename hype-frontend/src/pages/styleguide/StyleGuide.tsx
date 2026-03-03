@@ -1,5 +1,18 @@
+import './StyleGuide.scss';
+
 const StyleGuide = () =>{
     return (
+        <>
+        <div>
+            <h1>Colores principales de la aplicación</h1>
+            <div className='display-colors'>
+                <div className="colors color-primary"><code>#0057FF</code></div>
+                <div className="colors color-secondary"><code>#E8FF00</code></div>
+                <div className="colors color-black"><code>#111111</code></div>
+                <div className="colors color-background"><code>#FFFFF</code></div>
+            </div>
+            
+        </div>
         <table>
             <thead>
                 <tr>
@@ -41,11 +54,24 @@ const StyleGuide = () =>{
                     <td><button>Esto es un botón</button></td>
                 </tr>
                 <tr>
+                    <td>Label</td>
+                    <td><label>Esto es un label</label></td>
+                </tr>
+                <tr>
                     <td>Input</td>
                     <td><input placeholder="escribe aquí"></input></td>
                 </tr>
+                <tr>
+                    <td>Radio button</td>
+                    <td><input type="radio"></input><label>Radio button</label></td>
+                </tr>
+                <tr>
+                    <td>Select</td>
+                    <td><select><option>Opción</option></select></td>
+                </tr>
             </tbody>
         </table>
+        </>
     )
 }
 export default StyleGuide;
