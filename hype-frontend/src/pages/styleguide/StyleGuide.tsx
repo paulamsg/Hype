@@ -3,6 +3,7 @@ import Button from '../../components/ui/Button'
 const StyleGuide = () =>{
     return (
         <>
+        <h4>hype</h4>
         <div>
             <h1>Colores principales de la aplicación</h1>
             <div className='display-colors'>
