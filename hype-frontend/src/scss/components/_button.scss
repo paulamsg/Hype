@@ -23,21 +23,28 @@
     &-lime {
         background: var(--lime);
         color: var(--lime-t);
-        border: 1.5px solid var(--lime-d);
-        &:hover { background: var(--lime-d); }
+        border: 1px solid var(--lime-d);
+        &:hover { background: var(--lime-d); }  
     }
 
     &-outline {
-        background: transparent;
+        background: var(--white);
         color: var(--ink2);
-        border: 1.5px solid var(--b2);
-        &:hover { border-color: var(--ink); color: var(--ink); }
+        border: 1px solid var(--b2);
+        &:hover { border-color: var(--ink2); color: var(--ink2); }
+    }
+
+    &-outline-blue {
+        background: var(--white);
+        color: var(--blue);
+        border: 1px solid var(--blue);
+        &:hover { border-color: var(--ink2); color: var(--ink2); }
     }
 
     &-ghost-w {
         background: rgba(255,255,255,0.1);
         color: var(--white);
-        border: 1.5px solid rgba(255,255,255,0.2);
+        border: 1px solid rgba(255,255,255,0.2);
         &:hover { background: rgba(255,255,255,0.18); }
     }
 
@@ -47,13 +54,19 @@
     }
 
     &-confirm {
-        background: var(--grn);
+        background: var(--green);
         color: var(--white);
     }
 
     &-sm {
         height: 30px;
         padding: 0 13px;
+        font-size: 11px;
+    }
+
+    &-md {
+        height: 36px;
+        padding:0 var(--sp-md);
         font-size: 11px;
     }
 

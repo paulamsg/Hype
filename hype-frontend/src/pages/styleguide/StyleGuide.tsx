@@ -13,26 +13,145 @@ const StyleGuide = () =>{
             </div>
             
         </div>
-        <Button 
-            label="Entrar" 
+        <div>
+            <h1> Botones de la aplicación</h1>
+            <div>
+                
+            </div>
+            <h2>Botón de login y registro</h2>
+            <Button 
+            label="Crear cuenta →" 
             variant="primary" 
             size="xl" 
             type="submit" 
-        />
-
-        <Button 
-            label="Cancelar" 
+            />
+            <Button 
+            label="Entrar →" 
+            variant="primary" 
+            size="xl" 
+            type="submit" 
+            />
+            <Button 
+            label="Google" 
             variant="outline" 
-            size="md"
-            onClick = {() => {}}
-        />
-
-        <Button 
-            label="Eliminar" 
-            variant="danger" 
-            size="sm"
-            onClick = {() => {}}
-        />
+            size="xl" 
+            type="submit" 
+            />
+            <h2>Botones del modal</h2>
+            <Button 
+                label="Cancelar" 
+                variant="outline" 
+                size="md"
+                onClick = {() => {}}
+            />
+            <Button 
+                label="Mandar al grupo" 
+                variant="primary" 
+                size="md"
+                onClick = {() => {}}
+            />
+            <h2>Botones de NOTIFICACIONES</h2>
+            <Button 
+                label="¡Vamos!" 
+                variant="primary" 
+                size="sm"
+                onClick = {() => {}}
+            />
+            <Button 
+                label="Ahora no" 
+                variant="outline" 
+                size="sm"
+                onClick = {() => {}}
+            />
+            <Button 
+                label=" + Seguir también" 
+                variant="primary" 
+                size="sm"
+                onClick = {() => {}}
+            />
+            <h2>Botones de FEED DE AMIGOS</h2>
+            <Button 
+                label=" Ver evento → " 
+                variant="outline" 
+                size="sm"
+                onClick = {() => {}}
+            />
+            <Button 
+                label="Ir juntos" 
+                variant="primary" 
+                size="sm"
+                onClick = {() => {}}
+            />
+            <Button 
+                label="✓ Enviado" 
+                variant="confirm" 
+                size="sm"
+                onClick = {() => {}}
+            />
+            <Button 
+                label="Seguir" 
+                variant="outline" 
+                size="sm"
+                onClick = {() => {}}
+            />
+            <Button 
+                label="Siguiendo" 
+                variant="outline-blue" 
+                size="sm"
+                onClick = {() => {}}
+            />
+            <Button 
+                label="Pendiente" 
+                variant="outline" 
+                size="sm"
+                onClick = {() => {}}
+            />
+            <h2>Botones de GRUPOS</h2>
+            <Button 
+                label=" + Crear grupo" 
+                variant="primary" 
+                size="md"
+                onClick = {() => {}}
+            />
+            <Button 
+                label="+ Añadir amigo" 
+                variant="primary" 
+                size="sm"
+                onClick = {() => {}}
+            />
+            <Button 
+                label="Editar" 
+                variant="outline" 
+                size="sm"
+                onClick = {() => {}}
+            />
+            <Button 
+                label=" Ver evento → " 
+                variant="outline" 
+                size="sm"
+                onClick = {() => {}}
+            />
+            <Button 
+                label="Ir juntos" 
+                variant="primary" 
+                size="sm"
+                onClick = {() => {}}
+            />
+            <Button 
+                label="✓ Enviado" 
+                variant="confirm" 
+                size="sm"
+                onClick = {() => {}}
+            />
+            <h2>Botones PERFIL</h2>
+            <Button 
+                label="✎ Editar perfil" 
+                variant="outline" 
+                size="md"
+                onClick = {() => {}}
+            />
+        </div>
+        
         <table>
             <thead>
                 <tr>
