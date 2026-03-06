@@ -1,2 +1,42 @@
-/*
-*/
+:root {
+    // Colores
+    --lime:     #E8FF00;
+    --lime-d:   #BDD000;
+    --lime-t:   #3A3A00;
+    --lime-bg:  #FAFFD6;
+    --blue:     #0057FF;
+    --blue-d:   #003FBD;
+    --blue-bg:  #EBF0FF;
+    --red:      #F03030;
+    --green:    #00A854;
+
+    --white:    #FFFFFF;
+    --off:      #F7F7F5;
+    --b1:       #EBEBEB;
+    --b2:       #D0D0D0;
+    --ink:      #0E0E0E;
+    --ink2:     #555555;
+    --ink3:     #AAAAAA;
+
+    // Tipografías
+    --serif:    'Fraunces', serif;
+    --sans:     'DM Sans', sans-serif;
+
+    // Espaciados
+    --sp-xs:    4px;
+    --sp-sm:    8px;
+    --sp-md:    16px;
+    --sp-lg:    24px;
+    --sp-xl:    32px;
+    --sp-2xl:   48px;
+
+    // Bordes
+    --radius-sm:   6px;
+    --radius-md:   10px;
+    --radius-lg:   14px;
+    --radius-full: 999px;
+
+    // Sombras
+    --shadow-sm: 0 1px 20px rgba(0,0,0,0.06);
+    --shadow-md: 0 4px 40px rgba(0,0,0,0.10);
+}

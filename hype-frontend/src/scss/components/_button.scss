@@ -1,0 +1,78 @@
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    height: 40px;
+    padding: 0 20px;
+    border-radius: var(--r-full);
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+    letter-spacing: -0.1px;
+
+    &-primary {
+        background: var(--blue);
+        color: var(--white);
+        &:hover { background: var(--blue-d); }
+    }
+
+    &-lime {
+        background: var(--lime);
+        color: var(--lime-t);
+        border: 1.5px solid var(--lime-d);
+        &:hover { background: var(--lime-d); }
+    }
+
+    &-outline {
+        background: transparent;
+        color: var(--ink2);
+        border: 1.5px solid var(--b2);
+        &:hover { border-color: var(--ink); color: var(--ink); }
+    }
+
+    &-ghost-w {
+        background: rgba(255,255,255,0.1);
+        color: var(--white);
+        border: 1.5px solid rgba(255,255,255,0.2);
+        &:hover { background: rgba(255,255,255,0.18); }
+    }
+
+    &-danger {
+        background: var(--red);
+        color: var(--white);
+    }
+
+    &-confirm {
+        background: var(--grn);
+        color: var(--white);
+    }
+
+    &-sm {
+        height: 30px;
+        padding: 0 13px;
+        font-size: 11px;
+    }
+
+    &-lg {
+        height: 50px;
+        padding: 0 28px;
+        font-size: 15px;
+    }
+
+    &-xl {
+        width: 100%;
+        height: 48px;
+        border-radius: var(--r-md);
+        font-size: 14px;
+        justify-content: center;
+    }
+
+    &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+}

@@ -1,5 +1,5 @@
 import './StyleGuide.scss';
-
+import Button from '../../components/ui/Button'
 const StyleGuide = () =>{
     return (
         <>
@@ -13,6 +13,26 @@ const StyleGuide = () =>{
             </div>
             
         </div>
+        <Button 
+            label="Entrar" 
+            variant="primary" 
+            size="xl" 
+            type="submit" 
+        />
+
+        <Button 
+            label="Cancelar" 
+            variant="outline" 
+            size="md"
+            onClick = {() => {}}
+        />
+
+        <Button 
+            label="Eliminar" 
+            variant="danger" 
+            size="sm"
+            onClick = {() => {}}
+        />
         <table>
             <thead>
                 <tr>
