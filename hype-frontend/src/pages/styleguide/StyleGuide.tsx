@@ -1,5 +1,6 @@
 import './StyleGuide.scss';
 import Button from '../../components/ui/Button'
+import Input from '../../components/ui/Input'
 const StyleGuide = () =>{
     return (
         <>
@@ -152,7 +153,46 @@ const StyleGuide = () =>{
                 onClick = {() => {}}
             />
         </div>
-        
+        <div>
+        // Input básico de formulario
+        <Input
+            label="Email"
+            name="email"
+            type="email"
+            placeholder="ejemplo@gmail.com"
+            value={"hola"}
+            onChange={() =>{}}
+        />
+        // Input de contraseña
+        <Input
+            label="Contraseña"
+            name="password"
+            type="password"
+            placeholder="Mínimo 8 caracteres"
+            value={"hola"}
+            onChange={() =>{}}
+        />
+        // Input con error
+        <Input
+            label="Email"
+            name="email"
+            type="email"
+            placeholder="ejemplo@gmail.com"
+            value={"hola"}
+            onChange={() =>{}}
+            error="El email no es válido"
+        />
+        // Input con icono IA
+        <Input
+            label = ""
+            name="search"
+            type="search"
+            placeholder="Busca algo para esta noche..."
+            value={"search"}
+            onChange= {() =>{}}
+            icon="✦"
+        />
+        </div>
         <table>
             <thead>
                 <tr>

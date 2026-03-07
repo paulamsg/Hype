@@ -6,3 +6,14 @@ export interface ButtonProps {
     disabled?: boolean
     onClick?: () => void
 }
+
+export interface InputProps {
+    label: string
+    name: string
+    type : "text" | "password"  | "search" | "email"
+    placeholder : string
+    value: string
+    error?: string
+    icon ?: string
+    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+}
