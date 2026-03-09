@@ -3,6 +3,7 @@ import Button from '../../components/ui/Button'
 import Input from '../../components/ui/Input'
 import Logo from '../../components/ui/Logo';
 import Topbar from '../../components/ui/TopBar';
+import FilterBar from '../../components/ui/FilterBar';
 const StyleGuide = () =>{
     return (
         <>
@@ -200,6 +201,7 @@ const StyleGuide = () =>{
         <div className="styleguide-section">
             <h1>Barra de navegación</h1>
             <Topbar/>
+            <FilterBar/>
         </div>
         <div className="styleguide-section">
             <h1>Tipografía y elementos HTML</h1>

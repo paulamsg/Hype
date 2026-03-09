@@ -19,5 +19,4 @@ export interface EventFilters {
     category?: string
     startDateTime?: string
     endDateTime?: string
-    page?: number
 }

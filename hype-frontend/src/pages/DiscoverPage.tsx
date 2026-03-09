@@ -24,7 +24,7 @@ const Discover = () =>{
         }
     }
     useEffect(() => {
-        listEvents()
+        listEvents();
     }, [])
 
     return(
