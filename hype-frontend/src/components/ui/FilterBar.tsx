@@ -50,23 +50,19 @@ const FilterBar = (/*{city, category, startDateTime, endDateTime}: EventFilters*
             
             <div className="filterbar__right">
                 <div className="filterbar__date" onClick={() => null}>
-                    <select name="select">
-                    <option value="value1">Value 1</option>
-                    <option value="value2" selected>Value 2</option>
-                    <option value="value3">Value 3</option>
-                    </select>
+                    <input type="date" name="date"/>
                 </div>
                 <div className="filterbar__city" onClick={() => null}>
                     <select name="select">
                     <option value="value1">Value 1</option>
-                    <option value="value2" selected>Value 2</option>
+                    <option value="value2" selected>Ciudad</option>
                     <option value="value3">Value 3</option>
                     </select>
                 </div>
                 <div className="filterbar__price" onClick={() => null}>
                     <select name="select">
                     <option value="value1">Value 1</option>
-                    <option value="value2" selected>Value 2</option>
+                    <option value="value2" selected>Precio</option>
                     <option value="value3">Value 3</option>
                     </select>
                 </div>
