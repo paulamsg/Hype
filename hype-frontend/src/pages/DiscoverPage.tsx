@@ -3,6 +3,9 @@ import { useAuth } from "../context/authContext";
 //import { useNavigate, Link } from "react-router-dom"
 import { getEvents } from "../services/event.services";
 import type { Event } from "../types/event.types";
+import EventCard from "../components/ui/EventCard";
+import Topbar from "../components/ui/TopBar";
+
 const Discover = () =>{
     
     const [events, setEvents] =useState<Event[]>([])
@@ -25,18 +28,19 @@ const Discover = () =>{
     }, [])
 
     return(
+        <>
+        <Topbar/>
         <div><p>Estamos en la página descubre</p>
         {loading && <p>Cargando los eventos eventos</p>}
         {
         events.map((event:Event)=>(
             <div key={event.id}>
-                    <p><b>{event.name}</b></p>
-                    <p>{event.date}</p>
-                    <p>{event.venue}</p>
-                </div>
+                <EventCard {...event}/>
+            </div>
         ))
         }
         </div>
+        </>
     )
 }
 export default Discover;
