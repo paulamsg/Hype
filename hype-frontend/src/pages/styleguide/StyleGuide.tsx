@@ -37,8 +37,8 @@ const StyleGuide = () =>{
                     <Button 
                         label="Google" 
                         variant="outline"
-            size="xl" 
-            type="submit" 
+                        size="xl" 
+                        type="submit" 
                     />
                 </div>
                 <div>

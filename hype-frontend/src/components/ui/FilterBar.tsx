@@ -48,7 +48,7 @@ const FilterBar = (/*{city, category, startDateTime, endDateTime}: EventFilters*
                 </button>
             </div>
             
-            <div className="topbar__right">
+            <div className="filterbar__right">
                 <div className="filterbar__date" onClick={() => null}>
                     <select name="select">
                     <option value="value1">Value 1</option>
