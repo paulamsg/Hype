@@ -1,6 +1,7 @@
 import './StyleGuide.scss';
 import Button from '../../components/ui/Button'
 import Input from '../../components/ui/Input'
+import Logo from '../../components/ui/Logo';
 const StyleGuide = () =>{
     return (
         <>
@@ -179,6 +180,7 @@ const StyleGuide = () =>{
             onChange={() =>{}}
             error="El email no es válido"
         />
+        <Logo/>
         </div>
         <table>
             <thead>
