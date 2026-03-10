@@ -5,7 +5,7 @@ import { getEvents } from "../services/event.services";
 import type { Event } from "../types/event.types";
 import EventCard from "../components/ui/EventCard";
 import Topbar from "../components/ui/TopBar";
-
+import FilterBar from "../components/ui/FilterBar";
 const Discover = () =>{
     
     const [events, setEvents] =useState<Event[]>([])
@@ -30,6 +30,7 @@ const Discover = () =>{
     return(
         <>
         <Topbar/>
+        <FilterBar/>
         <div><p>Estamos en la página descubre</p>
         {loading && <p>Cargando los eventos eventos</p>}
         {

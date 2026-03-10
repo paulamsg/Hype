@@ -13,7 +13,7 @@ function App() {
       <Route path="/style-guide" element={<StyleGuide />} />
       {/* Rutas protegidas */}
         <Route element={<ProtectedRoute />}>
-          <Route path="/descubre" element={<Discover />} />
+          <Route path="/discover" element={<Discover />} />
         </Route>
     </Routes>
   )
