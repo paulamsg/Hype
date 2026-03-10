@@ -6,6 +6,7 @@ import type { Event } from "../types/event.types";
 import EventCard from "../components/ui/EventCard";
 import Topbar from "../components/ui/TopBar";
 import FilterBar from "../components/ui/FilterBar";
+import jsonEvents from "../data/eventsData.json"
 
 const Discover = () =>{
     
@@ -20,7 +21,12 @@ const Discover = () =>{
         setLoading(true)
         try{
             const data = await getEvents ({ city: selectedCity || "Madrid" });
-            setEvents(data);
+            const otherEvents = jsonEvents.filter((evnt)=>{
+                return evnt.city === selectedCity;
+            });
+            const allEvents = [...data, ...otherEvents]
+            
+            setEvents(allEvents);
         }catch(e){
             console.log("error", e)
         }finally{
