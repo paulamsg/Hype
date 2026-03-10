@@ -24,7 +24,7 @@ const Register = () =>{
         try {
             const  data = await register(form)
             saveAuth(data.token, data.user)
-            navigate("/descubre")
+            navigate("/discover")
         }catch(err){
             setError(`Error: ${err}`);
         }finally{

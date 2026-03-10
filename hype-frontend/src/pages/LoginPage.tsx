@@ -29,7 +29,7 @@ const Login = () => {
         try {
         const data = await login(form)
         saveAuth(data.token, data.user)
-        navigate("/descubre")
+        navigate("/discover")
         } catch (err) {
             setError(`Email o contraseña incorrectos: ${err}`)
         } finally {

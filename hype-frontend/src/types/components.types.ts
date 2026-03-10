@@ -17,3 +17,8 @@ export interface InputProps {
     icon ?: string
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
 }
+
+export interface FilterBarProps {
+    selectedCity: string
+    onCityChange: (city: string) => void
+}

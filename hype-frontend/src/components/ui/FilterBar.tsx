@@ -1,6 +1,7 @@
-//import type {EventFilters} from '../../types/event.types'
+import { CITIES } from "../../data/cities";
+import type { FilterBarProps } from "../../types/components.types";
 
-const FilterBar = (/*{city, category, startDateTime, endDateTime}: EventFilters*/) => {
+const FilterBar = ({selectedCity, onCityChange}: FilterBarProps) => {    
     return (
         <nav className="filterbar">
             <div className="filterbar__left">
@@ -53,10 +54,12 @@ const FilterBar = (/*{city, category, startDateTime, endDateTime}: EventFilters*
                     <input type="date" name="date"/>
                 </div>
                 <div className="filterbar__city" onClick={() => null}>
-                    <select name="select">
-                    <option value="value1">Value 1</option>
-                    <option value="value2" selected>Ciudad</option>
-                    <option value="value3">Value 3</option>
+                    <select value = {selectedCity} onChange={(e) => onCityChange(e.target.value)}>
+                    {CITIES.map((city) => (
+                        <option key={city} value={city}>
+                            {city}
+                        </option>
+                    ))}
                     </select>
                 </div>
                 <div className="filterbar__price" onClick={() => null}>

@@ -46,7 +46,8 @@ export const register = async (req: Request, res: Response) => {
                 id: user.id,
                 name: user.name,
                 username: user.username,
-                email: user.email
+                email: user.email,
+                location: user.location
             }
         });
 
@@ -85,7 +86,8 @@ export const login =  async (req: Request, res:Response) => {
                 id: existsUser.id,
                 name: existsUser.name,
                 username: existsUser.username,
-                email: existsUser.email
+                email: existsUser.email,
+                location: existsUser.location
             }
         })
     }catch(error){

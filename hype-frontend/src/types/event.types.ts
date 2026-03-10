@@ -20,3 +20,4 @@ export interface EventFilters {
     startDateTime?: string
     endDateTime?: string
 }
+
