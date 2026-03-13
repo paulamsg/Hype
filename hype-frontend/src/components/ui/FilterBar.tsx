@@ -1,4 +1,4 @@
-import { CITIES } from "../../data/cities";
+import { CITIES } from "../../mocks/cities";
 import type { FilterBarProps } from "../../types/components.types";
 
 const FilterBar = ({selectedCity, onCityChange, selectedPrice, onPriceChange, selectedCategory, onCategoryChange}: FilterBarProps) => {    

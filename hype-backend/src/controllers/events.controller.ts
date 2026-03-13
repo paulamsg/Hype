@@ -30,7 +30,7 @@ export const getEvents = async (req: Request, res: Response) =>{
             city: event._embedded?.venues?.[0]?.city?.name,
             image: event.images?.[0]?.url,
             category: event.classifications?.[0]?.segment?.name,
-            priceMin: event.priceRanges,
+            priceMin: event.priceRanges?.[0]?.min,
             priceMax: event.priceRanges?.[0]?.max,
             genre: event.classifications?.[0]?.genre?.name,
             subGenre: event.classifications?.[0]?.subGenre?.name,

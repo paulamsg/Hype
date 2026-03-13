@@ -6,7 +6,7 @@ import type { Event } from "../types/event.types";
 import EventCard from "../components/ui/EventCard";
 import Topbar from "../components/ui/TopBar";
 import FilterBar from "../components/ui/FilterBar";
-import jsonEvents from "../data/eventsData.json"
+import jsonEvents from "../mocks/eventsData.json"
 
 const Discover = () =>{
     
@@ -109,7 +109,6 @@ const Discover = () =>{
             selectedCategory = {filters.category}
             onCategoryChange={handleCategoryChange}
         />
-        <div><p>Estamos en la página descubre</p>
         {loading && <p>Cargando los eventos eventos</p>}
         {
         filteredEvents.map((event:Event)=>(
@@ -118,7 +117,6 @@ const Discover = () =>{
             </div>
         ))
         }
-        </div>
         </>
     )
 }
