@@ -1,7 +1,7 @@
 import { CITIES } from "../../data/cities";
 import type { FilterBarProps } from "../../types/components.types";
 
-const FilterBar = ({selectedCity, onCityChange}: FilterBarProps) => {    
+const FilterBar = ({selectedCity, onCityChange, selectedPrice, onPriceChange}: FilterBarProps) => {    
     return (
         <nav className="filterbar">
             <div className="filterbar__left">
@@ -63,10 +63,13 @@ const FilterBar = ({selectedCity, onCityChange}: FilterBarProps) => {
                     </select>
                 </div>
                 <div className="filterbar__price" onClick={() => null}>
-                    <select name="select">
-                    <option value="value1">Value 1</option>
-                    <option value="value2" selected>Precio</option>
-                    <option value="value3">Value 3</option>
+                    <select value = {selectedPrice} onChange={(e) => onPriceChange(e.target.value)}>
+                    <option value="all" selected>Todos los precios</option>
+                    <option value= "free">Gratis</option>
+                    <option value="under10">Menos de 10€</option>
+                    <option value="10-30">10€ - 30€</option>
+                    <option value="30-60€">30€ - 60€</option>
+                    <option value="over60€">Más de 60€</option>
                     </select>
                 </div>
             </div>
