@@ -17,15 +17,33 @@ const Discover = () =>{
     const [loading, setLoading] = useState(false);
     
     //filterbar - properties
-    const [selectedCity, setSelectedCity] = useState(user?.location || "Madrid")
-    const [selectedPrice, setSelectedPrice] = useState('all')
+    const [filters, setFilters] = useState({
+        city: user?.location || "Madrid",
+        price: "all",
+        category: "all",
+        date: ""
+    })
+    
+    const handleCityChange = (city: string) => {
+        setFilters({
+            ...filters,
+            city: city
+        })
+    }
+
+    const handlePriceChange = (price: string) => {
+        setFilters({
+            ...filters,
+            price: price
+        })
+    }
 
     const listEvents = async () =>{
         setLoading(true)
         try{
-            const data = await getEvents ({ city: selectedCity || "Madrid" });
+            const data = await getEvents ({ city: filters.city });
             const otherEvents = jsonEvents.filter((evnt)=>{
-                return evnt.city === selectedCity;
+                return evnt.city === filters.city;
             });
             const allEvents = [...data, ...otherEvents]
             
@@ -36,46 +54,53 @@ const Discover = () =>{
             setLoading(false)
         }
     }
+    
     useEffect(() => {
         listEvents();
-    }, [selectedCity])
+    }, [filters.city])
 
-
-    const applyFilters = async () => {
-        let filtered  = [...filteredEvents];
-        console.log("array copiado de los eventos segun ciudad",filtered);
-        // Precio
-        if (selectedPrice !== "all") {
+    const applyFilters = () => {
+        let filtered = [...events]
+        if (filters.price !== "all") {
             filtered = filtered.filter((event) => {
-                if (selectedPrice === "free") return !event.priceMin || event.priceMin === 0
-                if (selectedPrice === "under10") return (event.priceMin ?? 0) < 10
-                if (selectedPrice === "10-30") return (event.priceMin ?? 0) >= 10 && (event.priceMin ?? 0) <= 30
-                if (selectedPrice === "30-60") return (event.priceMin ?? 0) >= 30 && (event.priceMin ?? 0) <= 60
-                if (selectedPrice === "over60") return (event.priceMin ?? 0) > 60
-                return true;
+                const min = event.priceMin || 0
+                const max = event.priceMax || 0
+                switch(filters.price) {
+                    case "free":
+                        return min === 0 && max === 0
+                    case "under10":
+                        return max <= 10
+                    case "10-30":
+                        return (min >= 10 && min <= 30)
+                    case "30-60":
+                        return (min >= 30 && min <= 60)
+                    case "over60":
+                        return min > 60 && max > 60
+                    default:
+                        return true;
+                }
             })
         }
-        setEvents(filtered)
+        setFilteredEvents(filtered)
     }
+
     useEffect(() => {
         applyFilters()
-    }, [selectedPrice])
-
-
+    }, [events, filters])
 
     return(
         <>
         <Topbar/>
         <FilterBar
-            selectedCity={selectedCity}
-            onCityChange = {setSelectedCity}
-            selectedPrice={selectedPrice}
-            onPriceChange = {setSelectedPrice}
+            selectedCity={filters.city}
+            onCityChange={handleCityChange}
+            selectedPrice={filters.price}
+            onPriceChange={handlePriceChange}
         />
         <div><p>Estamos en la página descubre</p>
         {loading && <p>Cargando los eventos eventos</p>}
         {
-        events.map((event:Event)=>(
+        filteredEvents.map((event:Event)=>(
             <div key={event.id}>
                 <EventCard {...event}/>
             </div>

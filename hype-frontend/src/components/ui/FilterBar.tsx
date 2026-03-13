@@ -62,14 +62,14 @@ const FilterBar = ({selectedCity, onCityChange, selectedPrice, onPriceChange}: F
                     ))}
                     </select>
                 </div>
-                <div className="filterbar__price" onClick={() => null}>
+                <div className="filterbar__price">
                     <select value = {selectedPrice} onChange={(e) => onPriceChange(e.target.value)}>
-                    <option value="all" selected>Todos los precios</option>
+                    <option value="all">Todos los precios</option>
                     <option value= "free">Gratis</option>
                     <option value="under10">Menos de 10€</option>
                     <option value="10-30">10€ - 30€</option>
-                    <option value="30-60€">30€ - 60€</option>
-                    <option value="over60€">Más de 60€</option>
+                    <option value="30-60">30€ - 60€</option>
+                    <option value="over60">Más de 60€</option>
                     </select>
                 </div>
             </div>
