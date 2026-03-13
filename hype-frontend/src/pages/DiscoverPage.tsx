@@ -38,6 +38,13 @@ const Discover = () =>{
         })
     }
 
+    const handleCategoryChange = (category: string)=>{
+        setFilters({
+            ...filters,
+            category: category
+        })
+    }
+
     const listEvents = async () =>{
         setLoading(true)
         try{
@@ -96,6 +103,8 @@ const Discover = () =>{
             onCityChange={handleCityChange}
             selectedPrice={filters.price}
             onPriceChange={handlePriceChange}
+            selectedCategory = {filters.category}
+            onCategoryChange={handleCategoryChange}
         />
         <div><p>Estamos en la página descubre</p>
         {loading && <p>Cargando los eventos eventos</p>}

@@ -1,49 +1,49 @@
 import { CITIES } from "../../data/cities";
 import type { FilterBarProps } from "../../types/components.types";
 
-const FilterBar = ({selectedCity, onCityChange, selectedPrice, onPriceChange}: FilterBarProps) => {    
+const FilterBar = ({selectedCity, onCityChange, selectedPrice, onPriceChange, selectedCategory, onCategoryChange}: FilterBarProps) => {    
     return (
         <nav className="filterbar">
             <div className="filterbar__left">
                 <button 
-                    className="filterbar__tab topbar__tab--active"
-                    onClick={() =>null}
+                    className={`filterbar__tab ${selectedCategory === "all" ? "active" : ""}`} 
+                    onClick={() =>onCategoryChange("all")}
                 >
                     Todo
                 </button>
                 <button 
-                    className="filterbar__tab"
-                    onClick={() => null}
+                    className={`filterbar__tab ${selectedCategory === "Música" ? "active" : ""}`} 
+                    onClick={() => onCategoryChange("Música")}
                 >
                     Música
                 </button>
                 <button 
-                    className="filterbar__tab"
-                    onClick={() => null}
+                    className={`filterbar__tab ${selectedCategory === "Teatro" ? "active" : ""}`} 
+                    onClick={() => onCategoryChange("Teatro")}
                 >
                     Teatro
                 </button>
                 <button 
-                    className="filterbar__tab"
-                    onClick={() => null}
+                    className={`filterbar__tab ${selectedCategory === "Deportes" ? "active" : ""}`} 
+                    onClick={() => onCategoryChange("Deportes")}
                 >
                     Deportes
                 </button>
                 <button 
-                    className="filterbar__tab"
-                    onClick={() => null}
+                    className={`filterbar__tab ${selectedCategory === "Arte" ? "active" : ""}`} 
+                    onClick={() => onCategoryChange("Arte")}
                 >
                     Arte
                 </button>
                 <button 
-                    className="filterbar__tab"
-                    onClick={() => null}
+                    className={`filterbar__tab ${selectedCategory === "Familia" ? "active" : ""}`} 
+                    onClick={() => onCategoryChange("Familia")}
                 >
                     Familia
                 </button>
                 <button 
-                    className="filterbar__tab"
-                    onClick={() => null}
+                    className={`filterbar__tab ${selectedCategory === "Comedia" ? "active" : ""}`} 
+                    onClick={() => onCategoryChange("Comedia")}
                 >
                     Comedia
                 </button>

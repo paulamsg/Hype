@@ -9,7 +9,7 @@ const EventCard = ({name, date, venue, category, image, genre, priceMin}:Event) 
                 <p>{category} - {genre}</p>
                 <p><b>{name}</b></p>
                 <p>{date} - {venue}</p>
-                <p>{priceMin}€</p>
+                <p>{priceMin} €</p>
             </div>
         </div>
     );
