@@ -88,6 +88,9 @@ const Discover = () =>{
                 }
             })
         }
+        if (filters.category !== "all") {
+            filtered = filtered.filter(event => event.category === filters.category);
+        }
         setFilteredEvents(filtered)
     }
 
