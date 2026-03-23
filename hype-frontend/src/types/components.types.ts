@@ -25,4 +25,6 @@ export interface FilterBarProps {
     onPriceChange: (price: string) => void
     selectedCategory: string
     onCategoryChange: (category: string) => void
+    selectedDate: string
+    onDateChange: (category: string) => void
 }
