@@ -3,6 +3,19 @@ import axios from "axios";
 
 const BASE_URL = "https://app.ticketmaster.com/discovery/v2/";
 
+const CATEGORY_MAP: Record<string, string> = {
+    "Music": "Música",
+    "Sports": "Deportes",
+    "Arts & Theatre": "Teatro",
+    "Theatre": "Teatro",
+    "Family": "Familia",
+    "Comedy": "Comedia",
+    "Stand Up Comedy": "Comedia",
+    "Fine Art": "Arte",
+    "Dance": "Arte",
+    "Film": "Arte",
+}
+
 export const getEvents = async (req: Request, res: Response) =>{
     try{
         const {city, category, startDateTime, endDateTime, page=0 } = req.query
@@ -29,7 +42,8 @@ export const getEvents = async (req: Request, res: Response) =>{
             venue: event._embedded?.venues?.[0]?.name,
             city: event._embedded?.venues?.[0]?.city?.name,
             image: event.images?.[0]?.url,
-            category: event.classifications?.[0]?.segment?.name,
+            //category: event.classifications?.[0]?.segment?.name,
+            category: CATEGORY_MAP[event.classifications?.[0]?.segment?.name] ?? event.classifications?.[0]?.segment?.name,
             priceMin: event.priceRanges?.[0]?.min,
             priceMax: event.priceRanges?.[0]?.max,
             genre: event.classifications?.[0]?.genre?.name,
