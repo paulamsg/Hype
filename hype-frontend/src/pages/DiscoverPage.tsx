@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useAuth } from "../context/authContext";
+import { useAuth } from "../context/useAuth";
 //import { useNavigate, Link } from "react-router-dom"
 import { getEvents } from "../services/event.services";
 import type { Event } from "../types/event.types";

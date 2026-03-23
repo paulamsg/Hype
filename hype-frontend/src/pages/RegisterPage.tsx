@@ -1,5 +1,5 @@
 import React from "react";
-import { useAuth } from "../context/authContext";
+import { useAuth } from "../context/useAuth";
 import { useNavigate, Link } from "react-router-dom"
 import type { RegisterForm } from "../types/auth.types";
 import { useState } from "react";

@@ -1,5 +1,5 @@
 import Logo from "../ui/Logo"
-import { useAuth } from "../../context/authContext"
+import { useAuth } from "../../context/useAuth"
 import { useNavigate } from "react-router-dom"
 
 const Topbar = () => {

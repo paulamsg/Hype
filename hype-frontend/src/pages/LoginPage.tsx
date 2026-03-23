@@ -1,5 +1,5 @@
 import React from "react";
-import { useAuth } from "../context/authContext";
+import { useAuth } from "../context/useAuth";
 import { useNavigate, Link } from "react-router-dom"
 import type { LoginForm } from "../types/auth.types";
 import { useState } from "react";
@@ -25,7 +25,6 @@ const Login = () => {
         e.preventDefault()
         setLoading(true)
         setError(null)
-
         try {
         const data = await login(form)
         saveAuth(data.token, data.user)

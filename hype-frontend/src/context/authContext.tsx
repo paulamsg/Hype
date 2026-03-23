@@ -1,22 +1,16 @@
 import React from "react";
-import { createContext, useState, useEffect, useContext } from "react";
+import { createContext, useState } from "react";
 import type { AuthContextType, User } from "../types/auth.types";
 
-const AuthContext = createContext <AuthContextType | null > (null)
+export const AuthContext = createContext<AuthContextType | null>(null)
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-    const [user, setUser] = useState<User | null>(null)
-    const [token, setToken] = useState<string | null>(null)
-
-    useEffect(() => {
-        const savedToken = localStorage.getItem("token")
-        const savedUser = localStorage.getItem("user")
-        
-        if (savedToken && savedUser) {
-            setToken(savedToken)
-            setUser(JSON.parse(savedUser))
-        }
-    }, [])
+    const [token, setToken] = useState<string | null>(() => localStorage.getItem("token"))
+    const [user, setUser] = useState<User | null>(() => {
+        const saved = localStorage.getItem("user")
+        return saved ? JSON.parse(saved) : null
+    })
+    const [loading, setLoading] = useState(false)
 
     const saveAuth = (token: string, user: User) => {
         localStorage.setItem("token", token)
@@ -32,15 +26,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         setUser(null)
     }
 
-    return(
-        <AuthContext.Provider value={{ user, token, isAuthenticated: !!token, saveAuth, logout }}>
+    return (
+        <AuthContext.Provider value={{ user, token, isAuthenticated: !!token, loading, saveAuth, logout }}>
             {children}
         </AuthContext.Provider>
-        )
-}
-
-export const useAuth = () => {
-    const context = useContext(AuthContext)
-    if (!context) throw new Error("useAuth debe usarse dentro de AuthProvider")
-    return context;
+    )
 }
