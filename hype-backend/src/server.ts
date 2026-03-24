@@ -14,7 +14,7 @@ app.use(express.json());
 //Rutas
 app.use("/auth", authRoutes);
 app.use("/events", eventsRoutes);  
-app.use("/saveEvents",savedEventRoutes);
+app.use("/savedEvents",savedEventRoutes);
 
 const PORT = process.env.PORT || 3000;
 
