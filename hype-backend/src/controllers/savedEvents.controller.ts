@@ -30,3 +30,28 @@ export const saveEvent = async (req: AuthRequest, res: Response) => {
         return res.status(500).json({message: "Error"})
     }
 }
+
+export const deleteEvent = async (req:AuthRequest, res:Response) => {
+    try{
+        const eventId = req.params.eventId as string;
+        const userId = req.userId;
+        const isAlreadySaved = await prisma.savedEvent.findUnique({
+            where:{
+                userId_eventId: { userId, eventId }
+            } 
+        });
+
+        if(!isAlreadySaved){
+            return res.status(404).json({ message: "Evento no encontrado" })
+        }else{
+            await prisma.savedEvent.delete({
+                where: {
+                    userId_eventId: { userId, eventId }
+                }
+            });
+        }
+        res.status(200).json({ message: "Evento eliminado correctamente" })
+    }catch(error){
+        return res.status(500).json({message: "Error"})
+    }
+}
