@@ -8,17 +8,96 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 model User {
   id          Int       @id @default(autoincrement())
   name        String
   lastName    String
   username    String    @unique
   email       String    @unique
-  password    String    
+  password    String
   location    String
   bio         String?
   avatarUrl   String?
   createdAt   DateTime  @default(now())
+
+  savedEvents   SavedEvent[]
+  following     Follow[]       @relation("following")
+  followers     Follow[]       @relation("followers")
+  notifications Notification[]
+  groupMembers  GroupMember[]
+}
+
+model SavedEvent {
+  id        Int       @id @default(autoincrement())
+  userId    Int
+  eventId   String
+  folder    Folder
+  eventDate DateTime?
+  createdAt DateTime  @default(now())
+
+  user      User      @relation(fields: [userId], references: [id])
+
+  @@unique([userId, eventId])
+}
+
+enum Folder {
+  WANT_GO
+  GOING
+  GONE
+}
+
+model Follow {
+  id          Int      @id @default(autoincrement())
+  followerId  Int
+  followingId Int
+  createdAt   DateTime @default(now())
+
+  follower    User     @relation("following", fields: [followerId], references: [id])
+  following   User     @relation("followers", fields: [followingId], references: [id])
+
+  @@unique([followerId, followingId])
+}
+
+model Notification {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  type      String
+  message   String
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  user      User     @relation(fields: [userId], references: [id])
+}
+
+model Group {
+  id        Int      @id @default(autoincrement())
+  name      String
+  createdBy Int
+  createdAt DateTime @default(now())
+
+  members   GroupMember[]
+  events    GroupEvent[]
+}
+
+model GroupMember {
+  id        Int      @id @default(autoincrement())
+  groupId   Int
+  userId    Int
+  createdAt DateTime @default(now())
+
+  group     Group    @relation(fields: [groupId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
+
+  @@unique([groupId, userId])
+}
+
+model GroupEvent {
+  id        Int      @id @default(autoincrement())
+  groupId   Int
+  eventId   String
+  userId    Int
+  createdAt DateTime @default(now())
+
+  group     Group    @relation(fields: [groupId], references: [id])
 }
 
