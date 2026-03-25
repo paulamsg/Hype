@@ -19,10 +19,11 @@ const EventCard = ({id, name, date, venue, category, image, genre, priceMin}:Eve
         <div className="event-card">
             <div className="event-card__img">
                 <img src= {image} ></img>
+                <div className="event-card__btn-heart" onClick={handleClickHeart}>
+                    <Heart size={10} fill= {isSaved? "red" : "black" } />
+                </div>
             </div>
-            <div className="event-card__btn-heart" onClick={handleClickHeart}>
-                <Heart size={10} fill= {isSaved? "red" : "white" } />
-            </div>
+            
             <div className="event-card__info">
                 <p>{category} - {genre}</p>
                 <p><b>{name}</b></p>
