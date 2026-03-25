@@ -1,7 +1,7 @@
 export interface Event {
     id: string
-    name: string
-    date: string
+    name?: string
+    date?: string
     time?: string
     venue?: string
     city?: string
