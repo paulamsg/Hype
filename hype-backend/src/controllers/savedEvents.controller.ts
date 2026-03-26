@@ -55,3 +55,20 @@ export const deleteEvent = async (req:AuthRequest, res:Response) => {
         return res.status(500).json({message: "Error"})
     }
 }
+
+export const getSavedEvents = async (req: AuthRequest, res: Response) => {
+    try {
+        const userId = req.userId;
+        if (!userId) {
+            return res.status(401).json({ message: "No autorizado" })
+        }
+        const savedEvents = await prisma.savedEvent.findMany({
+            where: { userId }
+        })
+
+        return res.status(200).json({ savedEvents })
+
+    } catch (error) {
+        return res.status(500).json({ message: error })
+    }
+}
