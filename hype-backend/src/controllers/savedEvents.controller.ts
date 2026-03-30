@@ -66,7 +66,9 @@ export const getSavedEvents = async (req: AuthRequest, res: Response) => {
             where: { userId }
         })
 
+        console.log("los saedEvents del user:", savedEvents)
         return res.status(200).json({ savedEvents })
+        
 
     } catch (error) {
         return res.status(500).json({ message: error })
