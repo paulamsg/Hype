@@ -1,11 +1,19 @@
 import type { Event } from "../../types/event.types";
 import {Heart} from "lucide-react"
-import { useState } from "react";
-import { saveEvent, deleteEvent } from "../../services/savedEvents.services";
+import { useState,useEffect } from "react";
+import { saveEvent, deleteEvent,getSavedEvents} from "../../services/savedEvents.services";
 //const EventCard = ({ isSaved, ...event }: Event & { isSaved?: boolean }) => {
 const EventCard = ({id, name, date, venue, category, image, genre, priceMin}:Event) =>{
     const [isSaved, setIsSaved] = useState(false)
-    
+
+    useEffect(() => {
+        getSavedEvents()
+            .then(data => {
+            setIsSaved(data.savedEvents.includes(id))
+            })
+            .catch(() => setIsSaved(false))
+    }, [id]);
+
     const handleClickHeart = async() => {
         if(isSaved){
             await deleteEvent({id})
@@ -14,7 +22,8 @@ const EventCard = ({id, name, date, venue, category, image, genre, priceMin}:Eve
             await saveEvent({id, date})
             setIsSaved(true)
         }
-    } 
+    }
+
     return (
         <div className="event-card">
             <div className="event-card__img">

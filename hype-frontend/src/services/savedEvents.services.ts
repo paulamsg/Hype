@@ -30,10 +30,10 @@ export const deleteEvent = async (event: Event) => {
     return response.data
 }
 
-export const getSavedEvents = async (userId: Event) =>{
+export const getSavedEvents = async () =>{
     const token = localStorage.getItem("token");
     const response = await axios.get(
-        `${import.meta.env.VITE_SERVER_URL}/savedEvents/${userId}`,
+        `${import.meta.env.VITE_SERVER_URL}/savedEvents/`,
         {
             headers: {
                 Authorization: `Bearer ${token}`

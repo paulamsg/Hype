@@ -67,7 +67,7 @@ export const getSavedEvents = async (req: AuthRequest, res: Response) => {
         })
 
         console.log("los saedEvents del user:", savedEvents)
-        return res.status(200).json({ savedEvents })
+        return res.status(200).json({ savedEvents: savedEvents.map(e => e.eventId) })
         
 
     } catch (error) {
