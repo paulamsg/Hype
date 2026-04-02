@@ -15,7 +15,7 @@ export interface Event {
 }
 
 export interface EventFilters {
-    city?: string
+    city: string
     category?: string
     startDateTime?: string
     endDateTime?: string

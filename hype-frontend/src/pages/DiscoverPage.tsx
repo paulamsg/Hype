@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "../context/useAuth";
 //import { useNavigate, Link } from "react-router-dom"
-import { getEvents } from "../services/event.services";
+import { getEvents, getMocksEvents } from "../services/event.services";
 import type { Event } from "../types/event.types";
 import EventCard from "../components/ui/EventCard";
 import Topbar from "../components/ui/TopBar";
 import FilterBar from "../components/ui/FilterBar";
-import jsonEvents from "../mocks/eventsData.json"
+//import jsonEvents from "../mocks/eventsData.json"
 
 const Discover = () =>{
     
@@ -51,15 +51,16 @@ const Discover = () =>{
             date: date
         })
     }
+
     const listEvents = async () =>{
         setLoading(true)
         try{
             const data = await getEvents ({ city: filters.city });
-            const otherEvents = jsonEvents.filter((evnt)=>{
+            const dataMock = await getMocksEvents ({ city: filters.city });
+            /*const otherEvents = jsonEvents.filter((evnt)=>{
                 return evnt.city === filters.city;
-            });
-            const allEvents = [...data, ...otherEvents]
-            
+            });*/
+            const allEvents = [...data, ...dataMock]
             setEvents(allEvents);
         }catch(e){
             console.log("error", e)

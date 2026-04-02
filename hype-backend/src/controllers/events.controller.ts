@@ -1,6 +1,6 @@
 import {Request, Response} from "express"
 import axios from "axios";
-
+import prisma from "../config/database"
 const BASE_URL = "https://app.ticketmaster.com/discovery/v2/";
 
 const CATEGORY_MAP: Record<string, string> = {
@@ -59,5 +59,18 @@ export const getEvents = async (req: Request, res: Response) =>{
         
     }catch (err){
         return res.status(500).json({message : err})
+    }
+}
+
+export const getMocksEvents = async (req: Request, res: Response) => {
+    try{
+        const {city} = req.query
+        const events = await prisma.mockEvent.findMany({
+            where: {city: city as string},
+            orderBy: { date: 'asc' }
+        });
+        res.status(200).json({events})
+    }catch(error){
+        return res.status(500).json({message: error})
     }
 }
