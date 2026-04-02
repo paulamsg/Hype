@@ -101,3 +101,18 @@ model GroupEvent {
   group     Group    @relation(fields: [groupId], references: [id])
 }
 
+model MockEvent {
+  id         String   @id
+  name       String
+  date       String
+  time       String
+  venue      String
+  city       String
+  image      String
+  category   String
+  genre      String
+  subGenre   String
+  priceMin   Float
+  priceMax   Float
+  url        String
+}
