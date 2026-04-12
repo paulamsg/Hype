@@ -3,11 +3,13 @@ import { useAuth } from "../context/useAuth";
 import Button from '../components/ui/Button';
 import { useState } from "react";
 import ProfileTabs from '../components/ui/profile/ProfileTabs';
+import Logout from '../components/ui/profile/Logout';
 import type { ProfileTab } from '../types/components.types';
 
 const Profile = () => {
     const { user } = useAuth();
     const [activeTab, setActiveTab] = useState<ProfileTab>('fotos');
+    const [showLogout, setShowLogout] = useState(false);
 
     return (
         <>
@@ -68,6 +70,20 @@ const Profile = () => {
                             <span className="profile__folder-cnt">8</span>
                         </div>
                     </div>
+                    <Button
+                        label="Cerrar sesión"
+                        variant="danger-outline"
+                        size="md"
+                        onClick={() => setShowLogout(true)}
+                    />
+                    {showLogout && (
+                        <>
+                            <div className="modal-overlay" onClick={() => setShowLogout(false)} />
+                            <div className="modal">
+                                <Logout onCancel={() => setShowLogout(false)} />
+                            </div>
+                        </>
+                    )}  
 
                 </aside>
                 <section className="profile__content">
@@ -76,11 +92,12 @@ const Profile = () => {
                         onTabChange={(tab) => setActiveTab(tab)}
                     />
                     {activeTab === 'fotos' /* &&  componente de fotos*/ }
-                    {activeTab === 'he-ido' /* &&  componente de fotos*/ }
-                    {activeTab === 'quiero-ir' /* &&  componente de fotos*/ }
-                    {activeTab === 'expirados' /* &&  componente de fotos*/ }
+                    {activeTab === 'he-ido' /* &&  componente de los eventos a los que ha ido */ }
+                    {activeTab === 'quiero-ir' /* &&  componente de los eventos guardados*/ }
+                    {activeTab === 'expirados' /* &&  componente de los eventos*/ }
                 </section>
             </div>
+            
         </>
     );
 };

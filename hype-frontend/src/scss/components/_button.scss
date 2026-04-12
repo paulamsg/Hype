@@ -52,6 +52,11 @@
         background: var(--red);
         color: var(--white);
     }
+    &-danger-outline {
+        background: var(-white);
+        color: var(--red);
+        border: 1px solid var(--red);
+    }
 
     &-confirm {
         background: var(--green);

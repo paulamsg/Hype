@@ -216,20 +216,7 @@
     &__content{
         padding: 32px;
     }
-    &__content-tabs {
-        display: flex;
-        align-items: flex-start;
-        padding: 16px;
-        border-bottom: 1px solid var(--b1);
-
-        &>button{
-            margin-right: 48px ;
-            color: var(--ink3);
-            font-size: 12px;
-            font-weight: 700;
-            font-family: var(--sans);
-        }
-    }
+    
 
 
 
