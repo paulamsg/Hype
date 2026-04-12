@@ -1,0 +1,88 @@
+import Topbar from "../components/ui/TopBar";
+import { useAuth } from "../context/useAuth";
+import Button from '../components/ui/Button';
+import { useState } from "react";
+import ProfileTabs from '../components/ui/profile/ProfileTabs';
+import type { ProfileTab } from '../types/components.types';
+
+const Profile = () => {
+    const { user } = useAuth();
+    const [activeTab, setActiveTab] = useState<ProfileTab>('fotos');
+
+    return (
+        <>
+            <Topbar />
+            <div className="profile">
+                <aside className="profile__aside">
+                    <section className="profile__identity">
+                        <div className="profile__avatar">
+                            {user?.name?.charAt(0).toUpperCase()}
+                        </div>
+                        <div className="profile__bio">
+                            <p className="profile__name">{user?.name}</p>
+                            <p className="profile__handle">@{user?.username}</p>
+                            <p className="profile__desc">{user?.bio}</p>
+                            <div className="profile__location">
+                                <span className="profile__loc-dot" />
+                                <span>{user?.location}</span>
+                            </div>
+                        </div>
+                    </section>
+                    <div className="profile__stats">
+                        <div className="profile__stat">
+                            <span className="profile__stat-n profile__stat-n--blue">34</span>
+                            <span className="profile__stat-l">Eventos</span>
+                        </div>
+                        <div className="profile__stat">
+                            <span className="profile__stat-n">128</span>
+                            <span className="profile__stat-l">Seguidores</span>
+                        </div>
+                        <div className="profile__stat">
+                            <span className="profile__stat-n">94</span>
+                            <span className="profile__stat-l">Siguiendo</span>
+                        </div>
+                    </div>
+
+                    <Button 
+                        label="✎ Editar perfil" 
+                        variant="outline" 
+                        size="md"
+                        onClick = {() => {}}
+                    />
+
+                    <div className="profile__folders">
+                        <p className="profile__folders-label">Mis carpetas</p>
+                        <div className="profile__folder">
+                            <div className="profile__folder-ico profile__folder-ico--heart">♥</div>
+                            <span className="profile__folder-name">Quiero ir</span>
+                            <span className="profile__folder-cnt">12</span>
+                        </div>
+                        <div className="profile__folder">
+                            <div className="profile__folder-ico profile__folder-ico--check">✓</div>
+                            <span className="profile__folder-name">He ido</span>
+                            <span className="profile__folder-cnt">34</span>
+                        </div>
+                        <div className="profile__folder">
+                            <div className="profile__folder-ico profile__folder-ico--clock">⏱</div>
+                            <span className="profile__folder-name">Expirados</span>
+                            <span className="profile__folder-cnt">8</span>
+                        </div>
+                    </div>
+
+                </aside>
+                <section className="profile__content">
+                    <ProfileTabs
+                        activeTab={activeTab}
+                        onTabChange={(tab) => setActiveTab(tab)}
+                    />
+                    {activeTab === 'fotos' /* &&  componente de fotos*/ }
+                    {activeTab === 'he-ido' /* &&  componente de fotos*/ }
+                    {activeTab === 'quiero-ir' /* &&  componente de fotos*/ }
+                    {activeTab === 'expirados' /* &&  componente de fotos*/ }
+                </section>
+            </div>
+        </>
+    );
+};
+
+export default Profile;

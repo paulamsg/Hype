@@ -28,7 +28,7 @@ const Login = () => {
         try {
         const data = await login(form)
         saveAuth(data.token, data.user)
-        navigate("/discover")
+        navigate("/descubre")
         } catch (err) {
             setError(`Email o contraseña incorrectos: ${err}`)
         } finally {
@@ -59,7 +59,7 @@ const Login = () => {
             {loading ? "Cargando..." : "Iniciar sesión"}
             </button>
         </form>
-        <p>¿No tienes cuenta? <Link to="/register">Regístrate</Link></p>
+        <p>¿No tienes cuenta? <Link to="/registro">Regístrate</Link></p>
         </div>
     )
 }

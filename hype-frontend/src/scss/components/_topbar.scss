@@ -4,10 +4,17 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    flex-wrap: wrap;
     padding: 0 24px;
     position: sticky;
     top: 0;
     z-index: 100;
+    border-bottom: 1px solid var(--b1);
+
+    &__left {
+        display: flex;
+        align-items: center;
+    }
 
     &__nav {
         display: flex;
@@ -16,27 +23,31 @@
     }
 
     &__tab {
-        height: 34px;
+        align-self: stretch;
         padding: 0 16px;
-        border-radius: var(--r-full);
+        border-radius: 0;
         font-family: var(--sans);
         font-size: 13px;
         font-weight: 500;
-        color:var(--ink);
+        color: var(--ink);
         background: transparent;
         cursor: pointer;
-        transition: all 0.15s;
+        transition: color 0.15s;
 
         &:hover {
-            color: var(--ink);
-            background: rgba(255,255,255,0.08);
+            color: var(--blue);
         }
 
         &--active {
-            color: var(--ink);
             font-weight: 700;
-            background: rgba(255,255,255,0.1);
+            color: var(--blue);
         }
+    }
+
+    &__right {
+        display: flex;
+        align-items: center;
+        gap: 8px;
     }
 
     &__avatar {
@@ -44,7 +55,7 @@
         height: 32px;
         border-radius: var(--radius-full);
         background: var(--lime);
-        border: 1px solid var(--lime-d);
+        //border: 1px solid var(--lime-d);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -53,5 +64,72 @@
         font-weight: 900;
         color: var(--lime-t);
         cursor: pointer;
+    }
+
+    // ─── Hamburger ───────────────────────────────────────────────────────────
+    &__burger {
+        display: none;
+        flex-direction: column;
+        justify-content: center;
+        gap: 5px;
+        width: 32px;
+        height: 32px;
+        padding: 6px;
+        cursor: pointer;
+
+        span {
+            display: block;
+            height: 2px;
+            width: 100%;
+            background: var(--ink);
+            border-radius: 2px;
+            transition: transform 0.2s, opacity 0.2s;
+        }
+
+        &--open {
+            span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+            span:nth-child(2) { opacity: 0; }
+            span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+        }
+    }
+
+    // ─── Mobile menu ─────────────────────────────────────────────────────────
+    &__mobile-menu {
+        position: absolute;
+        top: 58px;
+        left: 0;
+        right: 0;
+        background: var(--white);
+        border-bottom: 1px solid var(--b1);
+        display: flex;
+        flex-direction: column;
+        z-index: 99;
+
+        button {
+            padding: 14px 24px;
+            text-align: left;
+            font-family: var(--sans);
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--ink);
+            background: transparent;
+            cursor: pointer;
+            border-left: 2px solid transparent;
+            transition: background 0.15s;
+
+            &:hover { background: var(--off); }
+
+            &.active {
+                font-weight: 700;
+                color: var(--blue);
+                border-left-color: var(--blue);
+            }
+        }
+    }
+
+    // ─── Responsive ──────────────────────────────────────────────────────────
+    @media (max-width: 768px) {
+        &__nav    { display: none; }
+        &__burger { display: flex; }
     }
 }

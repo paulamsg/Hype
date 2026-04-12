@@ -4,17 +4,19 @@ import Register from "./pages/RegisterPage";
 import Discover from "./pages/DiscoverPage";
 import StyleGuide from "./pages/styleguide/StyleGuide";
 import ProtectedRoute from "./components/ProtectedRoute"
+import Profile from "./pages/ProfilePage";
 
 function App() {
   return (
     <Routes>
       <Route path="/" element= {<Navigate to="/login" replace />} />
       <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Register />} />
+      <Route path="/registro" element={<Register />} />
       <Route path="/style-guide" element={<StyleGuide />} />
       {/* Rutas protegidas */}
         <Route element={<ProtectedRoute />}>
-          <Route path="/discover" element={<Discover />} />
+          <Route path="/descubre" element={<Discover />} />
+          <Route path="/perfil" element={<Profile />} />
         </Route>
     </Routes>
   )
