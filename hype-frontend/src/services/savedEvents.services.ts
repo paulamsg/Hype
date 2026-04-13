@@ -41,5 +41,19 @@ export const getSavedEvents = async () =>{
         }
     )
     return response.data;
-
 }
+/*
+export const postEventPhoto = async () =>{
+    const token = localStorage.getItem("token");
+    const response = await axios.post(
+        `${import.meta.env.VITE_SERVER_URL}/savedEvents/save`,
+        { eventId: event.id, eventDate: event.date },
+        {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }
+    )
+    return response.data
+}
+*/

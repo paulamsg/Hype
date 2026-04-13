@@ -31,16 +31,12 @@ const PhotoUploadModal = ({ photos, onClose, onUpload }: PhotoUploadModalProps) 
                 body: formData
             })
         }
-
         onUpload()
     }
-
     return (
         <div className="modal-overlay" onClick={onClose}>
             <div className="modal photo-upload-modal" onClick={e => e.stopPropagation()}>
-
                 <h3>Subir fotos</h3>
-
                 <div className="upload-previews">
                     {photos.map((file, i) => (
                         <img
@@ -51,7 +47,6 @@ const PhotoUploadModal = ({ photos, onClose, onUpload }: PhotoUploadModalProps) 
                         />
                     ))}
                 </div>
-
                 <select
                     value={selectedEventId || ''}
                     onChange={e => setSelectedEventId(e.target.value)}
@@ -63,7 +58,6 @@ const PhotoUploadModal = ({ photos, onClose, onUpload }: PhotoUploadModalProps) 
                         </option>
                     ))}
                 </select>
-
                 <div className="modal-actions">
                     <button onClick={onClose}>Cancelar</button>
                     <button
@@ -73,7 +67,6 @@ const PhotoUploadModal = ({ photos, onClose, onUpload }: PhotoUploadModalProps) 
                         Subir
                     </button>
                 </div>
-
             </div>
         </div>
     )

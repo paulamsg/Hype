@@ -25,6 +25,7 @@ model User {
   followers     Follow[]       @relation("followers")
   notifications Notification[]
   groupMembers  GroupMember[]
+  photos        Photo[]                        
 }
 
 model SavedEvent {
@@ -36,6 +37,7 @@ model SavedEvent {
   createdAt DateTime  @default(now())
 
   user      User      @relation(fields: [userId], references: [id])
+  photos    Photo[]                            // ← añade esta línea
 
   @@unique([userId, eventId])
 }
@@ -115,4 +117,15 @@ model MockEvent {
   priceMin   Float
   priceMax   Float
   url        String
+}
+
+model Photo {
+  id           Int        @id @default(autoincrement())
+  url          String
+  createdAt    DateTime   @default(now())
+  userId       Int
+  savedEventId Int
+
+  user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  savedEvent   SavedEvent @relation(fields: [savedEventId], references: [id], onDelete: Cascade)
 }
