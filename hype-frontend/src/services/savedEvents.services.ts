@@ -13,7 +13,6 @@ export const saveEvent = async (event: Event) => {
             }
         }
     )
-    console.log("guardado:", response.data)
     return response.data
 }
 export const deleteEvent = async (event: Event) => {
@@ -26,7 +25,6 @@ export const deleteEvent = async (event: Event) => {
             }
         }
     )
-    console.log("eliminado:", response.data)
     return response.data
 }
 
@@ -42,18 +40,3 @@ export const getSavedEvents = async () =>{
     )
     return response.data;
 }
-/*
-export const postEventPhoto = async () =>{
-    const token = localStorage.getItem("token");
-    const response = await axios.post(
-        `${import.meta.env.VITE_SERVER_URL}/savedEvents/save`,
-        { eventId: event.id, eventDate: event.date },
-        {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        }
-    )
-    return response.data
-}
-*/
