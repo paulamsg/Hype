@@ -5,8 +5,8 @@ import type { PhotoUploadModalProps } from "../../../types/components.types";
 
 const PhotoUploadModal = ({ photos, onClose, onUpload }: PhotoUploadModalProps) => {
     const { token } = useAuth()
-    const [selectedEventId, setSelectedEventId] = useState<number | null>(null)
-    const [savedEvents, setSavedEvents] = useState<{ id: number; title: string }[]>([])
+    const [selectedEventId, setSelectedEventId] = useState<string>('')
+    const [savedEvents, setSavedEvents] = useState<{ id: string; title: string }[]>([])
 
     useEffect(() => {
         const fetchEvents = async () => {
@@ -54,7 +54,7 @@ const PhotoUploadModal = ({ photos, onClose, onUpload }: PhotoUploadModalProps) 
 
                 <select
                     value={selectedEventId || ''}
-                    onChange={e => setSelectedEventId(Number(e.target.value))}
+                    onChange={e => setSelectedEventId(e.target.value)}
                 >
                     <option value="">¿A qué evento pertenecen?</option>
                     {savedEvents.map(event => (
@@ -68,7 +68,7 @@ const PhotoUploadModal = ({ photos, onClose, onUpload }: PhotoUploadModalProps) 
                     <button onClick={onClose}>Cancelar</button>
                     <button
                         onClick={handleUpload}
-                        disabled={!selectedEventId}
+                        disabled={selectedEventId === ''}
                     >
                         Subir
                     </button>
