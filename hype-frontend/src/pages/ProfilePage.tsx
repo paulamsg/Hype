@@ -4,12 +4,16 @@ import Button from '../components/ui/Button';
 import { useState } from "react";
 import ProfileTabs from '../components/ui/profile/ProfileTabs';
 import Logout from '../components/ui/profile/Logout';
+import PhotoUploader from '../components/ui/profile/PhotoUploader'
+import PhotoUploadModal from '../components/ui/profile/PhotoUploadModal'
+
 import type { ProfileTab } from '../types/components.types';
 
 const Profile = () => {
     const { user } = useAuth();
     const [activeTab, setActiveTab] = useState<ProfileTab>('fotos');
     const [showLogout, setShowLogout] = useState(false);
+    const [pendingPhotos, setPendingPhotos] = useState<File[]>([]);
 
     return (
         <>
@@ -91,7 +95,16 @@ const Profile = () => {
                         activeTab={activeTab}
                         onTabChange={(tab) => setActiveTab(tab)}
                     />
-                    {activeTab === 'fotos' /* &&  componente de fotos*/ }
+                    {activeTab === 'fotos' && (
+                        <PhotoUploader onPhotosSelected={setPendingPhotos} />
+                    )}
+                    {pendingPhotos.length > 0 && (
+                        <PhotoUploadModal
+                            photos={pendingPhotos}
+                            onClose={() => setPendingPhotos([])}
+                            onUpload={() => setPendingPhotos([])}
+                        />
+                    )}
                     {activeTab === 'he-ido' /* &&  componente de los eventos a los que ha ido */ }
                     {activeTab === 'quiero-ir' /* &&  componente de los eventos guardados*/ }
                     {activeTab === 'expirados' /* &&  componente de los eventos*/ }

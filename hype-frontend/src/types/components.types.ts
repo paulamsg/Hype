@@ -34,3 +34,11 @@ export interface ProfileTabsProps {
     activeTab: ProfileTab
     onTabChange: (tab: ProfileTab) => void
 }
+export interface PhotoUploaderProps {
+    onPhotosSelected: (files: File[]) => void  // avisa al padre con los archivos
+}
+export interface PhotoUploadModalProps {
+    photos: File[]
+    onClose: () => void
+    onUpload: () => void
+}

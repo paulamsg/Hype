@@ -1,0 +1,52 @@
+
+    .upload-cta {
+    border: 2px dashed var(--b2);
+    border-radius: var(--radius-lg);
+    padding: var(--sp-lg);
+    text-align: center;
+    cursor: pointer;
+    margin-bottom: var(--sp-lg);
+    background: var(--white);
+    transition: border-color 0.2s ease, background 0.2s ease;
+    margin-top: var(--sp-lg) ;
+    &:hover {
+        border-color: var(--blue);
+        background: var(--blue-bg);
+
+        .uc-icon { transform: scale(1.1); }
+        .uc-t    { color: var(--blue); }
+    }
+
+    //el usuario arrastra un archivo encima
+    &--dragging {
+        border-color: var(--blue);
+        border-style: solid;         
+        background: var(--blue-bg);
+        box-shadow: var(--sh-md);
+
+        .uc-icon { transform: scale(1.15); }
+        .uc-t    { color: var(--blue); }
+    }
+    }
+
+    .uc-icon {
+    font-size: 28px;
+    margin-bottom: var(--sp-md);
+    display: block;
+    transition: transform 0.2s ease;
+    }
+
+    .uc-t {
+    font-family: var(--sans);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ink2);
+    margin-bottom: var(--sp-xs);
+    transition: color 0.2s ease;
+    }
+
+    .uc-s {
+    font-family: var(--sans);
+    font-size: 12px;
+    color: var(--ink3);
+    }

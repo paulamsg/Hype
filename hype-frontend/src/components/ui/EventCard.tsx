@@ -9,7 +9,7 @@ const EventCard = ({id, name, date, venue, category, image, genre, priceMin}:Eve
     useEffect(() => {
         getSavedEvents()
             .then(data => {
-            setIsSaved(data.savedEvents.includes(id))
+            setIsSaved(data.savedEvents.some((e: { id: string }) => e.id === id))
             })
             .catch(() => setIsSaved(false))
     }, [id]);
