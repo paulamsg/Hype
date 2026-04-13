@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "../../../context/useAuth";
 import { getSavedEvents } from "../../../services/savedEvents.services";
-import type { PhotoUploadModalProps } from "../../../types/components.types";
+import type { PhotoUploadModalProps } from "../../../types/photo.types";
+import { postPhoto} from "../../../services/photos.services";
+import { uploadImageToCloudinary } from "../../../services/claudinary.services";
 
 const PhotoUploadModal = ({ photos, onClose, onUpload }: PhotoUploadModalProps) => {
     const { token } = useAuth()
@@ -15,23 +17,18 @@ const PhotoUploadModal = ({ photos, onClose, onUpload }: PhotoUploadModalProps) 
             console.log("Eventos del usuario:", savedEvents)
         }
         fetchEvents()
-    }, [token])
+    }, [token]);
 
     const handleUpload = async () => {
-        if (!selectedEventId) return
-
-        for (const file of photos) {
-            const formData = new FormData()
-            formData.append('photo', file)
-            formData.append('savedEventId', String(selectedEventId))
-
-            await fetch('/api/photos', {
-                method: 'POST',
-                headers: { Authorization: `Bearer ${token}` },
-                body: formData
-            })
+        if (!selectedEventId){
+            return;
+        }else{
+            for (const file of photos) {
+                const imageUrl = await uploadImageToCloudinary(file);
+                await postPhoto({ url: imageUrl, savedEventId: selectedEventId})
         }
-        onUpload()
+        onUpload() 
+        }
     }
     return (
         <div className="modal-overlay" onClick={onClose}>
@@ -62,7 +59,7 @@ const PhotoUploadModal = ({ photos, onClose, onUpload }: PhotoUploadModalProps) 
                     <button onClick={onClose}>Cancelar</button>
                     <button
                         onClick={handleUpload}
-                        disabled={selectedEventId === ''}
+                        disabled={!selectedEventId}
                     >
                         Subir
                     </button>

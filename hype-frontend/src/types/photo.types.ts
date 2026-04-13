@@ -12,3 +12,11 @@ export interface Photo {
         avatarUrl: string | null;
     };
 }
+export interface PhotoUploaderProps {
+    onPhotosSelected: (files: File[]) => void  // avisa al padre con los archivos
+}
+export interface PhotoUploadModalProps {
+    photos: File[]
+    onClose: () => void
+    onUpload: () => void
+}

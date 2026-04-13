@@ -17,9 +17,9 @@ export const postPhoto = async (req: AuthRequest, res: Response) =>{
         }
 
         const savedEvent = await prisma.savedEvent.findFirst({
-            where: {id:Number(savedEventId), userId }
+            where: { eventId: savedEventId, userId }
         })
-        
+
         if (!savedEvent) {
             return res.status(403).json({ error: 'Evento no encontrado o no te pertenece' });
         }
@@ -28,7 +28,7 @@ export const postPhoto = async (req: AuthRequest, res: Response) =>{
             data: {
             url,
             userId,
-            savedEventId: Number(savedEventId),
+            savedEventId: savedEvent.id,
             }
         });
 

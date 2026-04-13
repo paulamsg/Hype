@@ -6,14 +6,15 @@ import ProfileTabs from '../components/ui/profile/ProfileTabs';
 import Logout from '../components/ui/profile/Logout';
 import PhotoUploader from '../components/ui/profile/PhotoUploader'
 import PhotoUploadModal from '../components/ui/profile/PhotoUploadModal'
-
 import type { ProfileTab } from '../types/components.types';
+import PhotoGallery from "../components/ui/profile/PhotoGallery";
 
 const Profile = () => {
     const { user } = useAuth();
     const [activeTab, setActiveTab] = useState<ProfileTab>('fotos');
     const [showLogout, setShowLogout] = useState(false);
     const [pendingPhotos, setPendingPhotos] = useState<File[]>([]);
+    const [galleryKey, setGalleryKey] = useState(0);
 
     return (
         <>
@@ -96,15 +97,20 @@ const Profile = () => {
                         onTabChange={(tab) => setActiveTab(tab)}
                     />
                     {activeTab === 'fotos' && (
+                        <>
                         <PhotoUploader onPhotosSelected={setPendingPhotos} />
+                        <PhotoGallery key={galleryKey}/> 
+                        </>
                     )}
                     {pendingPhotos.length > 0 && (
                         <PhotoUploadModal
                             photos={pendingPhotos}
                             onClose={() => setPendingPhotos([])}
-                            onUpload={() => setPendingPhotos([])}
+                            onUpload={() => { setPendingPhotos([]); setGalleryKey(k => k + 1); }}
                         />
                     )}
+                    
+
                     {activeTab === 'he-ido' /* &&  componente de los eventos a los que ha ido */ }
                     {activeTab === 'quiero-ir' /* &&  componente de los eventos guardados*/ }
                     {activeTab === 'expirados' /* &&  componente de los eventos*/ }
