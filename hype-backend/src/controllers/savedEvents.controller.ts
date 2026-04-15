@@ -68,14 +68,28 @@ export const getSavedEvents = async (req: AuthRequest, res: Response) => {
 
         const mockEvents = await prisma.mockEvent.findMany({
             where: { id: { in: eventIds } },
-            select: { id: true, name: true }
+            select: { 
+                    id: true, 
+                    name: true, 
+                    date: true, 
+                    time: true, 
+                    venue: true, 
+                    image: true,
+                    city: true 
+            }
         })
 
-        const mockMap = new Map(mockEvents.map(e => [e.id, e.name]))
+        const mockMap = new Map(mockEvents.map(e => [e.id, e]))
 
         const savedEvents = eventIds.map(id => ({
             id,
-            title: mockMap.get(id) ?? null
+            title: mockMap.get(id)?.name ?? null,
+            date: mockMap.get(id)?.date ?? null,
+            time: mockMap.get(id)?.time ?? null,
+            venue: mockMap.get(id)?.venue ?? null,
+            image: mockMap.get(id)?.image ?? null,
+            city: mockMap.get(id)?.city ?? null,
+
         }))
 
         return res.status(200).json({ savedEvents })
@@ -98,14 +112,28 @@ export const getWantEvents = async (req: AuthRequest, res: Response) => {
 
         const mockEvents = await prisma.mockEvent.findMany({
             where: { id: { in: eventIds } },
-            select: { id: true, name: true }
+            select: { 
+                    id: true, 
+                    name: true, 
+                    date: true, 
+                    time: true, 
+                    venue: true, 
+                    image: true,
+                    city: true 
+            }
         })
 
-        const mockMap = new Map(mockEvents.map(e => [e.id, e.name]))
+        const mockMap = new Map(mockEvents.map(e => [e.id, e]))
 
         const savedEvents = eventIds.map(id => ({
             id,
-            title: mockMap.get(id) ?? null
+            title: mockMap.get(id)?.name ?? null,
+            date: mockMap.get(id)?.date ?? null,
+            time: mockMap.get(id)?.time ?? null,
+            venue: mockMap.get(id)?.venue ?? null,
+            image: mockMap.get(id)?.image ?? null,
+            city: mockMap.get(id)?.city ?? null,
+
         }))
 
         return res.status(200).json({ savedEvents })
@@ -127,14 +155,28 @@ export const getGoingEvents = async (req: AuthRequest, res: Response) => {
 
         const mockEvents = await prisma.mockEvent.findMany({
             where: { id: { in: eventIds } },
-            select: { id: true, name: true }
+            select: { 
+                    id: true, 
+                    name: true, 
+                    date: true, 
+                    time: true, 
+                    venue: true, 
+                    image: true,
+                    city: true 
+            }
         })
 
-        const mockMap = new Map(mockEvents.map(e => [e.id, e.name]))
+        const mockMap = new Map(mockEvents.map(e => [e.id, e]))
 
         const savedEvents = eventIds.map(id => ({
             id,
-            title: mockMap.get(id) ?? null
+            title: mockMap.get(id)?.name ?? null,
+            date: mockMap.get(id)?.date ?? null,
+            time: mockMap.get(id)?.time ?? null,
+            venue: mockMap.get(id)?.venue ?? null,
+            image: mockMap.get(id)?.image ?? null,
+            city: mockMap.get(id)?.city ?? null,
+
         }))
 
         return res.status(200).json({ savedEvents })
@@ -156,14 +198,28 @@ export const getGoneEvents = async (req: AuthRequest, res: Response) => {
 
         const mockEvents = await prisma.mockEvent.findMany({
             where: { id: { in: eventIds } },
-            select: { id: true, name: true }
+            select: { 
+                    id: true, 
+                    name: true, 
+                    date: true, 
+                    time: true, 
+                    venue: true, 
+                    image: true,
+                    city: true 
+            }
         })
 
-        const mockMap = new Map(mockEvents.map(e => [e.id, e.name]))
+        const mockMap = new Map(mockEvents.map(e => [e.id, e]))
 
         const savedEvents = eventIds.map(id => ({
             id,
-            title: mockMap.get(id) ?? null
+            title: mockMap.get(id)?.name ?? null,
+            date: mockMap.get(id)?.date ?? null,
+            time: mockMap.get(id)?.time ?? null,
+            venue: mockMap.get(id)?.venue ?? null,
+            image: mockMap.get(id)?.image ?? null,
+            city: mockMap.get(id)?.city ?? null,
+
         }))
 
         return res.status(200).json({ savedEvents })
@@ -185,14 +241,28 @@ export const getExpiredEvents = async (req: AuthRequest, res: Response) => {
 
         const mockEvents = await prisma.mockEvent.findMany({
             where: { id: { in: eventIds } },
-            select: { id: true, name: true }
+            select: { 
+                    id: true, 
+                    name: true, 
+                    date: true, 
+                    time: true, 
+                    venue: true, 
+                    image: true,
+                    city: true 
+            }
         })
 
-        const mockMap = new Map(mockEvents.map(e => [e.id, e.name]))
+        const mockMap = new Map(mockEvents.map(e => [e.id, e]))
 
         const savedEvents = eventIds.map(id => ({
             id,
-            title: mockMap.get(id) ?? null
+            title: mockMap.get(id)?.name ?? null,
+            date: mockMap.get(id)?.date ?? null,
+            time: mockMap.get(id)?.time ?? null,
+            venue: mockMap.get(id)?.venue ?? null,
+            image: mockMap.get(id)?.image ?? null,
+            city: mockMap.get(id)?.city ?? null,
+
         }))
 
         return res.status(200).json({ savedEvents })
