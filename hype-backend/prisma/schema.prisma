@@ -32,12 +32,12 @@ model SavedEvent {
   id        Int       @id @default(autoincrement())
   userId    Int
   eventId   String
-  folder    Folder
+  folder    Folder    @default(WANT_GO)
   eventDate DateTime?
   createdAt DateTime  @default(now())
 
   user      User      @relation(fields: [userId], references: [id])
-  photos    Photo[]                            // ← añade esta línea
+  photos    Photo[]                           
 
   @@unique([userId, eventId])
 }
@@ -46,6 +46,7 @@ enum Folder {
   WANT_GO
   GOING
   GONE
+  EXPIRED
 }
 
 model Follow {

@@ -8,6 +8,7 @@ import PhotoUploader from '../components/ui/profile/PhotoUploader'
 import PhotoUploadModal from '../components/ui/profile/PhotoUploadModal'
 import type { ProfileTab } from '../types/components.types';
 import PhotoGallery from "../components/ui/profile/PhotoGallery";
+//import UserEventList from "../components/ui/profile/UserEventList";
 
 const Profile = () => {
     const { user } = useAuth();
@@ -111,9 +112,9 @@ const Profile = () => {
                     )}
                     
 
-                    {activeTab === 'he-ido' /* &&  componente de los eventos a los que ha ido */ }
-                    {activeTab === 'quiero-ir' /* &&  componente de los eventos guardados*/ }
-                    {activeTab === 'expirados' /* &&  componente de los eventos*/ }
+                    {activeTab === 'he-ido' /* &&  <UserEventList state='he-ido'/> */ }
+                    {activeTab === 'quiero-ir' /* && <UserEventList state='queiro-ir'/>*/ }
+                    {activeTab === 'expirados' /* &&  <UserEventList state='expirados'/>*/ }
                 </section>
             </div>
             
