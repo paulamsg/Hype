@@ -30,6 +30,7 @@ export interface FilterBarProps {
 }
 
 export type ProfileTab = 'fotos' | 'he-ido' | 'quiero-ir' | 'expirados';
+
 export interface ProfileTabsProps {
     activeTab: ProfileTab
     onTabChange: (tab: ProfileTab) => void

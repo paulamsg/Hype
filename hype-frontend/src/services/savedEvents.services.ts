@@ -1,5 +1,6 @@
 import axios from "axios"; 
 import type { Event } from "../types/event.types";
+import type { Folder } from "../types/folder.types";
 
 
 export const saveEvent = async (event: Event) => {
@@ -32,6 +33,19 @@ export const getSavedEvents = async () =>{
     const token = localStorage.getItem("token");
     const response = await axios.get(
         `${import.meta.env.VITE_SERVER_URL}/savedEvents/`,
+        {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }
+    )
+    return response.data;
+}
+export const updateEventFolder = async (event:Event, folder:Folder) =>{
+    const token = localStorage.getItem("token");
+    const response = await axios.patch(
+        `${import.meta.env.VITE_SERVER_URL}/savedEvents/${event.id}/folder`,
+        {folder},
         {
             headers: {
                 Authorization: `Bearer ${token}`

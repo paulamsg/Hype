@@ -1,0 +1,1 @@
+export type Folder = 'WANT_GO' | 'GOING' | 'GONE' | 'EXPIRED';
