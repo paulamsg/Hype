@@ -8,7 +8,7 @@ import PhotoUploader from '../components/ui/profile/PhotoUploader'
 import PhotoUploadModal from '../components/ui/profile/PhotoUploadModal'
 import type { ProfileTab } from '../types/components.types';
 import PhotoGallery from "../components/ui/profile/PhotoGallery";
-//import UserEventList from "../components/ui/profile/UserEventList";
+import UserEventList from "../components/ui/profile/UserEventList";
 
 const Profile = () => {
     const { user } = useAuth();
@@ -62,7 +62,7 @@ const Profile = () => {
                         <p className="profile__folders-label">Mis carpetas</p>
                         <div className="profile__folder">
                             <div className="profile__folder-ico profile__folder-ico--heart">♥</div>
-                            <span className="profile__folder-name">Quiero ir</span>
+                            <span className="profile__folder-name">Mis eventos</span>
                             <span className="profile__folder-cnt">12</span>
                         </div>
                         <div className="profile__folder">
@@ -72,7 +72,7 @@ const Profile = () => {
                         </div>
                         <div className="profile__folder">
                             <div className="profile__folder-ico profile__folder-ico--clock">⏱</div>
-                            <span className="profile__folder-name">Expirados</span>
+                            <span className="profile__folder-name">Archivo</span>
                             <span className="profile__folder-cnt">8</span>
                         </div>
                     </div>
@@ -111,10 +111,9 @@ const Profile = () => {
                         />
                     )}
                     
-
-                    {activeTab === 'he-ido' /* &&  <UserEventList state='he-ido'/> */ }
-                    {activeTab === 'quiero-ir' /* && <UserEventList state='queiro-ir'/>*/ }
-                    {activeTab === 'expirados' /* &&  <UserEventList state='expirados'/>*/ }
+                    {activeTab === 'mis-eventos' && <UserEventList folder='GONE'/>}
+                    {activeTab === 'guardados'  && <UserEventList folder='WANT_GO'/>}
+                    {activeTab === 'archivo'    && <UserEventList folder='EXPIRED'/>}
                 </section>
             </div>
             
