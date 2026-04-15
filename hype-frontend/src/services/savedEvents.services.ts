@@ -44,7 +44,7 @@ export const getSavedEvents = async () =>{
 export const updateEventFolder = async (event:Event, folder:Folder) =>{
     const token = localStorage.getItem("token");
     const response = await axios.patch(
-        `${import.meta.env.VITE_SERVER_URL}/savedEvents/${event.id}/updateFolder`,
+        `${import.meta.env.VITE_SERVER_URL}/savedEvents/${event.id}/folder`,
         {folder},
         {
             headers: {
@@ -58,7 +58,7 @@ export const updateEventFolder = async (event:Event, folder:Folder) =>{
 export const getWantEvents = async () =>{
     const token = localStorage.getItem("token");
     const response = await axios.get(
-        `${import.meta.env.VITE_SERVER_URL}/savedEvents/wantEvents`,
+        `${import.meta.env.VITE_SERVER_URL}/savedEvents/want`,
         {
             headers: {
                 Authorization: `Bearer ${token}`
@@ -71,7 +71,7 @@ export const getWantEvents = async () =>{
 export const getGoingEvents = async () =>{
     const token = localStorage.getItem("token");
     const response = await axios.get(
-        `${import.meta.env.VITE_SERVER_URL}/savedEvents/goingEvents`,
+        `${import.meta.env.VITE_SERVER_URL}/savedEvents/going`,
         {
             headers: {
                 Authorization: `Bearer ${token}`
@@ -84,7 +84,7 @@ export const getGoingEvents = async () =>{
 export const getGoneEvents = async () =>{
     const token = localStorage.getItem("token");
     const response = await axios.get(
-        `${import.meta.env.VITE_SERVER_URL}/savedEvents/goneEvents`,
+        `${import.meta.env.VITE_SERVER_URL}/savedEvents/gone`,
         {
             headers: {
                 Authorization: `Bearer ${token}`
@@ -96,7 +96,7 @@ export const getGoneEvents = async () =>{
 export const getExpiredEvents = async () =>{
     const token = localStorage.getItem("token");
     const response = await axios.get(
-        `${import.meta.env.VITE_SERVER_URL}/savedEvents/expiredEvents`,
+        `${import.meta.env.VITE_SERVER_URL}/savedEvents/expired`,
         {
             headers: {
                 Authorization: `Bearer ${token}`
