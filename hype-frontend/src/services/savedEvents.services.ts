@@ -44,7 +44,7 @@ export const getSavedEvents = async () =>{
 export const updateEventFolder = async (event:Event, folder:Folder) =>{
     const token = localStorage.getItem("token");
     const response = await axios.patch(
-        `${import.meta.env.VITE_SERVER_URL}/savedEvents/${event.id}/folder`,
+        `${import.meta.env.VITE_SERVER_URL}/savedEvents/${event.id}/updateFolder`,
         {folder},
         {
             headers: {
@@ -54,3 +54,56 @@ export const updateEventFolder = async (event:Event, folder:Folder) =>{
     )
     return response.data;
 }
+
+export const getWantEvents = async () =>{
+    const token = localStorage.getItem("token");
+    const response = await axios.get(
+        `${import.meta.env.VITE_SERVER_URL}/savedEvents/wantEvents`,
+        {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }
+    )
+    return response.data;
+}
+
+export const getGoingEvents = async () =>{
+    const token = localStorage.getItem("token");
+    const response = await axios.get(
+        `${import.meta.env.VITE_SERVER_URL}/savedEvents/goingEvents`,
+        {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }
+    )
+    return response.data;
+}
+
+export const getGoneEvents = async () =>{
+    const token = localStorage.getItem("token");
+    const response = await axios.get(
+        `${import.meta.env.VITE_SERVER_URL}/savedEvents/goneEvents`,
+        {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }
+    )
+    return response.data;
+}
+export const getExpiredEvents = async () =>{
+    const token = localStorage.getItem("token");
+    const response = await axios.get(
+        `${import.meta.env.VITE_SERVER_URL}/savedEvents/expiredEvents`,
+        {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }
+    )
+    return response.data;
+}
+
+
