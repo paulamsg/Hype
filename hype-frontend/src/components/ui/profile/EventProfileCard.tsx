@@ -1,18 +1,37 @@
 import type { Event } from "../../../types/event.types";
 
-const EventProfileCard = (data:Event) =>{
+const EventProfileCard = ({  name, image, venue, date }: Event) =>{
+    
+    const MONTHS = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre']
+
+    const getDay = (date?: string) => {
+        if (!date){
+            return ''
+        } 
+        const day = new Date(date).getDate();
+        return day
+    }
+
+    const getMonth = (date?: string) => {
+        if (!date){
+            return ''
+        }
+        const month = MONTHS[new Date(date).getMonth()]
+        return month;
+    }
+
     return (
         <div className="event-card">
             <div className="event-card__img">
-                <img src={data.image}></img>
+                <img src={image}></img>
             </div>
             <div className="event-card__info">
-                <p className="event-card__title">{data.name}</p>
-                <p className="event-card__venue">{data.venue}</p>
+                <p className="event-card__title">{name}</p>
+                <p className="event-card__venue">{venue}</p>
             </div>
             <div  className="event-card__date">
-                <p className="event-card__day"></p>
-                <p className="event-card__month"></p>
+                <p className="event-card__day">{getDay(date)}</p>
+                <p className="event-card__month">{getMonth(date)}</p>
             </div>
         </div>
     )
