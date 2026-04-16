@@ -7,7 +7,21 @@ export const saveEvent = async (event: Event) => {
     const token = localStorage.getItem("token")
     const response = await axios.post(
         `${import.meta.env.VITE_SERVER_URL}/savedEvents/save`,
-        { eventId: event.id, eventDate: event.date },
+        {
+            eventId: event.id,
+            name: event.name,
+            date: event.date,
+            time: event.time,
+            venue: event.venue,
+            city: event.city,
+            image: event.image,
+            category: event.category,
+            genre: event.genre,
+            subGenre: event.subGenre,
+            priceMin: event.priceMin,
+            priceMax: event.priceMax,
+            url: event.url,
+        },
         {
             headers: {
                 Authorization: `Bearer ${token}`

@@ -21,6 +21,7 @@ const EventProfileCard = ({  name, image, venue, date }: Event) =>{
     }
 
     return (
+        
         <div className="event-card">
             <div className="event-card__img">
                 <img src={image}></img>

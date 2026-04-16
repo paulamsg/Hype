@@ -32,8 +32,19 @@ model SavedEvent {
   id        Int       @id @default(autoincrement())
   userId    Int
   eventId   String
+  name      String?
+  date      String?
+  time      String?
+  venue     String?
+  city      String?
+  image     String?
+  category  String?
+  genre     String?
+  subGenre  String?
+  priceMin  Float?
+  priceMax  Float?
+  url       String?
   folder    Folder    @default(WANT_GO)
-  eventDate DateTime?
   createdAt DateTime  @default(now())
 
   user      User      @relation(fields: [userId], references: [id])

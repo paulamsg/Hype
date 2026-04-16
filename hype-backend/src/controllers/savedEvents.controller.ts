@@ -4,12 +4,12 @@ import { AuthRequest } from "../middleware/auth.middleware"
 
 export const saveEvent = async (req: AuthRequest, res: Response) => {
     try{
-        const {eventId, eventDate} = req.body;
+        const { eventId, name, date, time, venue, city, image, category, genre, subGenre, priceMin, priceMax, url } = req.body;
         const userId = req.userId;
         const isAlreadySaved = await prisma.savedEvent.findUnique({
             where:{
                 userId_eventId: { userId, eventId }
-            } 
+            }
         });
         if (isAlreadySaved) {
             return res.status(400).json({ message: "El evento ya está guardado" })
@@ -19,7 +19,18 @@ export const saveEvent = async (req: AuthRequest, res: Response) => {
             data:{
                 userId,
                 eventId,
-                eventDate: eventDate ? new Date(eventDate) : null
+                name,
+                date,
+                time,
+                venue,
+                city,
+                image,
+                category,
+                genre,
+                subGenre,
+                priceMin,
+                priceMax,
+                url
             }
         });
 
@@ -64,32 +75,15 @@ export const getSavedEvents = async (req: AuthRequest, res: Response) => {
         }
 
         const saved = await prisma.savedEvent.findMany({ where: { userId } })
-        const eventIds = saved.map(e => e.eventId)
 
-        const mockEvents = await prisma.mockEvent.findMany({
-            where: { id: { in: eventIds } },
-            select: { 
-                    id: true, 
-                    name: true, 
-                    date: true, 
-                    time: true, 
-                    venue: true, 
-                    image: true,
-                    city: true 
-            }
-        })
-
-        const mockMap = new Map(mockEvents.map(e => [e.id, e]))
-
-        const savedEvents = eventIds.map(id => ({
-            id,
-            title: mockMap.get(id)?.name ?? null,
-            date: mockMap.get(id)?.date ?? null,
-            time: mockMap.get(id)?.time ?? null,
-            venue: mockMap.get(id)?.venue ?? null,
-            image: mockMap.get(id)?.image ?? null,
-            city: mockMap.get(id)?.city ?? null,
-
+        const savedEvents = saved.map(e => ({
+            id: e.eventId,
+            name: e.name,
+            date: e.date,
+            time: e.time,
+            venue: e.venue,
+            image: e.image,
+            city: e.city,
         }))
 
         return res.status(200).json({ savedEvents })
@@ -103,170 +97,65 @@ export const getSavedEvents = async (req: AuthRequest, res: Response) => {
 export const getWantEvents = async (req: AuthRequest, res: Response) => {
     try {
         const userId = req.userId;
-        if (!userId) {
-            return res.status(401).json({ message: "No autorizado" })
-        }
+        if (!userId) return res.status(401).json({ message: "No autorizado" })
 
-        const saved = await prisma.savedEvent.findMany({ where: { userId, folder:'WANT_GO' } })
-        const eventIds = saved.map(e => e.eventId)
-
-        const mockEvents = await prisma.mockEvent.findMany({
-            where: { id: { in: eventIds } },
-            select: { 
-                    id: true, 
-                    name: true, 
-                    date: true, 
-                    time: true, 
-                    venue: true, 
-                    image: true,
-                    city: true 
-            }
-        })
-
-        const mockMap = new Map(mockEvents.map(e => [e.id, e]))
-
-        const savedEvents = eventIds.map(id => ({
-            id,
-            title: mockMap.get(id)?.name ?? null,
-            date: mockMap.get(id)?.date ?? null,
-            time: mockMap.get(id)?.time ?? null,
-            venue: mockMap.get(id)?.venue ?? null,
-            image: mockMap.get(id)?.image ?? null,
-            city: mockMap.get(id)?.city ?? null,
-
+        const saved = await prisma.savedEvent.findMany({ where: { userId, folder: 'WANT_GO' } })
+        const savedEvents = saved.map(e => ({
+            id: e.eventId, name: e.name, date: e.date, time: e.time,
+            venue: e.venue, image: e.image, city: e.city,
         }))
-
         return res.status(200).json({ savedEvents })
-
     } catch (error) {
         return res.status(500).json({ message: error })
     }
 }
+
 //GOING (EL USUARIO HA MARCADO ESE EVENTO COMO QUE VA A ASISTIR)
 export const getGoingEvents = async (req: AuthRequest, res: Response) => {
     try {
         const userId = req.userId;
-        if (!userId) {
-            return res.status(401).json({ message: "No autorizado" })
-        }
+        if (!userId) return res.status(401).json({ message: "No autorizado" })
 
-        const saved = await prisma.savedEvent.findMany({ where: { userId, folder:'GOING'} })
-        const eventIds = saved.map(e => e.eventId)
-
-        const mockEvents = await prisma.mockEvent.findMany({
-            where: { id: { in: eventIds } },
-            select: { 
-                    id: true, 
-                    name: true, 
-                    date: true, 
-                    time: true, 
-                    venue: true, 
-                    image: true,
-                    city: true 
-            }
-        })
-
-        const mockMap = new Map(mockEvents.map(e => [e.id, e]))
-
-        const savedEvents = eventIds.map(id => ({
-            id,
-            title: mockMap.get(id)?.name ?? null,
-            date: mockMap.get(id)?.date ?? null,
-            time: mockMap.get(id)?.time ?? null,
-            venue: mockMap.get(id)?.venue ?? null,
-            image: mockMap.get(id)?.image ?? null,
-            city: mockMap.get(id)?.city ?? null,
-
+        const saved = await prisma.savedEvent.findMany({ where: { userId, folder: 'GOING' } })
+        const savedEvents = saved.map(e => ({
+            id: e.eventId, name: e.name, date: e.date, time: e.time,
+            venue: e.venue, image: e.image, city: e.city,
         }))
-
         return res.status(200).json({ savedEvents })
-
     } catch (error) {
         return res.status(500).json({ message: error })
     }
 }
-// GONE (EL USUARIO HA ASISTIDO A ESE USUARIO)
+
+// GONE (EL USUARIO HA ASISTIDO A ESE EVENTO)
 export const getGoneEvents = async (req: AuthRequest, res: Response) => {
     try {
         const userId = req.userId;
-        if (!userId) {
-            return res.status(401).json({ message: "No autorizado" })
-        }
+        if (!userId) return res.status(401).json({ message: "No autorizado" })
 
-        const saved = await prisma.savedEvent.findMany({ where: { userId, folder:'GONE'} })
-        const eventIds = saved.map(e => e.eventId)
-
-        const mockEvents = await prisma.mockEvent.findMany({
-            where: { id: { in: eventIds } },
-            select: { 
-                    id: true, 
-                    name: true, 
-                    date: true, 
-                    time: true, 
-                    venue: true, 
-                    image: true,
-                    city: true 
-            }
-        })
-
-        const mockMap = new Map(mockEvents.map(e => [e.id, e]))
-
-        const savedEvents = eventIds.map(id => ({
-            id,
-            title: mockMap.get(id)?.name ?? null,
-            date: mockMap.get(id)?.date ?? null,
-            time: mockMap.get(id)?.time ?? null,
-            venue: mockMap.get(id)?.venue ?? null,
-            image: mockMap.get(id)?.image ?? null,
-            city: mockMap.get(id)?.city ?? null,
-
+        const saved = await prisma.savedEvent.findMany({ where: { userId, folder: 'GONE' } })
+        const savedEvents = saved.map(e => ({
+            id: e.eventId, name: e.name, date: e.date, time: e.time,
+            venue: e.venue, image: e.image, city: e.city,
         }))
-
         return res.status(200).json({ savedEvents })
-
     } catch (error) {
         return res.status(500).json({ message: error })
     }
 }
+
 // EXPIRED (EL EVENTO QUE HA MARCADO ESE USUARIO COMO QUE QUERIA IR HA EXPIRADO)
 export const getExpiredEvents = async (req: AuthRequest, res: Response) => {
     try {
         const userId = req.userId;
-        if (!userId) {
-            return res.status(401).json({ message: "No autorizado" })
-        }
+        if (!userId) return res.status(401).json({ message: "No autorizado" })
 
-        const saved = await prisma.savedEvent.findMany({ where: { userId, folder:'EXPIRED'} })
-        const eventIds = saved.map(e => e.eventId)
-
-        const mockEvents = await prisma.mockEvent.findMany({
-            where: { id: { in: eventIds } },
-            select: { 
-                    id: true, 
-                    name: true, 
-                    date: true, 
-                    time: true, 
-                    venue: true, 
-                    image: true,
-                    city: true 
-            }
-        })
-
-        const mockMap = new Map(mockEvents.map(e => [e.id, e]))
-
-        const savedEvents = eventIds.map(id => ({
-            id,
-            title: mockMap.get(id)?.name ?? null,
-            date: mockMap.get(id)?.date ?? null,
-            time: mockMap.get(id)?.time ?? null,
-            venue: mockMap.get(id)?.venue ?? null,
-            image: mockMap.get(id)?.image ?? null,
-            city: mockMap.get(id)?.city ?? null,
-
+        const saved = await prisma.savedEvent.findMany({ where: { userId, folder: 'EXPIRED' } })
+        const savedEvents = saved.map(e => ({
+            id: e.eventId, name: e.name, date: e.date, time: e.time,
+            venue: e.venue, image: e.image, city: e.city,
         }))
-
         return res.status(200).json({ savedEvents })
-
     } catch (error) {
         return res.status(500).json({ message: error })
     }
