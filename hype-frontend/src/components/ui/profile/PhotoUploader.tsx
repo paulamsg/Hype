@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react'
-import type { PhotoUploaderProps } from '../../../types/components.types'
+import type { PhotoUploaderProps } from '../../../types/photo.types'
     
 const PhotoUploader = ({ onPhotosSelected }: PhotoUploaderProps) => {
     const inputRef = useRef<HTMLInputElement>(null)

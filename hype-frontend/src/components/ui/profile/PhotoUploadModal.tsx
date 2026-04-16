@@ -8,12 +8,12 @@ import { uploadImageToCloudinary } from "../../../services/claudinary.services";
 const PhotoUploadModal = ({ photos, onClose, onUpload }: PhotoUploadModalProps) => {
     const { token } = useAuth()
     const [selectedEventId, setSelectedEventId] = useState<string>('')
-    const [savedEvents, setSavedEvents] = useState<{ id: string; title: string }[]>([])
+    const [savedEvents, setSavedEvents] = useState<{ id: string; name: string }[]>([])
 
     useEffect(() => {
         const fetchEvents = async () => {
             const data = await getSavedEvents()
-            setSavedEvents(data.savedEvents.filter((e: { id: string; title: string | null }) => e.title !== null));
+            setSavedEvents(data.savedEvents.filter((e: { id: string; name: string | null }) => e.name !== null));
             console.log("Eventos del usuario:", savedEvents)
         }
         fetchEvents()
@@ -51,7 +51,7 @@ const PhotoUploadModal = ({ photos, onClose, onUpload }: PhotoUploadModalProps) 
                     <option value="">¿A qué evento pertenecen?</option>
                     {savedEvents.map(event => (
                         <option key={event.id} value={event.id}>
-                            {event.title}
+                            {event.name}
                         </option>
                     ))}
                 </select>

@@ -1,6 +1,6 @@
 export interface Event {
     id: string
-    name?: string
+    name: string
     date?: string
     time?: string
     venue?: string
