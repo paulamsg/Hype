@@ -38,8 +38,8 @@ const Profile = () => {
                     </section>
                     <div className="profile__stats">
                         <div className="profile__stat">
-                            <span className="profile__stat-n profile__stat-n--blue">34</span>
-                            <span className="profile__stat-l">Eventos</span>
+                            <span className="profile__stat-n profile__stat-n--blue">2</span>
+                            <span className="profile__stat-l">Fotos</span>
                         </div>
                         <div className="profile__stat">
                             <span className="profile__stat-n">128</span>
@@ -62,12 +62,12 @@ const Profile = () => {
                         <p className="profile__folders-label">Mis carpetas</p>
                         <div className="profile__folder">
                             <div className="profile__folder-ico profile__folder-ico--heart">♥</div>
-                            <span className="profile__folder-name">Mis eventos</span>
+                            <span className="profile__folder-name">Guardados</span>
                             <span className="profile__folder-cnt">12</span>
                         </div>
                         <div className="profile__folder">
                             <div className="profile__folder-ico profile__folder-ico--check">✓</div>
-                            <span className="profile__folder-name">He ido</span>
+                            <span className="profile__folder-name">Mis eventos</span>
                             <span className="profile__folder-cnt">34</span>
                         </div>
                         <div className="profile__folder">

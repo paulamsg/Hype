@@ -1,6 +1,6 @@
 import type { Event } from "../../../types/event.types";
 
-const EventProfileCard = ({  name, image, venue, date }: Event) =>{
+const EventProfileCard = ({  name, image, venue, date,city }: Event) =>{
     
     const MONTHS = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre']
 
@@ -21,16 +21,14 @@ const EventProfileCard = ({  name, image, venue, date }: Event) =>{
     }
 
     return (
-        
         <div className="event-card">
-            <div className="event-card__img">
-                <img src={image}></img>
-            </div>
+            <img className="event-card__img" src={image} alt={name} />
             <div className="event-card__info">
                 <p className="event-card__title">{name}</p>
+                <p className="event-card__city">{city}</p>
                 <p className="event-card__venue">{venue}</p>
             </div>
-            <div  className="event-card__date">
+            <div className="event-card__date">
                 <p className="event-card__day">{getDay(date)}</p>
                 <p className="event-card__month">{getMonth(date)}</p>
             </div>
