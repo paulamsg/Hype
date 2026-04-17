@@ -9,7 +9,6 @@ const EditProfileModal = () =>{
         avatarUrl: user?.avatarUrl,
         name: user?.name,
         lastname:user?.lastName,
-        username:user?.username,
         location:user?.location,
         bio: user?.bio,
     })
@@ -24,12 +23,6 @@ const EditProfileModal = () =>{
         setFormData({
             ...formData,
             lastname: lastname
-        })
-    }
-    const handleUserNameChange = (username: string) => {
-        setFormData({
-            ...formData,
-            username: username
         })
     }
     const handleLocationChange = (location: string) => {
@@ -81,7 +74,7 @@ const EditProfileModal = () =>{
                     <label htmlFor="POST-lastname">Apellidos</label>
                         <input id="POST-lastname" type="text" placeholder={user?.lastName} value={formData.lastname} onChange={(e) => handleLastNameChange(e.target.value)} />
                     <label htmlFor="POST-username">Username</label>
-                        <input id="POST-username" type="text" placeholder={user?.username} value={formData.username} onChange={(e) => handleUserNameChange(e.target.value)} />
+                        <input id="POST-username" type="text" value={user?.username} disabled />
                     <label htmlFor="POST-location">Localidad</label>
                         <input id="POST-location" type="text" placeholder={user?.location} value={formData.location} onChange={(e) => handleLocationChange(e.target.value)} />
                     <label htmlFor="POST-bio">Biografía</label>
