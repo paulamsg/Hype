@@ -52,7 +52,7 @@ export const getPhotosByUser = async (req: AuthRequest, res: Response) =>{
             orderBy: { createdAt: 'desc' },
             include: {
             savedEvent: {
-                select: { eventId: true },
+                select: { eventId: true , name: true}
             },
             },
         });

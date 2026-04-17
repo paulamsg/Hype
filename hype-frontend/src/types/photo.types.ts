@@ -6,6 +6,7 @@ export interface Photo {
     createdAt: string;
     savedEvent?: {
         eventId: string;
+        name:string;
     };
     user?: {
         username: string;
@@ -13,7 +14,7 @@ export interface Photo {
     };
 }
 export interface PhotoUploaderProps {
-    onPhotosSelected: (files: File[]) => void  // avisa al padre con los archivos
+    onPhotosSelected: (files: File[]) => void  
 }
 export interface PhotoUploadModalProps {
     photos: File[]

@@ -41,8 +41,8 @@ const PhotoGallery = () => {
         <div className="photo-gallery">
             {savedPhotos.map((photo)=>(
                 <div key={photo.id} className="photo-gallery__item">
-                <p>{photo.savedEvent?.eventId}</p>
-                <img src={photo.url} alt={photo.savedEvent?.eventId || 'Foto de evento'} />
+                    <img className="photo-gallery__item-img" src={photo.url} alt={photo.savedEvent?.eventId || 'Foto de evento'} />
+                    <p className="photo-gallery__item-name">{photo.savedEvent?.name}</p>
                 </div>
             ))}
         </div>
