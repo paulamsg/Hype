@@ -9,12 +9,14 @@
 @use 'layout/profile-layout';
 
 @use 'components/button';
+@use 'components/modal';
 @use 'components/input';
 @use 'components/logo';
 @use 'components/eventcard';
 @use 'components/topbar';
 @use 'components/filterbar';
 @use 'components/profile/profileTabs';
+@use 'components/profile/editprofilemodal';
 @use 'components/profile/profileaside';
 @use 'components/profile/logout';
 @use 'components/profile/photouploader';

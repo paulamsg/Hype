@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import { useAuth } from "../../../context/useAuth";
 import Button from '../Button';
-const EditProfileModal = () =>{
+const EditProfileModal = ({ onClose }: { onClose: () => void }) =>{
     const { user } = useAuth();
     const inputRef = useRef<HTMLInputElement>(null)
     const [preview, setPreview] = useState<string | null>(null)
@@ -80,13 +80,20 @@ const EditProfileModal = () =>{
                     <label htmlFor="POST-bio">Biografía</label>
                         <input id="POST-bio" type="text" placeholder={user?.bio} value={formData.bio} onChange={(e) => handleBioChange(e.target.value)} />
                     <Button
+                    label="Cancelar"
+                    variant= "outline"
+                    type="button"
+                    size="md"
+                    disabled={false}
+                    onClick={onClose}
+                    />
+                    <Button
                     label="Guardar"
                     variant= "primary"
                     type="submit"
                     size="md"
                     disabled={false}
                     onClick={handleFormSubmit}
-                    
                     />
                 </form>
             </div>

@@ -2,11 +2,13 @@ import { useState } from "react";
 import { useAuth } from "../../../context/useAuth";
 import Button from "../Button";
 import Logout from "./Logout";
+import EditProfileModal from "./EditProfileModal";
 
 const ProfileAside = () => {
     const { user } = useAuth();
     const [showLogout, setShowLogout] = useState(false);
-
+    const [showEditModal, setShowEditModal] = useState(false);
+    
     return (
         <aside className="profile__aside">
             <section className="profile__identity">
@@ -43,8 +45,18 @@ const ProfileAside = () => {
                 label="Editar perfil"
                 variant="outline"
                 size="md"
-                onClick={() => {}}
+                onClick={() => {setShowEditModal(true)}}
             />
+            {showEditModal && (
+                <>
+                    <div className="modal-overlay" onClick={() => setShowEditModal(false)} />
+                    <div className="modal">
+                        <EditProfileModal 
+                            onClose={() => setShowEditModal(false)} 
+                        />
+                    </div>
+                </>
+            )}
 
             <div className="profile__folders">
                 <p className="profile__folders-label">Mis carpetas</p>
