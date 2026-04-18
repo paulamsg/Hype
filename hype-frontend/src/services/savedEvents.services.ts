@@ -6,7 +6,7 @@ import type { Folder } from "../types/folder.types";
 export const saveEvent = async (event: Event) => {
     const token = localStorage.getItem("token")
     const response = await axios.post(
-        `${import.meta.env.VITE_SERVER_URL}/saved-events/save`,
+        `${import.meta.env.VITE_SERVER_URL}/saved-events/`,
         {
             eventId: event.id,
             name: event.name,
