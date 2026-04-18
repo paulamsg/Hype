@@ -1,8 +1,9 @@
 import express from "express";
 import cors from "cors"
 import dotenv from "dotenv"
-import authRoutes from "./routes/auth.routes" 
+import authRoutes from "./routes/auth.routes"
 import eventsRoutes from "./routes/events.routes"
+import mockEventsRoutes from "./routes/mockEvents.routes"
 import savedEventRoutes from "./routes/savedEvents.routes"
 import photosRoutes from "./routes/photos.routes"
 
@@ -15,7 +16,8 @@ app.use(express.json());
 //Rutas
 app.use("/auth", authRoutes);
 app.use("/events", eventsRoutes);  
-app.use("/savedEvents",savedEventRoutes);
+app.use("/mock-events", mockEventsRoutes);
+app.use("/saved-events",savedEventRoutes);
 app.use("/photos", photosRoutes);
 
 const PORT = process.env.PORT || 3000;

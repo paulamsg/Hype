@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "../context/useAuth";
 //import { useNavigate, Link } from "react-router-dom"
-import { getEvents, getMocksEvents } from "../services/event.services";
+import { getEvents } from "../services/event.services";
+import {getMockEvents} from "../services/mockEvents.services";
 import type { Event } from "../types/event.types";
 import EventCard from "../components/ui/EventCard";
 import Topbar from "../components/ui/TopBar";
@@ -56,7 +57,7 @@ const Discover = () =>{
         setLoading(true)
         try{
             const data = await getEvents ({ city: filters.city });
-            const dataMock = await getMocksEvents ({ city: filters.city });
+            const dataMock = await getMockEvents ({ city: filters.city });
             /*const otherEvents = jsonEvents.filter((evnt)=>{
                 return evnt.city === filters.city;
             });*/
