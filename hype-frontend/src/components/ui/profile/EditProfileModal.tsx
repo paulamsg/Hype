@@ -1,12 +1,14 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { useAuth } from "../../../context/useAuth";
 import Button from '../Button';
+import { updateUserData } from '../../../services/user.services';
+
+
 const EditProfileModal = ({ onClose }: { onClose: () => void }) =>{
-    const { user } = useAuth();
+    const { user, updateUser } = useAuth();
     const inputRef = useRef<HTMLInputElement>(null)
     const [preview, setPreview] = useState<string | null>(null)
     const [formData, setFormData] = useState({
-        id:user?.id,
         avatarUrl: user?.avatarUrl,
         name: user?.name,
         lastName:user?.lastName,
@@ -45,8 +47,25 @@ const EditProfileModal = ({ onClose }: { onClose: () => void }) =>{
         }
     }
 
+    useEffect(() => {
+        setFormData({
+            avatarUrl: user?.avatarUrl,
+            name: user?.name,
+            lastName: user?.lastName,
+            location: user?.location,
+            bio: user?.bio,
+        })
+    }, [user])
+
     const handleFormSubmit = async() =>{
-        
+        try{
+            await updateUserData(formData)
+            updateUser(formData)
+        }catch(e){
+            console.log("error", e)
+        }finally{
+            onClose();
+        }
     }
 
     return (

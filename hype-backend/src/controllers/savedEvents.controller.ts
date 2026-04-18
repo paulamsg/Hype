@@ -181,7 +181,7 @@ export const updateEventFolder = async (req: AuthRequest, res: Response) => {
             where: {userId_eventId: {userId, eventId}},
             data: {folder}
         })
-        return res.status(200).json({ message: "Carpeta actualizada", updated })
+        return res.status(200).json({ message: "Carpeta actualizado", updated })
     } catch (error) {
         return res.status(500).json({ message: error })
     }

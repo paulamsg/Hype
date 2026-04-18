@@ -6,6 +6,7 @@ import eventsRoutes from "./routes/events.routes"
 import mockEventsRoutes from "./routes/mockEvents.routes"
 import savedEventRoutes from "./routes/savedEvents.routes"
 import photosRoutes from "./routes/photos.routes"
+import usersRoutes from "./routes/users.routes";
 
 dotenv.config();
 
@@ -19,6 +20,7 @@ app.use("/events", eventsRoutes);
 app.use("/mock-events", mockEventsRoutes);
 app.use("/saved-events",savedEventRoutes);
 app.use("/photos", photosRoutes);
+app.use("/users", usersRoutes);
 
 const PORT = process.env.PORT || 3000;
 

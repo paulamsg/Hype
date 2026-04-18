@@ -26,8 +26,17 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         setUser(null)
     }
 
+    const updateUser = (updatedFields: Partial<User>) => {
+        setUser(prev => {
+            if (!prev) return prev
+            const updated = { ...prev, ...updatedFields }
+            localStorage.setItem("user", JSON.stringify(updated))
+            return updated
+        })
+    }
+
     return (
-        <AuthContext.Provider value={{ user, token, isAuthenticated: !!token, loading, saveAuth, logout }}>
+        <AuthContext.Provider value={{ user, token, isAuthenticated: !!token, loading, saveAuth, logout, updateUser }}>
             {children}
         </AuthContext.Provider>
     )
