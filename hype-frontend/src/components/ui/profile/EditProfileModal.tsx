@@ -6,12 +6,13 @@ const EditProfileModal = ({ onClose }: { onClose: () => void }) =>{
     const inputRef = useRef<HTMLInputElement>(null)
     const [preview, setPreview] = useState<string | null>(null)
     const [formData, setFormData] = useState({
+        id:user?.id,
         avatarUrl: user?.avatarUrl,
         name: user?.name,
-        lastname:user?.lastName,
+        lastName:user?.lastName,
         location:user?.location,
         bio: user?.bio,
-    })
+    });
 
     const handleNameChange = (name: string) => {
         setFormData({
@@ -22,7 +23,7 @@ const EditProfileModal = ({ onClose }: { onClose: () => void }) =>{
     const handleLastNameChange = (lastname: string) => {
         setFormData({
             ...formData,
-            lastname: lastname
+            lastName: lastname
         })
     }
     const handleLocationChange = (location: string) => {
@@ -72,7 +73,7 @@ const EditProfileModal = ({ onClose }: { onClose: () => void }) =>{
                     <label htmlFor="POST-name">Nombre</label>
                         <input id="POST-name" type="text" placeholder={user?.name} value={formData.name} onChange={(e) => handleNameChange(e.target.value)} />
                     <label htmlFor="POST-lastname">Apellidos</label>
-                        <input id="POST-lastname" type="text" placeholder={user?.lastName} value={formData.lastname} onChange={(e) => handleLastNameChange(e.target.value)} />
+                        <input id="POST-lastname" type="text" placeholder={user?.lastName} value={formData.lastName} onChange={(e) => handleLastNameChange(e.target.value)} />
                     <label htmlFor="POST-username">Username</label>
                         <input id="POST-username" type="text" value={user?.username} disabled />
                     <label htmlFor="POST-location">Localidad</label>
