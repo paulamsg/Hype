@@ -176,7 +176,6 @@ export const updateEventFolder = async (req: AuthRequest, res: Response) => {
         if(!folders.includes(folder)){
             return res.status(400).json({message:"Folder no válido"});
         }
-
         const updated = await prisma.savedEvent.update({
             where: {userId_eventId: {userId, eventId}},
             data: {folder}

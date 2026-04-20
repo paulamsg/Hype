@@ -71,7 +71,6 @@ const EditProfileModal = ({ onClose }: { onClose: () => void }) =>{
     return (
         <>
         <div className="modal-edit">
-            <div className="modal-edit__title"></div>
             <div className="modal-edit__form">
                 <form>
                     <input

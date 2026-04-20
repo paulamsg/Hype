@@ -55,6 +55,7 @@ export const getSavedEvents = async () =>{
     )
     return response.data;
 }
+
 export const updateEventFolder = async (event:Event, folder:Folder) =>{
     const token = localStorage.getItem("token");
     const response = await axios.patch(

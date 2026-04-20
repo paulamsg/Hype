@@ -1,5 +1,4 @@
 import EventProfileCard from "./EventProfileCard";
-
 import type { FolderType } from "../../../types/folder.types";
 import type { Event } from "../../../types/event.types";
 import {getWantEvents,getGoneEvents,getGoingEvents,getExpiredEvents} from "../../../services/savedEvents.services";
@@ -8,7 +7,8 @@ import { useState,useEffect } from "react";
 const UserEventList =  ({ folder }: FolderType ) => {
 
     const [events, setEvents] = useState<Event[]>([])
-
+    const[refresh, setOnRefresh] = useState(false);
+    
     useEffect(()=>{
         const getEventsByFolder = async () =>{
             try{
@@ -33,11 +33,11 @@ const UserEventList =  ({ folder }: FolderType ) => {
             }
         }
         getEventsByFolder()
-    },[folder])
+    },[folder, refresh])
 
     return (
         <div className="display">
-            {events.map(event => <EventProfileCard key={event.id} {...event}/>)}
+            {events.map(event => <EventProfileCard key={event.id} {...event} folder={folder}  onUpdate={() => setOnRefresh(state => !state)}/>)}
         </div>
     )
 }
