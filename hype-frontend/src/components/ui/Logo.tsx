@@ -1,8 +1,8 @@
-const Logo = () =>{
-    return (
-        <div className="logo">
-            <span className="logo__text">hype</span>
-        </div>
-    )
+const Logo = () => {
+  return (
+    <div className="logo">
+      <span className="logo__text">hype</span>
+    </div>
+  )
 }
-export default Logo;
+export default Logo

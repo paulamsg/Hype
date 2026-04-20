@@ -1,24 +1,24 @@
 .profile__logout {
-    background-color: var(--white);
-    padding: 24px 16px;
+  background-color: var(--white);
+  padding: 24px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  &-header {
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+  }
+  &-footer {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
 
-    &-header {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        gap: 16px;
+    .btn {
+      width: 100%;
     }
-    &-footer {
-        display: flex;
-        flex-direction: row;
-        gap: 10px;
-
-        .btn {
-            width: 100%;
-        }
-    }
+  }
 }

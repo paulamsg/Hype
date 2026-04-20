@@ -1,11 +1,11 @@
-.logo{
-    cursor: pointer;
-    &__text{
-        font-family: var(--serif);
-        font-size: 24px;
-        font-weight: 900;
-        color: var(--ink);
-        letter-spacing: -1.5px;
-        line-height: 1;
-    }
+.logo {
+  cursor: pointer;
+  &__text {
+    font-family: var(--serif);
+    font-size: 24px;
+    font-weight: 900;
+    color: var(--ink);
+    letter-spacing: -1.5px;
+    line-height: 1;
+  }
 }

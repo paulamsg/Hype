@@ -1,5 +1,5 @@
-export type Folder = 'WANT_GO' | 'GOING' | 'GONE' | 'EXPIRED';
+export type Folder = 'WANT_GO' | 'GOING' | 'GONE' | 'EXPIRED'
 
 export interface FolderType {
-    folder: Folder
+  folder: Folder
 }

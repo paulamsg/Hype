@@ -1,9 +1,9 @@
-import { Router, RequestHandler } from "express"
-import {updateUserData} from "../controllers/users.controller"
-import { authMiddleware } from "../middleware/auth.middleware"
+import { Router, RequestHandler } from 'express'
+import { updateUserData } from '../controllers/users.controller'
+import { authMiddleware } from '../middleware/auth.middleware'
 
-const router = Router();
+const router = Router()
 
-router.patch("/me", authMiddleware as RequestHandler,updateUserData  as unknown as RequestHandler );
+router.patch('/me', authMiddleware as RequestHandler, updateUserData as unknown as RequestHandler)
 
-export default router;
+export default router

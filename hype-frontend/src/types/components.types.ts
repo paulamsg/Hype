@@ -1,37 +1,37 @@
 export interface ButtonProps {
-    label : string
-    variant: "primary" | "lime" | "outline" | "outline-blue" | "ghost-w" | "danger" | "danger-outline" |"confirm";
-    size?: "sm" | "md" | "lg" | "xl"
-    type?: "button" | "submit"
-    disabled?: boolean
-    onClick?: () => void
+  label: string
+  variant: 'primary' | 'lime' | 'outline' | 'outline-blue' | 'ghost-w' | 'danger' | 'danger-outline' | 'confirm'
+  size?: 'sm' | 'md' | 'lg' | 'xl'
+  type?: 'button' | 'submit'
+  disabled?: boolean
+  onClick?: () => void
 }
 
 export interface InputProps {
-    label: string
-    name: string
-    type : "text" | "password"  | "search" | "email"
-    placeholder : string
-    value: string
-    error?: string
-    icon ?: string
-    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+  label: string
+  name: string
+  type: 'text' | 'password' | 'search' | 'email'
+  placeholder: string
+  value: string
+  error?: string
+  icon?: string
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
 }
 
 export interface FilterBarProps {
-    selectedCity: string
-    onCityChange: (city: string) => void
-    selectedPrice: string
-    onPriceChange: (price: string) => void
-    selectedCategory: string
-    onCategoryChange: (category: string) => void
-    selectedDate: string
-    onDateChange: (category: string) => void
+  selectedCity: string
+  onCityChange: (city: string) => void
+  selectedPrice: string
+  onPriceChange: (price: string) => void
+  selectedCategory: string
+  onCategoryChange: (category: string) => void
+  selectedDate: string
+  onDateChange: (category: string) => void
 }
 
-export type ProfileTab = 'fotos' | 'mis-eventos' | 'guardados' | 'archivo';
+export type ProfileTab = 'fotos' | 'mis-eventos' | 'guardados' | 'archivo'
 
 export interface ProfileTabsProps {
-    activeTab: ProfileTab
-    onTabChange: (tab: ProfileTab) => void
+  activeTab: ProfileTab
+  onTabChange: (tab: ProfileTab) => void
 }
