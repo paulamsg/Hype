@@ -7,7 +7,7 @@ const PhotoGallery = () => {
   const { token } = useAuth()
   const [savedPhotos, setSavedPhotos] = useState<Photo[]>([])
   const [loading, setLoading] = useState(false)
-
+  
   const getSavedPhotos = async () => {
     setLoading(true)
     if (!token) {
@@ -52,4 +52,4 @@ const PhotoGallery = () => {
     </div>
   )
 }
-export default PhotoGallery
+export default PhotoGallery;

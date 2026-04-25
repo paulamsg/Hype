@@ -13,6 +13,9 @@ const EditProfileModal = ({ onClose }: { onClose: () => void }) => {
     lastName: user?.lastName,
     location: user?.location,
     bio: user?.bio,
+    email: user?.email,
+    username: user?.username,
+    id: user?.id,
   })
 
   const handleNameChange = (name: string) => {
@@ -53,6 +56,9 @@ const EditProfileModal = ({ onClose }: { onClose: () => void }) => {
       lastName: user?.lastName,
       location: user?.location,
       bio: user?.bio,
+      email: user?.email,
+      username: user?.username,
+      id: user?.id,
     })
   }, [user])
 
@@ -60,6 +66,7 @@ const EditProfileModal = ({ onClose }: { onClose: () => void }) => {
     try {
       await updateUserData(formData)
       updateUser(formData)
+      console.log('user después de updateUser:', user)
     } catch (e) {
       console.log('error', e)
     } finally {
@@ -126,7 +133,7 @@ const EditProfileModal = ({ onClose }: { onClose: () => void }) => {
             <Button
               label="Guardar"
               variant="primary"
-              type="submit"
+              type="button"
               size="md"
               disabled={false}
               onClick={handleFormSubmit}

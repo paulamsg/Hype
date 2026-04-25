@@ -3,6 +3,7 @@ import { Ellipsis } from 'lucide-react'
 import type { Folder } from '../../../types/folder.types'
 import { useState } from 'react'
 import { deleteEvent, updateEventFolder } from '../../../services/savedEvents.services'
+import { useUserContext } from '../../../context/userContext'
 
 const EventProfileCard = ({ folder, onUpdate, ...event }: Event & { folder: Folder; onUpdate: () => void }) => {
   const MONTHS = [
@@ -20,6 +21,7 @@ const EventProfileCard = ({ folder, onUpdate, ...event }: Event & { folder: Fold
     'Diciembre',
   ]
   const [dropdownOpen, setDropdownOpen] = useState(false)
+  const { refreshProfile } = useUserContext()
 
   const getDay = (date?: string) => {
     if (!date) return ''
@@ -37,6 +39,7 @@ const EventProfileCard = ({ folder, onUpdate, ...event }: Event & { folder: Fold
     } catch (e) {
       console.log(e)
     } finally {
+      refreshProfile()
       setDropdownOpen(false)
       onUpdate()
     }
@@ -49,6 +52,7 @@ const EventProfileCard = ({ folder, onUpdate, ...event }: Event & { folder: Fold
     } catch (e) {
       console.log(e)
     } finally {
+      refreshProfile()
       setDropdownOpen(false)
       onUpdate()
     }

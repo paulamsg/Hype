@@ -4,9 +4,12 @@ import { getSavedEvents } from '../../../services/savedEvents.services'
 import type { PhotoUploadModalProps } from '../../../types/photo.types'
 import { postPhoto } from '../../../services/photos.services'
 import { uploadImageToCloudinary } from '../../../services/claudinary.services'
+import { useUserContext } from '../../../context/userContext'
 
 const PhotoUploadModal = ({ photos, onClose, onUpload }: PhotoUploadModalProps) => {
   const { token } = useAuth()
+  const { refreshProfile } = useUserContext()
+
   const [selectedEventId, setSelectedEventId] = useState<string>('')
   const [savedEvents, setSavedEvents] = useState<{ id: string; name: string }[]>([])
 
@@ -30,6 +33,7 @@ const PhotoUploadModal = ({ photos, onClose, onUpload }: PhotoUploadModalProps) 
           savedEventId: selectedEventId,
         })
       }
+      await refreshProfile()
       onUpload()
     }
   }

@@ -3,11 +3,13 @@ import { useAuth } from '../../../context/useAuth'
 import Button from '../Button'
 import Logout from './Logout'
 import EditProfileModal from './EditProfileModal'
-
+import { useUserContext } from '../../../context/userContext'
 const ProfileAside = () => {
   const { user } = useAuth()
   const [showLogout, setShowLogout] = useState(false)
   const [showEditModal, setShowEditModal] = useState(false)
+
+  const { photosCount, eventsCount } = useUserContext()
 
   return (
     <aside className="profile__aside">
@@ -26,7 +28,7 @@ const ProfileAside = () => {
 
       <div className="profile__stats">
         <div className="profile__stat">
-          <span className="profile__stat-n profile__stat-n--blue">2</span>
+          <span className="profile__stat-n profile__stat-n--blue">{photosCount}</span>
           <span className="profile__stat-l">Fotos</span>
         </div>
         <div className="profile__stat">
@@ -61,17 +63,17 @@ const ProfileAside = () => {
         <div className="profile__folder">
           <div className="profile__folder-ico profile__folder-ico--heart">♥</div>
           <span className="profile__folder-name">Guardados</span>
-          <span className="profile__folder-cnt">12</span>
+          <span className="profile__folder-cnt">{eventsCount.wantGo}</span>
         </div>
         <div className="profile__folder">
           <div className="profile__folder-ico profile__folder-ico--check">✓</div>
           <span className="profile__folder-name">Mis eventos</span>
-          <span className="profile__folder-cnt">34</span>
+          <span className="profile__folder-cnt">{eventsCount.gone}</span>
         </div>
         <div className="profile__folder">
           <div className="profile__folder-ico profile__folder-ico--clock">⏱</div>
           <span className="profile__folder-name">Archivo</span>
-          <span className="profile__folder-cnt">8</span>
+          <span className="profile__folder-cnt">{eventsCount.expired}</span>
         </div>
       </div>
 
