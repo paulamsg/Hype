@@ -4,7 +4,7 @@ import Button from '../Button'
 import Logout from './Logout'
 import EditProfileModal from './EditProfileModal'
 import { useUserContext } from '../../../context/userContext'
-import { Heart, Bookmark, ClockAlert, Sparkles } from 'lucide-react'
+import { Heart, Bookmark, ClockAlert, Sparkles, MapPin } from 'lucide-react'
 const ProfileAside = () => {
   const { user } = useAuth()
   const [showLogout, setShowLogout] = useState(false)
@@ -21,7 +21,7 @@ const ProfileAside = () => {
           <p className="profile__handle">@{user?.username}</p>
           <p className="profile__desc">{user?.bio}</p>
           <div className="profile__location">
-            <span className="profile__loc-dot" />
+            <MapPin size={15} color="#d22d2d" />
             <span>{user?.location}</span>
           </div>
         </div>
