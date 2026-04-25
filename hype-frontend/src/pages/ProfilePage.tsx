@@ -38,6 +38,7 @@ const Profile = () => {
           )}
 
           {activeTab === 'mis-eventos' && <UserEventList folder="GONE" />}
+          {activeTab === 'proximos-eventos' && <UserEventList folder="GOING" />}
           {activeTab === 'guardados' && <UserEventList folder="WANT_GO" />}
           {activeTab === 'archivo' && <UserEventList folder="EXPIRED" />}
         </section>

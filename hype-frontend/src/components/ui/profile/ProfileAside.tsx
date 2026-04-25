@@ -62,8 +62,13 @@ const ProfileAside = () => {
         <p className="profile__folders-label">Mis carpetas</p>
         <div className="profile__folder">
           <div className="profile__folder-ico profile__folder-ico--heart">♥</div>
-          <span className="profile__folder-name">Guardados</span>
+          <span className="profile__folder-name">Eventos guardados</span>
           <span className="profile__folder-cnt">{eventsCount.wantGo}</span>
+        </div>
+        <div className="profile__folder">
+          <div className="profile__folder-ico profile__folder-ico--check">✓</div>
+          <span className="profile__folder-name">Próximos eventos</span>
+          <span className="profile__folder-cnt">{eventsCount.going}</span>
         </div>
         <div className="profile__folder">
           <div className="profile__folder-ico profile__folder-ico--check">✓</div>

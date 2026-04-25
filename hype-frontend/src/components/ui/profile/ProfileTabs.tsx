@@ -1,4 +1,9 @@
-import type { ProfileTabsProps } from '../../../types/components.types'
+export type ProfileTab = 'fotos' | 'proximos-eventos' | 'mis-eventos' | 'guardados' | 'archivo'
+
+export interface ProfileTabsProps {
+  activeTab: ProfileTab
+  onTabChange: (tab: ProfileTab) => void
+}
 
 const ProfileTabs = ({ activeTab, onTabChange }: ProfileTabsProps) => {
   return (
@@ -8,6 +13,12 @@ const ProfileTabs = ({ activeTab, onTabChange }: ProfileTabsProps) => {
         onClick={() => onTabChange('fotos')}
       >
         Fotos
+      </button>
+      <button
+        className={`profile__tab${activeTab === 'proximos-eventos' ? ' profile__tab--active' : ''}`}
+        onClick={() => onTabChange('proximos-eventos')}
+      >
+        Próximos eventos
       </button>
       <button
         className={`profile__tab${activeTab === 'mis-eventos' ? ' profile__tab--active' : ''}`}

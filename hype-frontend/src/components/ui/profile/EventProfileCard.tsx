@@ -1,5 +1,5 @@
 import type { Event } from '../../../types/event.types'
-import { Ellipsis } from 'lucide-react'
+import { EllipsisVertical } from 'lucide-react'
 import type { Folder } from '../../../types/folder.types'
 import { useState } from 'react'
 import { deleteEvent, updateEventFolder } from '../../../services/savedEvents.services'
@@ -71,15 +71,23 @@ const EventProfileCard = ({ folder, onUpdate, ...event }: Event & { folder: Fold
         <p className="event-card__month">{getMonth(event.date)}</p>
       </div>
       <div className="event-card__update">
-        <Ellipsis size={12} onClick={() => setDropdownOpen((state) => !state)} />
+        <EllipsisVertical size={12} onClick={() => setDropdownOpen((state) => !state)} />
         {dropdownOpen && (
           <div className="event-card__dropdown">
-            {(folder === 'WANT_GO' || folder === 'EXPIRED') && (
+            {folder === 'WANT_GO' && (
               <>
                 <button onClick={() => handleMoveToFolder(event, 'GONE')}>Marcar como "He ido"</button>
+                <button onClick={() => handleMoveToFolder(event, 'GOING')}>Marcar como "Próximo"</button>
                 <button onClick={() => handleDelete(event)}>No me interesa</button>
               </>
             )}
+            {folder === 'EXPIRED' && (
+              <>
+                <button onClick={() => handleMoveToFolder(event, 'GONE')}>Marcar como "He ido"</button>
+                <button onClick={() => handleDelete(event)}>Eliminar evento</button>
+              </>
+            )}
+            {folder === 'GOING' && <button onClick={() => handleDelete(event)}>Eliminar evento</button>}
             {folder === 'GONE' && <button onClick={() => handleDelete(event)}>Eliminar evento</button>}
           </div>
         )}
