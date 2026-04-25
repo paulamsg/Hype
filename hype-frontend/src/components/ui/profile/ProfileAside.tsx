@@ -4,6 +4,7 @@ import Button from '../Button'
 import Logout from './Logout'
 import EditProfileModal from './EditProfileModal'
 import { useUserContext } from '../../../context/userContext'
+import { Heart, Bookmark, ClockAlert, Sparkles } from 'lucide-react'
 const ProfileAside = () => {
   const { user } = useAuth()
   const [showLogout, setShowLogout] = useState(false)
@@ -61,22 +62,30 @@ const ProfileAside = () => {
       <div className="profile__folders">
         <p className="profile__folders-label">Mis carpetas</p>
         <div className="profile__folder">
-          <div className="profile__folder-ico profile__folder-ico--heart">♥</div>
+          <div className="profile__folder-ico profile__folder-ico--heart">
+            <Heart size={15} />
+          </div>
           <span className="profile__folder-name">Eventos guardados</span>
           <span className="profile__folder-cnt">{eventsCount.wantGo}</span>
         </div>
         <div className="profile__folder">
-          <div className="profile__folder-ico profile__folder-ico--check">✓</div>
+          <div className="profile__folder-ico profile__folder-ico--check">
+            <Bookmark size={15} />
+          </div>
           <span className="profile__folder-name">Próximos eventos</span>
           <span className="profile__folder-cnt">{eventsCount.going}</span>
         </div>
         <div className="profile__folder">
-          <div className="profile__folder-ico profile__folder-ico--check">✓</div>
+          <div className="profile__folder-ico profile__folder-ico--check">
+            <Sparkles size={15} />
+          </div>
           <span className="profile__folder-name">Mis eventos</span>
           <span className="profile__folder-cnt">{eventsCount.gone}</span>
         </div>
         <div className="profile__folder">
-          <div className="profile__folder-ico profile__folder-ico--clock">⏱</div>
+          <div className="profile__folder-ico profile__folder-ico--clock">
+            <ClockAlert size={15} />
+          </div>
           <span className="profile__folder-name">Archivo</span>
           <span className="profile__folder-cnt">{eventsCount.expired}</span>
         </div>
