@@ -152,11 +152,11 @@ const Discover = () => {
         onDateChange={handleDateChange}
       />
       {loading && <p>Cargando los eventos eventos</p>}
-      {filteredEvents.map((event: Event) => (
-        <div key={event.id}>
-          <EventCard {...event} />
-        </div>
-      ))}
+      <div className="grid__layout">
+        {filteredEvents.map((event: Event) => (
+          <EventCard key={event.id} {...event} />
+        ))}
+      </div>
     </>
   )
 }

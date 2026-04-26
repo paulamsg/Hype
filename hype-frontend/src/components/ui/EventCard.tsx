@@ -28,8 +28,12 @@ const EventCard = (event: Event) => {
     <div className="event-card">
       <div className="event-card__img">
         <img src={event.image}></img>
-        <div className="event-card__btn-heart" onClick={handleClickHeart}>
-          <Heart size={10} fill={isSaved ? 'red' : 'black'} />
+        <div
+          className="event-card__btn-heart"
+          style={{ background: isSaved ? 'red' : 'white' }}
+          onClick={handleClickHeart}
+        >
+          <Heart size={15} fill={isSaved ? 'white' : 'black'} color="white" />
         </div>
       </div>
 
