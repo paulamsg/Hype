@@ -2,7 +2,7 @@ import type { Event } from '../../types/event.types'
 import { Heart } from 'lucide-react'
 import { useState, useEffect } from 'react'
 import { saveEvent, deleteEvent, getSavedEvents } from '../../services/savedEvents.services'
-//const EventCard = ({ isSaved, ...event }: Event & { isSaved?: boolean }) => {
+
 const EventCard = (event: Event) => {
   const [isSaved, setIsSaved] = useState(false)
 
