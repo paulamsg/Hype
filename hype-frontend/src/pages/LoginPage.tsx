@@ -4,6 +4,8 @@ import { useNavigate, Link } from 'react-router-dom'
 import type { LoginForm } from '../types/auth.types'
 import { useState } from 'react'
 import { login } from '../services/auth.services'
+import Input from '../components/ui/Input'
+import Button from '../components/ui/Button'
 
 const Login = () => {
   const navigate = useNavigate()
@@ -37,19 +39,29 @@ const Login = () => {
   }
 
   return (
-    <div>
-      <h1>Iniciar sesión</h1>
-      {error && <p>{error}</p>}
-      <form onSubmit={handleSubmit}>
-        <input type="email" name="email" placeholder="Email" value={form.email} onChange={handleChange} />
-        <input type="password" name="password" placeholder="Contraseña" value={form.password} onChange={handleChange} />
-        <button type="submit" disabled={loading}>
-          {loading ? 'Cargando...' : 'Iniciar sesión'}
-        </button>
-      </form>
-      <p>
-        ¿No tienes cuenta? <Link to="/registro">Regístrate</Link>
-      </p>
+    <div className="auth__layout">
+      <h1 className="logo__text">hype</h1>
+      <div className="auth__layout__form">
+        <h1 className="auth__layout__form-title">Bienvenido de nuevo</h1>
+        <p>
+          ¿No tienes cuenta? <Link to="/registro">Regístrate gratis → </Link>
+        </p>
+        {error && <p className="auth__layout__form-error">{error}</p>}
+        <form onSubmit={handleSubmit}>
+          <Input type="email" name="email" placeholder="Email" value={form.email} onChange={handleChange} />
+          <Input
+            type="password"
+            name="password"
+            placeholder="Contraseña"
+            value={form.password}
+            onChange={handleChange}
+          />
+          <Button label="Entrar →" variant="primary" size="xl" type="submit" disabled={loading} />
+        </form>
+        <p className="auth__layout__form-footer">
+          ¿Primera vez? <Link to="/registro">Crea tu cuenta</Link>
+        </p>
+      </div>
     </div>
   )
 }

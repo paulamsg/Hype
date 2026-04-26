@@ -4,6 +4,8 @@ import { useNavigate, Link } from 'react-router-dom'
 import type { RegisterForm } from '../types/auth.types'
 import { useState } from 'react'
 import { register } from '../services/auth.services'
+import Input from '../components/ui/Input'
+import Button from '../components/ui/Button'
 
 const Register = () => {
   const navigate = useNavigate()
@@ -17,6 +19,7 @@ const Register = () => {
     password: '',
     location: '',
   })
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
@@ -31,28 +34,37 @@ const Register = () => {
       setLoading(false)
     }
   }
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log('e.target', e.target)
     setForm({ ...form, [e.target.name]: e.target.value })
   }
+
   return (
-    <div>
-      <h1>Registro</h1>
-      {error && <p>{error}</p>}
-      <form onSubmit={handleSubmit}>
-        <input type="text" name="name" placeholder="Nombre" value={form.name} onChange={handleChange} />
-        <input type="text" name="lastName" placeholder="Apellido" value={form.lastName} onChange={handleChange} />
-        <input type="email" name="email" placeholder="ejemplo@gmail.com" value={form.email} onChange={handleChange} />
-        <input type="password" name="password" placeholder="Contraseña" value={form.password} onChange={handleChange} />
-        <input type="text" name="location" placeholder="Localidad" value={form.location} onChange={handleChange} />
-        <button type="submit" disabled={loading}>
-          {loading ? 'Cargando...' : 'Iniciar sesión'}
-        </button>
-      </form>
-      <p>
-        ¿Tienes cuenta? <Link to="/login">Inicia sesión</Link>
-      </p>
+    <div className="auth__layout">
+      <h1 className="logo__text">hype</h1>
+      <div className="auth__layout__form">
+        <h1 className="auth__layout__form-title">Crea tu cuenta</h1>
+        <p>
+          ¿Ya tienes cuenta? <Link to="/login">Iniciar sesión → </Link>
+        </p>
+        {error && <p className="auth__layout__form-error">{error}</p>}
+        <form onSubmit={handleSubmit}>
+          <Input type="text" name="name" placeholder="Nombre" value={form.name} onChange={handleChange} />
+          <Input type="text" name="lastName" placeholder="Apellido" value={form.lastName} onChange={handleChange} />
+          <Input type="email" name="email" placeholder="Email" value={form.email} onChange={handleChange} />
+          <Input
+            type="password"
+            name="password"
+            placeholder="Contraseña"
+            value={form.password}
+            onChange={handleChange}
+          />
+          <Input type="text" name="location" placeholder="Localidad" value={form.location} onChange={handleChange} />
+          <Button label="Crear cuenta →" variant="primary" size="xl" type="submit" disabled={loading} />
+        </form>
+      </div>
     </div>
   )
 }
+
 export default Register

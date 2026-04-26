@@ -8,7 +8,7 @@ export interface ButtonProps {
 }
 
 export interface InputProps {
-  label: string
+  label?: string
   name: string
   type: 'text' | 'password' | 'search' | 'email'
   placeholder: string
