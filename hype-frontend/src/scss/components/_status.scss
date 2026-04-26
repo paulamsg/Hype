@@ -1,0 +1,23 @@
+.status-loading {
+  color: var(--ink3);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.status-error {
+  color: var(--red);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.status-success {
+  color: var(--green);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.status-empty {
+  color: var(--ink3);
+  font-size: 14px;
+  text-align: center;
+}

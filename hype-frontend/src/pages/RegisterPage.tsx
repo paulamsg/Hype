@@ -47,7 +47,7 @@ const Register = () => {
         <p>
           ¿Ya tienes cuenta? <Link to="/login">Iniciar sesión → </Link>
         </p>
-        {error && <p className="auth__layout__form-error">{error}</p>}
+        {error && <p className="status-error">{error}</p>}
         <form onSubmit={handleSubmit}>
           <Input type="text" name="name" placeholder="Nombre" value={form.name} onChange={handleChange} />
           <Input type="text" name="lastName" placeholder="Apellido" value={form.lastName} onChange={handleChange} />

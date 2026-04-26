@@ -8,6 +8,8 @@
 @use 'layout/main-layout';
 @use 'layout/profile-layout';
 
+@use 'components/form';
+@use 'components/status';
 @use 'components/button';
 @use 'components/modal';
 @use 'components/input';

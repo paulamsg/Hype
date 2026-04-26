@@ -21,20 +21,9 @@
       font-size: var(--text-xl);
     }
 
-    &-error {
-      color: var(--red);
-      font-size: 13px;
-    }
-
     &-footer {
       text-align: center;
       font-size: 13px;
-    }
-
-    form {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
     }
   }
 }

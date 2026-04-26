@@ -59,21 +59,21 @@ const EventProfileCard = ({ folder, onUpdate, ...event }: Event & { folder: Fold
   }
 
   return (
-    <div className="event-card">
-      <img className="event-card__img" src={event.image} alt={event.name} />
-      <div className="event-card__info">
-        <p className="event-card__title">{event.name}</p>
-        <p className="event-card__city">{event.city}</p>
-        <p className="event-card__venue">{event.venue}</p>
+    <div className="event-profile-card">
+      <img className="event-profile-card__img" src={event.image} alt={event.name} />
+      <div className="event-profile-card__info">
+        <p className="event-profile-card__title">{event.name}</p>
+        <p className="event-profile-card__city">{event.city}</p>
+        <p className="event-profile-card__venue">{event.venue}</p>
       </div>
-      <div className="event-card__date">
-        <p className="event-card__day">{getDay(event.date)}</p>
-        <p className="event-card__month">{getMonth(event.date)}</p>
+      <div className="event-profile-card__date">
+        <p className="event-profile-card__day">{getDay(event.date)}</p>
+        <p className="event-profile-card__month">{getMonth(event.date)}</p>
       </div>
-      <div className="event-card__update">
+      <div className="event-profile-card__update">
         <EllipsisVertical size={12} onClick={() => setDropdownOpen((state) => !state)} />
         {dropdownOpen && (
-          <div className="event-card__dropdown">
+          <div className="event-profile-card__dropdown">
             {folder === 'WANT_GO' && (
               <>
                 <button onClick={() => handleMoveToFolder(event, 'GONE')}>Marcar como "He ido"</button>

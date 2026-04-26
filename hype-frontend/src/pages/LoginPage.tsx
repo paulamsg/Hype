@@ -46,7 +46,7 @@ const Login = () => {
         <p>
           ¿No tienes cuenta? <Link to="/registro">Regístrate gratis → </Link>
         </p>
-        {error && <p className="auth__layout__form-error">{error}</p>}
+        {error && <p className="status-error">{error}</p>}
         <form onSubmit={handleSubmit}>
           <Input type="email" name="email" placeholder="Email" value={form.email} onChange={handleChange} />
           <Input
