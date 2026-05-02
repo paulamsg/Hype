@@ -103,7 +103,7 @@ const StyleGuide = () => {
       <div className="styleguide-section">
         <h1>Barra de navegación</h1>
         <Topbar />
-        <FilterBar />
+        
       </div>
       <div className="styleguide-section">
         <h1>Tipografía y elementos HTML</h1>

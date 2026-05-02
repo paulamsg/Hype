@@ -10,3 +10,13 @@ export const updateUserData = async (user: UpdateUserData) => {
   })
   return response.data
 }
+
+export const searchUser = async (value: String) => {
+  const token = localStorage.getItem('token')
+  const response = await axios.patch(`${import.meta.env.VITE_SERVER_URL}/users/search?q=${value}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+  return response.data
+}
