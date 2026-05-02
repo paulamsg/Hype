@@ -39,7 +39,7 @@ const PhotoGallery = () => {
   }
   useEffect(() => {
     getSavedPhotos()
-  }, [token])
+  }, [])
 
   if (loading) return <p className="photo-gallery__loading">Cargando fotos...</p>
 
