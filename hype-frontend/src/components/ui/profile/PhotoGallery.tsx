@@ -2,12 +2,17 @@ import { useEffect, useState } from 'react'
 import { getPhotosByUser } from '../../../services/photos.services'
 import { useAuth } from '../../../context/useAuth'
 import type { Photo } from '../../../types/photo.types'
+import { EllipsisVertical } from 'lucide-react'
+import { deletePhoto } from '../../../services/photos.services'
+import { useUserContext } from '../../../context/userContext'
 
 const PhotoGallery = () => {
   const { token } = useAuth()
   const [savedPhotos, setSavedPhotos] = useState<Photo[]>([])
   const [loading, setLoading] = useState(false)
-  
+  const [dropdownOpen, setDropdownOpen] = useState(false)
+  const { refreshProfile } = useUserContext()
+
   const getSavedPhotos = async () => {
     setLoading(true)
     if (!token) {
@@ -22,7 +27,16 @@ const PhotoGallery = () => {
       setLoading(false)
     }
   }
-
+  const handleDelete = async (photo: Photo) => {
+    try {
+      await deletePhoto(photo)
+    } catch (e) {
+      console.log(e)
+    } finally {
+      setSavedPhotos((prev) => prev.filter((p) => p.id !== photo.id))
+      refreshProfile()
+    }
+  }
   useEffect(() => {
     getSavedPhotos()
   }, [token])
@@ -41,6 +55,12 @@ const PhotoGallery = () => {
     <div className="photo-gallery">
       {savedPhotos.map((photo) => (
         <div key={photo.id} className="photo-gallery__item">
+          <EllipsisVertical size={12} onClick={() => setDropdownOpen((state) => !state)} />
+          {dropdownOpen && (
+            <div className="photo-gallery__drpdown">
+              <button onClick={() => handleDelete(photo)}>Eliminar foto</button>
+            </div>
+          )}
           <img
             className="photo-gallery__item-img"
             src={photo.url}
@@ -52,4 +72,4 @@ const PhotoGallery = () => {
     </div>
   )
 }
-export default PhotoGallery;
+export default PhotoGallery
