@@ -6,6 +6,8 @@ import StyleGuide from './pages/styleguide/StyleGuide'
 import ProtectedRoute from './components/ProtectedRoute'
 import Profile from './pages/ProfilePage'
 import Friends from './pages/FriendsPage'
+import Groups from './pages/GroupsPage'
+
 function App() {
   return (
     <Routes>
@@ -18,6 +20,7 @@ function App() {
         <Route path="/descubre" element={<Discover />} />
         <Route path="/perfil" element={<Profile />} />
         <Route path="/amigos" element={<Friends />} />
+        <Route path="/grupos" element={<Groups />} />
       </Route>
     </Routes>
   )
