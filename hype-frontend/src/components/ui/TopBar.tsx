@@ -31,13 +31,14 @@ const Topbar = () => {
 
       <nav className="topbar__nav">
         {NAV_ITEMS.map(({ label, path }) => (
-          <button
+          <div
             key={path}
-            className={`topbar__tab${isActive(path) ? ' topbar__tab--active' : ''}`}
-            onClick={() => goTo(path)}
+            className={`topbar__tab-wrapper${isActive(path) ? ' topbar__tab-wrapper--active' : ''}`}
           >
-            {label}
-          </button>
+            <button className="topbar__tab" onClick={() => goTo(path)}>
+              {label}
+            </button>
+          </div>
         ))}
       </nav>
 

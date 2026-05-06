@@ -9,43 +9,105 @@
   top: 58px;
   z-index: 100;
 
-  &__nav {
+  &__nav,
+  &__left {
     display: flex;
     align-items: center;
     gap: 4px;
   }
 
+  &__tab-wrapper {
+    display: flex;
+    align-items: center;
+    height: 58px;
+    border-bottom: 2px solid transparent;
+    transition: border-color 0.15s, background 0.15s;
+
+    &--separator {
+      margin-right: var(--sp-xs);
+      position: relative;
+
+      &::after {
+        content: '';
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        height: 16px;
+        width: 1px;
+        background: var(--b1);
+      }
+    }
+
+    &--active {
+      border-bottom-color: var(--blue);
+
+      .filterbar__tab {
+        font-weight: 700;
+      }
+    }
+
+    &:hover {
+      background: var(--off);
+      border-radius: var(--radius-sm);
+    }
+  }
+
   &__tab {
-    height: 34px;
     padding: 0 16px;
-    border-radius: var(--r-full);
     font-family: var(--sans);
     font-size: 13px;
     font-weight: 500;
     color: var(--ink);
     background: transparent;
     cursor: pointer;
-    transition: all 0.15s;
-
-    &:hover {
-      color: var(--ink);
-      background: rgba(255, 255, 255, 0.08);
-    }
-
-    &--active {
-      color: var(--ink);
-      font-weight: 700;
-      background: rgba(255, 255, 255, 0.1);
-    }
   }
 
   &__right {
     display: flex;
     align-items: center;
-    justify-content: center;
-    font-family: var(--serif);
-    font-size: 13px;
     gap: 8px;
-    font-weight: 900;
+  }
+
+  &__select {
+    position: relative;
+    width: fit-content;
+
+    &::after {
+      content: '▾';
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 14px;
+      color: var(--ink);
+      pointer-events: none;
+    }
+
+    select {
+      appearance: none;
+      height: 30px;
+      padding: 0 28px 0 12px;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--b2);
+      background: var(--white);
+      font-family: var(--sans);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--ink);
+      cursor: pointer;
+      outline: none;
+      transition: background 0.15s, border-color 0.15s;
+
+      &:hover {
+        border-color: var(--b2);
+      }
+    }
+
+    &--active select {
+      background: var(--lime);
+      border-color: var(--lime-d);
+      font-weight: 700;
+    }
   }
 }
