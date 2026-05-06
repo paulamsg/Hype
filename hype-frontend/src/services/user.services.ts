@@ -13,7 +13,7 @@ export const updateUserData = async (user: UpdateUserData) => {
 
 export const searchUser = async (value: String) => {
   const token = localStorage.getItem('token')
-  const response = await axios.patch(`${import.meta.env.VITE_SERVER_URL}/users/search?q=${value}`, {
+  const response = await axios.get(`${import.meta.env.VITE_SERVER_URL}/users/search?user=${value}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
