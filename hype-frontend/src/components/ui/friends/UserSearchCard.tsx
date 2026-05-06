@@ -2,14 +2,20 @@ import type { User } from '../../../types/auth.types'
 import Button from '../Button'
 const UserSearchCard = ({ name, username, lastName, avatarUrl }: User) => {
   return (
-    <div className="UserSearchCard">
-      <div className="topbar__avatar">{name.charAt(0).toUpperCase()}{avatarUrl}</div>
-      <div className="UserSearchCard__info">
-        {name}
-        {lastName}
-        {username}
+    <div className="user-search-card">
+      <div className="user-search-card__avatar">
+        {name.charAt(0).toUpperCase()}
+        {avatarUrl}
       </div>
-      <Button label="Seguir" variant="outline" size="sm" onClick={() => {}} />
+      <div className="user-search-card__info">
+        <span className="user-search-card__name">
+          {name} {lastName}
+        </span>
+        <span className="user-search-card__username">@{username}</span>
+      </div>
+      <div className="user-search-card__btn">
+        <Button label="Seguir" variant="outline" size="md" onClick={() => {}} />
+      </div>
     </div>
   )
 }

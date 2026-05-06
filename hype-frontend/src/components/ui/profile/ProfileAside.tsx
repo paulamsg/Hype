@@ -34,11 +34,7 @@ const ProfileAside = () => {
         </div>
         <div className="profile__stat">
           <span className="profile__stat-n">128</span>
-          <span className="profile__stat-l">Seguidores</span>
-        </div>
-        <div className="profile__stat">
-          <span className="profile__stat-n">94</span>
-          <span className="profile__stat-l">Siguiendo</span>
+          <span className="profile__stat-l">Amigos</span>
         </div>
       </div>
 

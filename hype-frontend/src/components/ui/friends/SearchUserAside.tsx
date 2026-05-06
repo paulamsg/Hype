@@ -36,7 +36,7 @@ const SearchUserAside = () => {
 
   return (
     <div className="search-aside">
-      <h1 className="search-aside__title">Buscar usuarios</h1>
+      <h1 className="search-aside__title">Buscar amigos</h1>
       <Input
         label=""
         name="userSearch"
@@ -45,7 +45,13 @@ const SearchUserAside = () => {
         value={searchValue}
         onChange={handleUserSearch}
       />
-      {isSearching && searchUsers.map((user) => <UserSearchCard key={user.id} {...user} />)}
+      {isSearching && (
+        <div className="search-aside__results">
+          {searchUsers.map((user) => (
+            <UserSearchCard key={user.id} {...user} />
+          ))}
+        </div>
+      )}
     </div>
   )
 }

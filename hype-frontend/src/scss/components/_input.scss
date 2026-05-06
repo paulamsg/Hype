@@ -43,6 +43,7 @@
       }
 
       &:focus {
+        border: 2px solid;
         border-color: var(--blue);
         background: var(--white);
       }
