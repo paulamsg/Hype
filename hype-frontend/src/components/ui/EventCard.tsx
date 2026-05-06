@@ -44,9 +44,8 @@ const EventCard = (event: Event) => {
         <p>
           <b>{event.name}</b>
         </p>
-        <p>
-          {event.date} - {event.venue}
-        </p>
+        <p>{event.date}</p>
+        <p>{event.venue}</p>
         <p>{event.priceMin} €</p>
       </div>
     </div>
