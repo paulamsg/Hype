@@ -141,12 +141,7 @@
     align-items: center;
     gap: 9px;
     padding: 9px 12px;
-    cursor: pointer;
     transition: background 0.15s;
-
-    &:hover {
-      background: var(--off);
-    }
   }
 
   &__folder-ico {
