@@ -55,18 +55,22 @@ const PhotoGallery = () => {
     <div className="photo-gallery">
       {savedPhotos.map((photo) => (
         <div key={photo.id} className="photo-gallery__item">
-          <EllipsisVertical size={12} onClick={() => setDropdownOpen((state) => !state)} />
-          {dropdownOpen && (
-            <div className="photo-gallery__drpdown">
-              <button onClick={() => handleDelete(photo)}>Eliminar foto</button>
-            </div>
-          )}
           <img
             className="photo-gallery__item-img"
             src={photo.url}
             alt={photo.savedEvent?.eventId || 'Foto de evento'}
           />
-          <p className="photo-gallery__item-name">{photo.savedEvent?.name}</p>
+          <div className="photo-gallery__item-footer">
+            <p className="photo-gallery__item-name">{photo.savedEvent?.name}</p>
+            <div className="photo-gallery__item-menu">
+              <EllipsisVertical size={12} onClick={() => setDropdownOpen((state) => !state)} />
+              {dropdownOpen && (
+                <div className="photo-gallery__drpdown">
+                  <button onClick={() => handleDelete(photo)}>Eliminar foto</button>
+                </div>
+              )}
+            </div>
+          </div>
         </div>
       ))}
     </div>

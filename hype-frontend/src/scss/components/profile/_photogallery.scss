@@ -7,7 +7,7 @@
   &__item {
     position: relative;
     aspect-ratio: 1 / 1;
-    overflow: hidden;
+    overflow: visible;
     border-radius: 8px;
 
     &-img {
@@ -16,23 +16,66 @@
       height: 100%;
       object-fit: cover;
       display: block;
+      border-radius: 8px;
     }
 
-    &-name {
+    &-footer {
       position: absolute;
       top: 8px;
       left: 8px;
+      right: 8px;
       z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 4px;
+    }
+
+    &-name {
       font-size: 11px;
       font-weight: 600;
       color: var(--white);
       background: rgba(0, 0, 0, 0.25);
       padding: 3px 7px;
       border-radius: 4px;
-      max-width: calc(100% - 16px);
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+    }
+
+    &-menu {
+      position: relative;
+      flex-shrink: 0;
+      color: var(--white);
+      cursor: pointer;
+    }
+  }
+
+  &__drpdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    z-index: 10;
+    background: var(--white);
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    padding: 4px 0;
+    min-width: 120px;
+
+    button {
+      display: block;
+      width: 100%;
+      padding: 8px 12px;
+      text-align: left;
+      font-size: 13px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--ink);
+
+      &:hover {
+        background: var(--bg2);
+      }
     }
   }
 
@@ -46,4 +89,5 @@
     text-align: center;
     color: var(--ink3);
   }
+  
 }

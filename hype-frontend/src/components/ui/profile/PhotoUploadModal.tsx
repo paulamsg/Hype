@@ -8,14 +8,16 @@ import { useUserContext } from '../../../context/userContext'
 
 const PhotoUploadModal = ({ photos, onClose, onUpload }: PhotoUploadModalProps) => {
   const { token } = useAuth()
+  //const { user } = useAuth()
   const { refreshProfile } = useUserContext()
 
   const [selectedEventId, setSelectedEventId] = useState<string>('')
-  const [savedEvents, setSavedEvents] = useState<{ id: string; name: string }[]>([])
+  const [savedEvents, setSavedEvents] = useState<{ id: string; name: string; userId: number }[]>([])
 
   useEffect(() => {
     const fetchEvents = async () => {
       const data = await getSavedEvents()
+      console.log('data de savedEvents', data)
       setSavedEvents(data.savedEvents.filter((e: { id: string; name: string | null }) => e.name !== null))
       console.log('Eventos del usuario:', savedEvents)
     }
