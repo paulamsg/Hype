@@ -1,0 +1,16 @@
+.friends {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  height: calc(100vh - 58px);
+  overflow: hidden;
+
+  &__col {
+    padding: var(--sp-xl);
+    overflow-y: auto;
+    height: 100%;
+
+    &--aside {
+      border-left: 1px solid var(--b1);
+    }
+  }
+}

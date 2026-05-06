@@ -7,6 +7,7 @@
 @use 'layout/auth-layout';
 @use 'layout/main-layout';
 @use 'layout/profile-layout';
+@use 'layout/friends-layout';
 
 @use 'components/form';
 @use 'components/status';
@@ -26,3 +27,5 @@
 @use 'components/profile/photogallery';
 @use 'components/profile/eventprofilecard';
 @use 'components/profile/usereventlist';
+@use 'components/friends/userSearchCard';
+@use 'components/friends/searchUserAside';

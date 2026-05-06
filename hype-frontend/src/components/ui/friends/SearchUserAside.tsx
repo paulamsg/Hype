@@ -35,8 +35,8 @@ const SearchUserAside = () => {
   }, [searchValue])
 
   return (
-    <div>
-      <h1>Buscar usuarios</h1>
+    <div className="search-aside">
+      <h1 className="search-aside__title">Buscar usuarios</h1>
       <Input
         label=""
         name="userSearch"
