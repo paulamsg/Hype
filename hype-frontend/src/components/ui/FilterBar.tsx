@@ -47,9 +47,19 @@ const FilterBar = ({
       </div>
 
       <div className="filterbar__right">
-        <CustomSelect value={selectedDate} onChange={onDateChange} options={DATE_OPTIONS} active={selectedDate !== 'all'} />
-        <CustomSelect value={selectedCity} onChange={onCityChange} options={CITY_OPTIONS} active={selectedCity !== 'Almería'} />
-        <CustomSelect value={selectedPrice} onChange={onPriceChange} options={PRICE_OPTIONS} active={selectedPrice !== 'all'} />
+        <CustomSelect
+          value={selectedDate}
+          onChange={onDateChange}
+          options={DATE_OPTIONS}
+          active={selectedDate !== 'all'}
+        />
+        <CustomSelect value={selectedCity} onChange={onCityChange} options={CITY_OPTIONS} active={true} />
+        <CustomSelect
+          value={selectedPrice}
+          onChange={onPriceChange}
+          options={PRICE_OPTIONS}
+          active={selectedPrice !== 'all'}
+        />
       </div>
     </nav>
   )

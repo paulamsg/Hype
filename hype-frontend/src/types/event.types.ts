@@ -19,4 +19,7 @@ export interface EventFilters {
   category?: string
   startDateTime?: string
   endDateTime?: string
+  date?:string
+  priceMin?: number
+  priceMax?: number
 }

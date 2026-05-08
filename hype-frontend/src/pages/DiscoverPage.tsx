@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { useAuth } from '../context/useAuth'
 //import { useNavigate, Link } from "react-router-dom"
 import { getEvents } from '../services/event.services'
@@ -11,15 +11,18 @@ import FilterBar from '../components/ui/FilterBar'
 
 const Discover = () => {
   const [events, setEvents] = useState<Event[]>([])
-  const [filteredEvents, setFilteredEvents] = useState<Event[]>([])
-
   const { user } = useAuth()
   const [loading, setLoading] = useState(false)
-
-  //filterbar - properties
-  const [filters, setFilters] = useState({
+  const [filters, setFilters] = useState<{
+    city: string
+    priceLabel: string
+    price: { priceMin: number; priceMax: number } | null
+    category: string
+    date: string
+  }>({
     city: user?.location || 'Madrid',
-    price: 'all',
+    priceLabel: 'all',
+    price: null,
     category: 'all',
     date: 'all',
   })
@@ -32,10 +35,25 @@ const Discover = () => {
   }
 
   const handlePriceChange = (price: string) => {
-    setFilters({
-      ...filters,
-      price: price,
-    })
+    let priceRange: { priceMin: number; priceMax: number } | null = null
+    switch (price) {
+      case 'free':
+        priceRange = { priceMin: 0, priceMax: 0 }
+        break
+      case 'under10':
+        priceRange = { priceMin: 0, priceMax: 10 }
+        break
+      case '10-30':
+        priceRange = { priceMin: 10, priceMax: 30 }
+        break
+      case '30-60':
+        priceRange = { priceMin: 30, priceMax: 60 }
+        break
+      case 'over60':
+        priceRange = { priceMin: 60, priceMax: 9999 }
+        break
+    }
+    setFilters({ ...filters, priceLabel: price, price: priceRange })
   }
 
   const handleCategoryChange = (category: string) => {
@@ -55,11 +73,20 @@ const Discover = () => {
   const listEvents = async () => {
     setLoading(true)
     try {
-      const data = await getEvents({ city: filters.city })
-      const dataMock = await getMockEvents({ city: filters.city })
-      /*const otherEvents = jsonEvents.filter((evnt)=>{
-                return evnt.city === filters.city;
-            });*/
+      const data = await getEvents({
+        city: filters.city,
+        priceMin: filters.price?.priceMin,
+        priceMax: filters.price?.priceMax,
+        category: filters.category,
+        date: filters.date,
+      })
+      const dataMock = await getMockEvents({
+        city: filters.city,
+        priceMin: filters.price?.priceMin,
+        priceMax: filters.price?.priceMax,
+        category: filters.category,
+        date: filters.date,
+      })
       const allEvents = [...data, ...dataMock]
       setEvents(allEvents)
     } catch (e) {
@@ -69,74 +96,22 @@ const Discover = () => {
     }
   }
 
+  const eventsFiltered = useMemo(() => {
+    return events.filter(
+      (e) =>
+        (filters.category === 'all' || e.category === filters.category) &&
+        (filters.date === 'all' || e.date === filters.date) &&
+        (!filters.price ||
+          (e.priceMin != null &&
+            e.priceMax != null &&
+            e.priceMin >= filters.price.priceMin &&
+            e.priceMax <= filters.price.priceMax)),
+    )
+  }, [events, filters])
+
   useEffect(() => {
     listEvents()
   }, [filters.city])
-
-  const applyFilters = () => {
-    let filtered = [...events]
-    if (filters.price !== 'all') {
-      filtered = filtered.filter((event) => {
-        const min = event.priceMin || 0
-        const max = event.priceMax || 0
-        switch (filters.price) {
-          case 'free':
-            return min === 0 && max === 0
-          case 'under10':
-            return max <= 10
-          case '10-30':
-            return min >= 10 && min <= 30
-          case '30-60':
-            return min >= 30 && min <= 60
-          case 'over60':
-            return min > 60 && max > 60
-          default:
-            return true
-        }
-      })
-    }
-    if (filters.category !== 'all') {
-      filtered = filtered.filter((event) => event.category === filters.category)
-    }
-    if (filters.date !== 'all') {
-      const now = new Date()
-      const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
-      filtered = filtered.filter((event) => {
-        if (!event.date) return false
-        const eventDate = new Date(event.date)
-        const eventDay = new Date(eventDate.getFullYear(), eventDate.getMonth(), eventDate.getDate())
-        switch (filters.date) {
-          case 'today':
-            return eventDay.getTime() === today.getTime()
-          case 'weekend': {
-            const day = today.getDay()
-            const daysToSat = day === 6 ? 0 : 6 - day
-            const sat = new Date(today)
-            sat.setDate(today.getDate() + daysToSat)
-            const sun = new Date(sat)
-            sun.setDate(sat.getDate() + 1)
-            return eventDay.getTime() === sat.getTime() || eventDay.getTime() === sun.getTime()
-          }
-          case 'week': {
-            const day = today.getDay()
-            const sunday = new Date(today)
-            sunday.setDate(today.getDate() + ((7 - day) % 7))
-            return eventDay >= today && eventDay <= sunday
-          }
-          case 'month': {
-            return eventDate.getMonth() === now.getMonth() && eventDate.getFullYear() === now.getFullYear()
-          }
-          default:
-            return true
-        }
-      })
-    }
-    setFilteredEvents(filtered)
-  }
-
-  useEffect(() => {
-    applyFilters()
-  }, [events, filters])
 
   return (
     <>
@@ -144,7 +119,7 @@ const Discover = () => {
       <FilterBar
         selectedCity={filters.city}
         onCityChange={handleCityChange}
-        selectedPrice={filters.price}
+        selectedPrice={filters.priceLabel}
         onPriceChange={handlePriceChange}
         selectedCategory={filters.category}
         onCategoryChange={handleCategoryChange}
@@ -153,7 +128,7 @@ const Discover = () => {
       />
       {loading && <p>Cargando los eventos eventos</p>}
       <div className="grid__layout">
-        {filteredEvents.map((event: Event) => (
+        {eventsFiltered.map((event: Event) => (
           <EventCard key={event.id} {...event} />
         ))}
       </div>
