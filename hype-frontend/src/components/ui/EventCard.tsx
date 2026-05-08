@@ -39,14 +39,21 @@ const EventCard = (event: Event) => {
 
       <div className="event-card__info">
         <p>
-          {event.category} - {event.genre}
+          {event.category === 'Undefined' ? 'Sin categoría' : event.category}
+          {event.genre === undefined ? ' ' : `- ${event.genre}`}
         </p>
         <p>
           <b>{event.name}</b>
         </p>
         <p>{event.date}</p>
         <p>{event.venue}</p>
-        <p>{event.priceMin} €</p>
+        <p>
+          {event.priceMin != null
+            ? event.priceMin === 0
+              ? 'Gratis'
+              : `${event.priceMin} €`
+            : 'Precio disponible en la web'}{' '}
+        </p>
       </div>
     </div>
   )

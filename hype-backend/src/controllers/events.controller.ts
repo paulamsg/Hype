@@ -18,15 +18,15 @@ const CATEGORY_MAP: Record<string, string> = {
 
 export const getEvents = async (req: Request, res: Response) => {
   try {
-    const { city, category, startDateTime, endDateTime, page = 0 } = req.query
+    const { city, category, date, page = 0 } = req.query
     const response = await axios.get(`${BASE_URL}events.json`, {
       params: {
         apikey: process.env.API_KEY_TICKETMASTER,
         city: city,
         countryCode: 'ES',
-        classificationName: category || undefined,
-        startDateTime: startDateTime || undefined,
-        endDateTime: endDateTime || undefined,
+        classificationName: category && category !== 'all' ? category : undefined,
+        startDateTime: date && date !== 'all' ? date : undefined,
+        endDateTime: date && date !== 'all' ? date : undefined,
         size: 50,
         page: page,
         sort: 'date,asc',

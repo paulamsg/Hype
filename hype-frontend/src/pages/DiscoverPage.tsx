@@ -1,94 +1,84 @@
 import { useState, useEffect, useMemo } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { useAuth } from '../context/useAuth'
-//import { useNavigate, Link } from "react-router-dom"
 import { getEvents } from '../services/event.services'
 import { getMockEvents } from '../services/mockEvents.services'
 import type { Event } from '../types/event.types'
 import EventCard from '../components/ui/EventCard'
 import Topbar from '../components/ui/TopBar'
 import FilterBar from '../components/ui/FilterBar'
-//import jsonEvents from "../mocks/eventsData.json"
 
 const Discover = () => {
   const [events, setEvents] = useState<Event[]>([])
   const { user } = useAuth()
   const [loading, setLoading] = useState(false)
-  const [filters, setFilters] = useState<{
-    city: string
-    priceLabel: string
-    price: { priceMin: number; priceMax: number } | null
-    category: string
-    date: string
-  }>({
-    city: user?.location || 'Madrid',
-    priceLabel: 'all',
-    price: null,
-    category: 'all',
-    date: 'all',
-  })
+  const [searchParams, setSearchParams] = useSearchParams()
 
-  const handleCityChange = (city: string) => {
-    setFilters({
-      ...filters,
-      city: city,
-    })
-  }
+  const city = searchParams.get('city') || user?.location || 'Madrid'
+  const priceLabel = searchParams.get('price') || 'all'
+  const category = searchParams.get('category') || 'all'
+  const date = searchParams.get('date') || 'all'
 
-  const handlePriceChange = (price: string) => {
-    let priceRange: { priceMin: number; priceMax: number } | null = null
-    switch (price) {
+  const getPriceRange = (label: string): { priceMin: number; priceMax: number } | null => {
+    switch (label) {
       case 'free':
-        priceRange = { priceMin: 0, priceMax: 0 }
-        break
+        return { priceMin: 0, priceMax: 0 }
       case 'under10':
-        priceRange = { priceMin: 0, priceMax: 10 }
-        break
+        return { priceMin: 0, priceMax: 10 }
       case '10-30':
-        priceRange = { priceMin: 10, priceMax: 30 }
-        break
+        return { priceMin: 10, priceMax: 30 }
       case '30-60':
-        priceRange = { priceMin: 30, priceMax: 60 }
-        break
+        return { priceMin: 30, priceMax: 60 }
       case 'over60':
-        priceRange = { priceMin: 60, priceMax: 9999 }
-        break
+        return { priceMin: 60, priceMax: 9999 }
+      default:
+        return null
     }
-    setFilters({ ...filters, priceLabel: price, price: priceRange })
   }
 
-  const handleCategoryChange = (category: string) => {
-    setFilters({
-      ...filters,
-      category: category,
+  const price = getPriceRange(priceLabel)
+
+  const handleCityChange = (value: string) => {
+    setSearchParams((prev) => {
+      prev.set('city', value)
+      return prev
     })
   }
 
-  const handleDateChange = (date: string) => {
-    setFilters({
-      ...filters,
-      date: date,
+  const handlePriceChange = (value: string) => {
+    setSearchParams((prev) => {
+      prev.set('price', value)
+      return prev
+    })
+  }
+
+  const handleCategoryChange = (value: string) => {
+    setSearchParams((prev) => {
+      prev.set('category', value)
+      return prev
+    })
+  }
+
+  const handleDateChange = (value: string) => {
+    setSearchParams((prev) => {
+      prev.set('date', value)
+      return prev
     })
   }
 
   const listEvents = async () => {
     setLoading(true)
     try {
-      const data = await getEvents({
-        city: filters.city,
-        priceMin: filters.price?.priceMin,
-        priceMax: filters.price?.priceMax,
-        category: filters.category,
-        date: filters.date,
-      })
+      const data = await getEvents({ city, priceMin: price?.priceMin, priceMax: price?.priceMax, category, date })
       const dataMock = await getMockEvents({
-        city: filters.city,
-        priceMin: filters.price?.priceMin,
-        priceMax: filters.price?.priceMax,
-        category: filters.category,
-        date: filters.date,
+        city,
+        priceMin: price?.priceMin,
+        priceMax: price?.priceMax,
+        category,
+        date,
       })
-      const allEvents = [...data, ...dataMock]
-      setEvents(allEvents)
+      setEvents([...data, ...dataMock])
+      console.log('hola caracola', data[3])
     } catch (e) {
       console.log('error', e)
     } finally {
@@ -99,31 +89,28 @@ const Discover = () => {
   const eventsFiltered = useMemo(() => {
     return events.filter(
       (e) =>
-        (filters.category === 'all' || e.category === filters.category) &&
-        (filters.date === 'all' || e.date === filters.date) &&
-        (!filters.price ||
-          (e.priceMin != null &&
-            e.priceMax != null &&
-            e.priceMin >= filters.price.priceMin &&
-            e.priceMax <= filters.price.priceMax)),
+        (category === 'all' || e.category === category) &&
+        (date === 'all' || e.date === date) &&
+        (!price ||
+          (e.priceMin != null && e.priceMax != null && e.priceMin >= price.priceMin && e.priceMax <= price.priceMax)),
     )
-  }, [events, filters])
+  }, [events, category, date, price])
 
   useEffect(() => {
     listEvents()
-  }, [filters.city])
+  }, [city])
 
   return (
     <>
       <Topbar />
       <FilterBar
-        selectedCity={filters.city}
+        selectedCity={city}
         onCityChange={handleCityChange}
-        selectedPrice={filters.priceLabel}
+        selectedPrice={priceLabel}
         onPriceChange={handlePriceChange}
-        selectedCategory={filters.category}
+        selectedCategory={category}
         onCategoryChange={handleCategoryChange}
-        selectedDate={filters.date}
+        selectedDate={date}
         onDateChange={handleDateChange}
       />
       {loading && <p>Cargando los eventos eventos</p>}
