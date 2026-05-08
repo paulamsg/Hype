@@ -17,8 +17,6 @@ export interface Event {
 export interface EventFilters {
   city: string
   category?: string
-  startDateTime?: string
-  endDateTime?: string
   date?:string
   priceMin?: number
   priceMax?: number
