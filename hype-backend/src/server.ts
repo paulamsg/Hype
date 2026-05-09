@@ -8,6 +8,7 @@ import savedEventRoutes from './routes/savedEvents.routes'
 import photosRoutes from './routes/photos.routes'
 import usersRoutes from './routes/users.routes'
 import { expireOldEvents } from './jobs/expireEvents.job'
+import { updateFeaturedEvents } from './jobs/featuredEvents.job'
 import nodeCron from 'node-cron'
 
 dotenv.config()
@@ -28,6 +29,12 @@ expireOldEvents()
 nodeCron.schedule('0 0 * * *', () => {
   console.log('Ejecutando expiración nocturna...')
   expireOldEvents()
+})
+
+updateFeaturedEvents()
+nodeCron.schedule('0 0 * * 1', () => {
+  console.log('Actualizando eventos destacados...')
+  updateFeaturedEvents()
 })
 
 const PORT = process.env.PORT || 3000
