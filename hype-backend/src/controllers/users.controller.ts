@@ -22,6 +22,7 @@ export const updateUserData = async (req: AuthRequest, res: Response) => {
     return res.status(500).json({ message: error })
   }
 }
+
 export const searchUser = async (req: AuthRequest, res: Response) => {
   try {
     const userId = req.userId
@@ -40,6 +41,25 @@ export const searchUser = async (req: AuthRequest, res: Response) => {
       },
     })
     return res.status(200).json(userFounded)
+  } catch (error) {
+    return res.status(500).json({ message: error })
+  }
+}
+
+export const getAllUsers = async (req: AuthRequest, res: Response) => {
+  try {
+    const userId = req.userId
+    if (!userId) {
+      return res.status(401).json({ message: 'No autorizado' })
+    }
+
+    const users = await prisma.user.findMany({
+      where: {
+        NOT: { id: userId },
+      },
+      take: 4,
+    })
+    return res.status(200).json(users)
   } catch (error) {
     return res.status(500).json({ message: error })
   }

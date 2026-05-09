@@ -20,3 +20,13 @@ export const searchUser = async (value: String) => {
   })
   return response.data
 }
+
+export const getAllUsers = async () => {
+  const token = localStorage.getItem('token')
+  const response = await axios.get(`${import.meta.env.VITE_SERVER_URL}/users/all`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+  return response.data
+}
