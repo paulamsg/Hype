@@ -129,6 +129,7 @@ model MockEvent {
   priceMin   Float
   priceMax   Float
   url        String
+  featured   Boolean  @default(false)
 }
 
 model Photo {
