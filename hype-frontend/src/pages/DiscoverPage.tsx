@@ -7,13 +7,15 @@ import type { Event } from '../types/event.types'
 import EventCard from '../components/ui/EventCard'
 import Topbar from '../components/ui/TopBar'
 import FilterBar from '../components/ui/FilterBar'
+import CategoryHeader from '../components/ui/CategoryHeader'
 
 const Discover = () => {
   const [events, setEvents] = useState<Event[]>([])
   const { user } = useAuth()
   const [loading, setLoading] = useState(false)
   const [searchParams, setSearchParams] = useSearchParams()
-
+  const [isCategoryChange, setIsCategoryChange] = useState(false)
+  const [categoryName, setCategoryName] = useState('')
   const city = searchParams.get('city') || user?.location || 'Madrid'
   const priceLabel = searchParams.get('price') || 'all'
   const category = searchParams.get('category') || 'all'
@@ -55,6 +57,8 @@ const Discover = () => {
   const handleCategoryChange = (value: string) => {
     setSearchParams((prev) => {
       prev.set('category', value)
+      setIsCategoryChange(true)
+      setCategoryName(value)
       return prev
     })
   }
@@ -114,6 +118,10 @@ const Discover = () => {
         onDateChange={handleDateChange}
       />
       {loading && <p>Cargando los eventos eventos</p>}
+      {isCategoryChange && categoryName !== 'all' && (
+        <CategoryHeader name={categoryName} total={eventsFiltered.length} />
+      )}
+      <h1 className="discover__title">Todos los eventos</h1>
       <div className="grid__layout">
         {eventsFiltered.map((event: Event) => (
           <EventCard key={event.id} {...event} />
