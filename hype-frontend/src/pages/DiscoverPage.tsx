@@ -2,20 +2,23 @@ import { useState, useEffect, useMemo } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { useAuth } from '../context/useAuth'
 import { getEvents } from '../services/event.services'
-import { getMockEvents } from '../services/mockEvents.services'
+import { getMockEvents, getFeaturedMockEvents } from '../services/mockEvents.services'
 import type { Event } from '../types/event.types'
 import EventCard from '../components/ui/EventCard'
+import FeaturedEventCard from '../components/ui/FeaturedEventCard'
 import Topbar from '../components/ui/TopBar'
 import FilterBar from '../components/ui/FilterBar'
 import CategoryHeader from '../components/ui/CategoryHeader'
 
 const Discover = () => {
   const [events, setEvents] = useState<Event[]>([])
+  const [featuredEvents, setFeaturedEvents] = useState<Event[]>([])
   const { user } = useAuth()
   const [loading, setLoading] = useState(false)
   const [searchParams, setSearchParams] = useSearchParams()
   const [isCategoryChange, setIsCategoryChange] = useState(false)
   const [categoryName, setCategoryName] = useState('')
+
   const city = searchParams.get('city') || user?.location || 'Madrid'
   const priceLabel = searchParams.get('price') || 'all'
   const category = searchParams.get('category') || 'all'
@@ -104,6 +107,19 @@ const Discover = () => {
     listEvents()
   }, [city])
 
+  const loadFeatured = async () => {
+    try {
+      const data = await getFeaturedMockEvents()
+      setFeaturedEvents(data)
+    } catch (e) {
+      console.log(e)
+      setFeaturedEvents([])
+    }
+  }
+  useEffect(() => {
+    loadFeatured()
+  }, [])
+
   return (
     <>
       <Topbar />
@@ -120,6 +136,17 @@ const Discover = () => {
       {loading && <p>Cargando los eventos eventos</p>}
       {isCategoryChange && categoryName !== 'all' && (
         <CategoryHeader name={categoryName} total={eventsFiltered.length} />
+      )}
+      
+      {featuredEvents.length > 0 && (
+        <>
+          <h2 className="featured-section__title">Destacados de esta semana</h2>
+          <div className="featured-grid">
+            {featuredEvents.map((event) => (
+              <FeaturedEventCard key={event.id} {...event} />
+            ))}
+          </div>
+        </>
       )}
       <h1 className="discover__title">Todos los eventos</h1>
       <div className="grid__layout">
