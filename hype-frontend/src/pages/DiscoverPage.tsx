@@ -116,10 +116,15 @@ const Discover = () => {
       setFeaturedEvents([])
     }
   }
+
+  const eventsFeaturedFiltered = useMemo(() => {
+    return featuredEvents.filter((e) => category === e.category)
+  }, [category, featuredEvents])
+
   useEffect(() => {
     loadFeatured()
   }, [])
-
+  //hacermemo de los eventos destacados
   return (
     <>
       <Topbar />
@@ -137,12 +142,22 @@ const Discover = () => {
       {isCategoryChange && categoryName !== 'all' && (
         <CategoryHeader name={categoryName} total={eventsFiltered.length} />
       )}
-      
-      {featuredEvents.length > 0 && (
+
+      {featuredEvents.length > 0 && category !== 'all' && (
         <>
           <h2 className="featured-section__title">Destacados de esta semana</h2>
           <div className="featured-grid">
-            {featuredEvents.map((event) => (
+            {eventsFeaturedFiltered.map((event) => (
+              <FeaturedEventCard key={event.id} {...event} />
+            ))}
+          </div>
+        </>
+      )}
+      {featuredEvents.length > 0 && category === 'all' && (
+        <>
+          <h2 className="featured-section__title">Destacados de esta semana</h2>
+          <div className="featured-grid">
+            {featuredEvents.slice(0, 3).map((event) => (
               <FeaturedEventCard key={event.id} {...event} />
             ))}
           </div>
