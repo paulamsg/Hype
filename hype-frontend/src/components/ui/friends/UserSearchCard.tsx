@@ -1,6 +1,21 @@
 import type { User } from '../../../types/auth.types'
 import Button from '../Button'
-const UserSearchCard = ({ name, username, lastName, avatarUrl }: User) => {
+import { postFollowRequest } from '../../../services/followRequest.services'
+import { useState } from 'react'
+const UserSearchCard = ({ id, name, username, lastName, avatarUrl }: User) => {
+  const [followRequestSended, setfollowRequestSended] = useState(false)
+  const sendFollowRequest = async () => {
+    try {
+      await postFollowRequest(id)
+      setfollowRequestSended(true)
+    } catch (e) {
+      console.log('Se ha producido un error al enviar la solicitud')
+    }
+  }
+  const handleClickFollowRequest = () => {
+    sendFollowRequest()
+  }
+
   return (
     <div className="user-search-card">
       <div className="user-search-card__avatar">
@@ -14,7 +29,12 @@ const UserSearchCard = ({ name, username, lastName, avatarUrl }: User) => {
         <span className="user-search-card__username">@{username}</span>
       </div>
       <div className="user-search-card__btn">
-        <Button label="Seguir" variant="outline" size="md" onClick={() => {}} />
+        <Button
+          label={followRequestSended ? 'Pendiente' : 'Solicitar'}
+          variant="outline"
+          size="md"
+          onClick={handleClickFollowRequest}
+        />
       </div>
     </div>
   )
