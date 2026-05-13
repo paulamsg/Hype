@@ -25,9 +25,8 @@ const NotificationsPage = () => {
       <Topbar />
 
       <div className="notifications__info">
-        {allNotifications.map((noti) => (
-          <NotificationCard key={noti.id} {...noti} />
-        ))}
+        {allNotifications.length === 0 && <p>Todavía no tienes notificaciones</p>}
+        {allNotifications.length > 0 && allNotifications.map((noti) => <NotificationCard key={noti.id} {...noti} />)}
       </div>
     </>
   )
