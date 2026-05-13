@@ -1,11 +1,13 @@
 import Topbar from '../components/ui/TopBar'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { getNotifications } from './../services/notifications.services'
+import NotificationCard from '../components/ui/notifications/NotificationCard'
+import type { Notification } from '../types/notifications.types'
 
 const NotificationsPage = () => {
-  const [allNotifications, setAllNotifications] = useState([])
+  const [allNotifications, setAllNotifications] = useState<Notification[]>([])
 
-  const getAllNotifications = async () => {
+  const fetchNotifications = async () => {
     try {
       const data = await getNotifications()
       setAllNotifications(data)
@@ -13,6 +15,11 @@ const NotificationsPage = () => {
       console.log(e)
     }
   }
+
+  useEffect(() => {
+    fetchNotifications()
+  }, [])
+
   return (
     <>
       <Topbar />

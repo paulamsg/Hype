@@ -28,6 +28,7 @@ export const postFollowRequet = async (req: AuthRequest, res: Response) => {
     await prisma.notification.create({
       data: {
         userId: userToFollow,
+        senderId: userId,
         type: 'FOLLOW_REQUEST',
         message: `${sender?.name} te ha enviado una solicitud de amistad`,
       },
