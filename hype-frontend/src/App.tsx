@@ -7,7 +7,7 @@ import ProtectedRoute from './components/ProtectedRoute'
 import Profile from './pages/ProfilePage'
 import Friends from './pages/FriendsPage'
 import Groups from './pages/GroupsPage'
-
+import Notifications from './pages/NotificationsPage'
 function App() {
   return (
     <Routes>
@@ -21,6 +21,7 @@ function App() {
         <Route path="/perfil" element={<Profile />} />
         <Route path="/amigos" element={<Friends />} />
         <Route path="/grupos" element={<Groups />} />
+        <Route path="/notificaciones" element={<Notifications />} />
       </Route>
     </Routes>
   )

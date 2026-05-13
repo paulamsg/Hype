@@ -2,12 +2,14 @@ import { useState } from 'react'
 import Logo from '../ui/Logo'
 import { useAuth } from '../../context/useAuth'
 import { useNavigate, useLocation } from 'react-router-dom'
+import { Bell } from 'lucide-react'
 
 const NAV_ITEMS = [
   { label: 'Descubre', path: '/descubre' },
   { label: 'Amigos', path: '/amigos' },
   { label: 'Grupos', path: '/grupos' },
   { label: 'Perfil', path: '/perfil' },
+  { path: 'notificaciones' },
 ]
 
 const Topbar = () => {
@@ -31,10 +33,7 @@ const Topbar = () => {
 
       <nav className="topbar__nav">
         {NAV_ITEMS.map(({ label, path }) => (
-          <div
-            key={path}
-            className={`topbar__tab-wrapper${isActive(path) ? ' topbar__tab-wrapper--active' : ''}`}
-          >
+          <div key={path} className={`topbar__tab-wrapper${isActive(path) ? ' topbar__tab-wrapper--active' : ''}`}>
             <button className="topbar__tab" onClick={() => goTo(path)}>
               {label}
             </button>
@@ -43,6 +42,9 @@ const Topbar = () => {
       </nav>
 
       <div className="topbar__right">
+        <div className="topbar__bell" onClick={() => goTo('/notificaciones')}>
+          <Bell size={18} />
+        </div>
         <div className="topbar__avatar" onClick={() => goTo('/perfil')}>
           {user?.name?.charAt(0).toUpperCase()}
         </div>

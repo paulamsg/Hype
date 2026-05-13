@@ -23,7 +23,8 @@ model User {
   savedEvents   SavedEvent[]
   following     Follow[]       @relation("following")
   followers     Follow[]       @relation("followers")
-  notifications Notification[]
+  receivedNotifications Notification[] @relation("receivedNotifications")
+  sentNotifications     Notification[] @relation("sentNotifications")
   groupMembers  GroupMember[]
   photos        Photo[]   
 
@@ -79,12 +80,14 @@ model Follow {
 model Notification {
   id        Int      @id @default(autoincrement())
   userId    Int
+  senderId  Int?
   type      String
   message   String
   read      Boolean  @default(false)
   createdAt DateTime @default(now())
 
-  user      User     @relation(fields: [userId], references: [id])
+  user      User     @relation("receivedNotifications", fields: [userId], references: [id])
+  sender    User?    @relation("sentNotifications", fields: [senderId], references: [id])
 }
 
 enum RequestStatus {

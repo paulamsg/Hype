@@ -7,6 +7,8 @@ import mockEventsRoutes from './routes/mockEvents.routes'
 import savedEventRoutes from './routes/savedEvents.routes'
 import photosRoutes from './routes/photos.routes'
 import usersRoutes from './routes/users.routes'
+import followRequestRoutes from './routes/followRequest.routes'
+import notificationsRoutes from './routes/notifications.routes'
 import { expireOldEvents } from './jobs/expireEvents.job'
 import { updateFeaturedEvents } from './jobs/featuredEvents.job'
 import nodeCron from 'node-cron'
@@ -24,6 +26,8 @@ app.use('/mock-events', mockEventsRoutes)
 app.use('/saved-events', savedEventRoutes)
 app.use('/photos', photosRoutes)
 app.use('/users', usersRoutes)
+app.use('/follow-requests', followRequestRoutes)
+app.use('/notifications', notificationsRoutes)
 
 expireOldEvents()
 nodeCron.schedule('0 0 * * *', () => {

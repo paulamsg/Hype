@@ -75,6 +75,21 @@
     color: var(--lime-t);
     cursor: pointer;
   }
+  &__bell {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-full);
+    border: 1px solid var(--b1);
+    transition: background 0.15s;
+
+    &:hover {
+      background: var(--off);
+    }
+  }
 
   // ─── Hamburger ───────────────────────────────────────────────────────────
   &__burger {
