@@ -7,7 +7,7 @@ import type { Notification } from '../types/notifications.types'
 const NotificationsPage = () => {
   const [allNotifications, setAllNotifications] = useState<Notification[]>([])
 
-  const fetchNotifications = async () => {
+  const getAllNotifications = async () => {
     try {
       const data = await getNotifications()
       setAllNotifications(data)
@@ -17,18 +17,19 @@ const NotificationsPage = () => {
   }
 
   useEffect(() => {
-    fetchNotifications()
+    getAllNotifications()
   }, [])
+
 
   return (
     <>
       <Topbar />
-      <div className='notifications'>
+      <div className="notifications">
         <h1>Notificaciones</h1>
       </div>
       <div className="notifications__info">
         {allNotifications.length === 0 && <p>Todavía no tienes notificaciones</p>}
-        {allNotifications.length > 0 && allNotifications.map((noti) => <NotificationCard key={noti.id} {...noti} />)}
+        {allNotifications.length > 0 && allNotifications.map((noti) => <NotificationCard key={noti.id} {...noti} onRefresh={getAllNotifications} />)}
       </div>
     </>
   )

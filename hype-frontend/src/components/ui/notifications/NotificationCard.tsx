@@ -4,8 +4,7 @@ import { followUser } from '../../../services/follow.services'
 import { deleteNotification } from '../../../services/notifications.services'
 //import { useState } from 'react'
 
-const NotificationCard = ({ ...noti }: Notification) => {
-  //const [allNotifications, setAllNotifications] = useState<Notification[]>([noti])
+const NotificationCard = ({ onRefresh, ...noti }: Notification) => {
 
   const handleAccept = async () => {
     try {
@@ -21,6 +20,7 @@ const NotificationCard = ({ ...noti }: Notification) => {
     try {
       if (!noti.id) return
       await deleteNotification(noti.id)
+      onRefresh()
     } catch (error) {
       console.log(error)
     }

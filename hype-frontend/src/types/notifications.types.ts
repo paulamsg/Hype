@@ -15,4 +15,5 @@ export type Notification = {
   read: boolean
   createdAt: string
   sender: NotificationSender | null
+  onRefresh: () => void
 }
