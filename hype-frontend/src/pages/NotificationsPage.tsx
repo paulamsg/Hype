@@ -3,10 +3,11 @@ import { useState, useEffect } from 'react'
 import { getNotifications } from './../services/notifications.services'
 import NotificationCard from '../components/ui/notifications/NotificationCard'
 import type { Notification } from '../types/notifications.types'
-
+import Button from '../components/ui/Button'
+import { useNavigate } from 'react-router-dom'
 const NotificationsPage = () => {
   const [allNotifications, setAllNotifications] = useState<Notification[]>([])
-
+  const navigate = useNavigate()
   const getAllNotifications = async () => {
     try {
       const data = await getNotifications()
@@ -20,7 +21,6 @@ const NotificationsPage = () => {
     getAllNotifications()
   }, [])
 
-
   return (
     <>
       <Topbar />
@@ -28,8 +28,21 @@ const NotificationsPage = () => {
         <h1>Notificaciones</h1>
       </div>
       <div className="notifications__info">
-        {allNotifications.length === 0 && <p>Todavía no tienes notificaciones</p>}
-        {allNotifications.length > 0 && allNotifications.map((noti) => <NotificationCard key={noti.id} {...noti} onRefresh={getAllNotifications} />)}
+        {allNotifications.length === 0 && (
+          <>
+            <p>Todavía no tienes notificaciones</p>
+            <Button
+              label="Buscar amigos"
+              variant="primary"
+              type="button"
+              size="md"
+              disabled={false}
+              onClick={() => navigate('/amigos')}
+            />
+          </>
+        )}
+        {allNotifications.length > 0 &&
+          allNotifications.map((noti) => <NotificationCard key={noti.id} {...noti} onRefresh={getAllNotifications} />)}
       </div>
     </>
   )

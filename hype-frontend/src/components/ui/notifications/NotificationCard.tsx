@@ -5,12 +5,10 @@ import { deleteNotification } from '../../../services/notifications.services'
 //import { useState } from 'react'
 
 const NotificationCard = ({ onRefresh, ...noti }: Notification) => {
-
   const handleAccept = async () => {
     try {
       if (!noti.sender?.id) return
       await followUser(noti.sender.id)
-      // poner el aceptar el el followRequest
     } catch (error) {
       console.log(error)
     }
