@@ -1,0 +1,81 @@
+// ─── Notifications Page ──────────────────────────────────────────────────────
+
+.notifications {
+  max-width: 680px;
+  margin: var(--sp-2xl) auto 0;
+  padding: 0 var(--sp-lg);
+
+  h1 {
+    font-size: var(--text-xl);
+    font-weight: 700;
+    margin-bottom: var(--sp-sm);
+    text-align: left;
+  }
+}
+
+.notifications__info {
+  max-width: 680px;
+  margin: var(--sp-lg) auto 0;
+  padding: 0 var(--sp-lg) var(--sp-2xl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-sm);
+
+  > p {
+    text-align: center;
+    color: var(--ink3);
+    margin-top: var(--sp-xl);
+  }
+}
+
+// ─── Notification Card ────────────────────────────────────────────────────────
+
+.notification__card {
+  background: var(--b1);
+  border: 1.5px solid var(--lime);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 1px 20px rgba(232, 255, 0, 0.25);
+  padding: var(--sp-md) var(--sp-lg);
+  display: flex;
+  align-items: center;
+  gap: var(--sp-md);
+  transition: box-shadow 0.15s;
+
+  &:hover {
+    box-shadow: 0 4px 40px rgba(232, 255, 0, 0.4);
+  }
+
+  &--img {
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-full);
+    overflow: hidden;
+    background: var(--blue-bg);
+    flex-shrink: 0;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  &--info {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--sp-md);
+
+    .user-message {
+      font-family: var(--sans);
+      font-size: var(--text-md);
+      color: var(--ink2);
+      flex: 1;
+    }
+
+    .btn {
+      flex-shrink: 0;
+    }
+  }
+}
