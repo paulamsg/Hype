@@ -1,7 +1,31 @@
 import type { Notification } from '../../../types/notifications.types'
 import Button from '../Button'
+import { followUser } from '../../../services/follow.services'
+import { deleteFollowRequest } from '../../../services/followRequest.services'
+//import { useState } from 'react'
 
 const NotificationCard = ({ ...noti }: Notification) => {
+  //const [allNotifications, setAllNotifications] = useState<Notification[]>([noti])
+
+  const handleAccept = async () => {
+    try {
+      if (!noti.sender?.id) return
+      await followUser(noti.sender.id)
+      // poner el aceptar el el followRequest
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const handleDeny = async () => {
+    try {
+      if (!noti.id) return
+      await deleteFollowRequest(noti)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
     <>
       <div className="notification__card">
@@ -11,14 +35,8 @@ const NotificationCard = ({ ...noti }: Notification) => {
         <div className="notification__card--info">
           <div className="user-message">{noti.message}</div>
           <div className="btn">
-            <Button
-              label="Seguir también  +"
-              variant="primary"
-              type="button"
-              size="md"
-              disabled={false}
-              onClick={() => {}}
-            />
+            <Button label="Aceptar" variant="primary" type="button" size="md" disabled={false} onClick={handleAccept} />
+            <Button label="Rechazar" variant="outline" type="button" size="md" disabled={false} onClick={handleDeny} />
           </div>
         </div>
       </div>
