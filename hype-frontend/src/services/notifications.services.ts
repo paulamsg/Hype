@@ -9,3 +9,13 @@ export const getNotifications = async () => {
   })
   return response.data.notifications
 }
+
+export const deleteNotification = async (notificationId: Number) => {
+  const token = localStorage.getItem('token')
+  const response = await axios.delete(`${import.meta.env.VITE_SERVER_URL}/notifications/${notificationId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+  return response.data
+}

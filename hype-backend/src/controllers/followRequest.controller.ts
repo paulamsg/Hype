@@ -39,27 +39,3 @@ export const postFollowRequet = async (req: AuthRequest, res: Response) => {
     return res.status(500).json({ error: 'Error al enviar la solicitud' })
   }
 }
-
-export const deleteFollowRequest = async (req: AuthRequest, res: Response) => {
-  try {
-    const userId = req.userId
-    if (!userId) {
-      return res.status(401).json({ error: 'No autorizado' })
-    }
-
-    const notificationId = req.params.id
-
-    const notification = await prisma.notification.findFirst({
-      where: { id: Number(notificationId) },
-    })
-
-    if (!notification) return res.status(404).json({ message: 'Notificación no encontrada' })
-
-    const deletedNotification = await prisma.notification.delete({
-      where: { id: Number(notificationId) },
-    })
-    return res.status(200).json({ deletedNotification })
-  } catch (error) {
-    return res.status(500).json({ error: 'Error al rechazar la solicitud de amistad' })
-  }
-}

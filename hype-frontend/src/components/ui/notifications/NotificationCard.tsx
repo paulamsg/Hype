@@ -1,7 +1,7 @@
 import type { Notification } from '../../../types/notifications.types'
 import Button from '../Button'
 import { followUser } from '../../../services/follow.services'
-import { deleteFollowRequest } from '../../../services/followRequest.services'
+import { deleteNotification } from '../../../services/notifications.services'
 //import { useState } from 'react'
 
 const NotificationCard = ({ ...noti }: Notification) => {
@@ -20,7 +20,7 @@ const NotificationCard = ({ ...noti }: Notification) => {
   const handleDeny = async () => {
     try {
       if (!noti.id) return
-      await deleteFollowRequest(noti)
+      await deleteNotification(noti.id)
     } catch (error) {
       console.log(error)
     }

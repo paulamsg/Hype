@@ -15,12 +15,16 @@ export const postFollowRequest = async (receiverId: number) => {
   return response.data
 }
 
-export const deleteFollowRequest = async (notification: Notification) => {
+export const updateFollowRequest = async (notification: Notification) => {
   const token = localStorage.getItem('token')
-  const response = await axios.delete(`${import.meta.env.VITE_SERVER_URL}/follow-requests/${notification.id}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
+  const response = await axios.patch(
+    `${import.meta.env.VITE_SERVER_URL}/follow-requests/${notification.id}`,
+    { status: 'ACCEPTED' },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     },
-  })
+  )
   return response.data
 }
