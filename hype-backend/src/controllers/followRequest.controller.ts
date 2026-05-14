@@ -15,7 +15,7 @@ export const postFollowRequet = async (req: AuthRequest, res: Response) => {
   try {
     const sender = await prisma.user.findUnique({
       where: { id: userId },
-      select: { name: true },
+      select: { name: true, username: true },
     })
 
     await prisma.followRequest.create({
@@ -30,7 +30,7 @@ export const postFollowRequet = async (req: AuthRequest, res: Response) => {
         userId: userToFollow,
         senderId: userId,
         type: 'FOLLOW_REQUEST',
-        message: `${sender?.name} te ha enviado una solicitud de amistad`,
+        message: `${sender?.name} (@${sender?.username}) te ha enviado una solicitud de amistad`,
       },
     })
 
