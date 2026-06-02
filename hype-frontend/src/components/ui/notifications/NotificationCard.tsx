@@ -1,14 +1,21 @@
+import { useState } from 'react'
 import type { Notification } from '../../../types/notifications.types'
 import Button from '../Button'
-import { followUser } from '../../../services/follow.services'
+import { updateFollowRequest } from '../../../services/followRequest.services'
 import { deleteNotification } from '../../../services/notifications.services'
-//import { useState } from 'react'
+import { removeFollow } from '../../../services/follow.services'
+import { useUserContext } from '../../../context/userContext'
 
 const NotificationCard = ({ onRefresh, ...noti }: Notification) => {
+  const [accepted, setAccepted] = useState(false)
+  const [showConfirm, setShowConfirm] = useState(false)
+  const { refreshProfile } = useUserContext()
+
   const handleAccept = async () => {
     try {
-      if (!noti.sender?.id) return
-      await followUser(noti.sender.id)
+      await updateFollowRequest(noti)
+      setAccepted(true)
+      refreshProfile()
     } catch (error) {
       console.log(error)
     }
@@ -24,6 +31,17 @@ const NotificationCard = ({ onRefresh, ...noti }: Notification) => {
     }
   }
 
+  const handleRemoveFriend = async () => {
+    try {
+      if (!noti.sender?.id) return
+      await removeFollow(noti.sender.id)
+      await refreshProfile()
+      onRefresh()
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
     <>
       <div className="notification__card">
@@ -32,13 +50,44 @@ const NotificationCard = ({ onRefresh, ...noti }: Notification) => {
         </div>
         <div className="notification__card--info">
           <div className="user-message">{noti.message}</div>
-          <div className="btn">
-            <Button label="Aceptar" variant="primary" type="button" size="md" disabled={false} onClick={handleAccept} />
-            <Button label="Rechazar" variant="outline" type="button" size="md" disabled={false} onClick={handleDeny} />
-          </div>
+
+          {!accepted ? (
+            <div className="btn">
+              <Button label="Aceptar" variant="primary" type="button" size="md" disabled={false} onClick={handleAccept} />
+              <Button label="Rechazar" variant="outline" type="button" size="md" disabled={false} onClick={handleDeny} />
+            </div>
+          ) : (
+            <div className="btn">
+              <span className="notification__friends-label">Ahora sois amigos</span>
+              <Button
+                label="Eliminar amigo"
+                variant="danger-outline"
+                type="button"
+                size="md"
+                disabled={false}
+                onClick={() => setShowConfirm(true)}
+              />
+            </div>
+          )}
         </div>
       </div>
+
+      {showConfirm && (
+        <>
+          <div className="modal-overlay" onClick={() => setShowConfirm(false)} />
+          <div className="modal">
+            <div className="confirm-modal">
+              <p>¿Estás seguro de que quieres eliminar a <strong>@{noti.sender?.username}</strong> de tus amigos?</p>
+              <div className="confirm-modal__btns">
+                <Button label="Eliminar" variant="danger-outline" type="button" size="md" disabled={false} onClick={handleRemoveFriend} />
+                <Button label="Cancelar" variant="outline" type="button" size="md" disabled={false} onClick={() => setShowConfirm(false)} />
+              </div>
+            </div>
+          </div>
+        </>
+      )}
     </>
   )
 }
+
 export default NotificationCard

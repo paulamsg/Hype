@@ -37,6 +37,7 @@ export const searchUser = async (req: AuthRequest, res: Response) => {
 
     const userFounded = await prisma.user.findMany({
       where: {
+        NOT: { id: userId },
         OR: [{ email: { contains: searchUserValue as string } }, { username: { contains: searchUserValue as string } }],
       },
     })
@@ -60,6 +61,27 @@ export const getAllUsers = async (req: AuthRequest, res: Response) => {
       take: 4,
     })
     return res.status(200).json(users)
+  } catch (error) {
+    return res.status(500).json({ message: error })
+  }
+}
+
+export const getFriendsCount = async (req: AuthRequest, res: Response) => {
+  try {
+    const userId = req.userId
+    if (!userId) {
+      return res.status(401).json({ message: 'No autorizado' })
+    }
+
+    const followersCount = await prisma.follow.count({
+      where: { followingId: userId },
+    })
+
+    const followingCount = await prisma.follow.count({
+      where: { followerId: userId },
+    })
+
+    return res.status(200).json({ followersCount, followingCount })
   } catch (error) {
     return res.status(500).json({ message: error })
   }

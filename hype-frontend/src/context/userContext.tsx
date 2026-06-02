@@ -2,6 +2,7 @@ import React from 'react'
 import { createContext, useContext, useState, useEffect } from 'react'
 import { getPhotosByUser } from '../services/photos.services'
 import { getWantEvents, getGoingEvents, getGoneEvents, getExpiredEvents } from '../services/savedEvents.services'
+import { getFriendsCount } from '../services/user.services'
 
 type EventsCount = {
   wantGo: number
@@ -13,6 +14,8 @@ type EventsCount = {
 type UserContextType = {
   photosCount: number
   eventsCount: EventsCount
+  followersCount: number
+  followingCount: number
   refreshProfile: () => Promise<void>
 }
 
@@ -26,15 +29,18 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     gone: 0,
     expired: 0,
   })
+  const [followersCount, setFollowersCount] = useState(0)
+  const [followingCount, setFollowingCount] = useState(0)
 
   const refreshProfile = async () => {
     try {
-      const [photos, wantGo, going, gone, expired] = await Promise.all([
+      const [photos, wantGo, going, gone, expired, friends] = await Promise.all([
         getPhotosByUser(),
         getWantEvents(),
         getGoingEvents(),
         getGoneEvents(),
         getExpiredEvents(),
+        getFriendsCount(),
       ])
 
       setPhotosCount(photos.photos.length)
@@ -44,6 +50,8 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
         gone: gone.savedEvents.length,
         expired: expired.savedEvents.length,
       })
+      setFollowersCount(friends.followersCount)
+      setFollowingCount(friends.followingCount)
     } catch (e) {}
   }
 
@@ -52,7 +60,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   }, [])
 
   return (
-    <UserContext.Provider value={{ photosCount, eventsCount, refreshProfile }}>
+    <UserContext.Provider value={{ photosCount, eventsCount, followersCount, followingCount, refreshProfile }}>
       {children}
     </UserContext.Provider>
   )

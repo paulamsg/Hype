@@ -1,19 +1,29 @@
 import type { User } from '../../../types/auth.types'
 import Button from '../Button'
-import { postFollowRequest } from '../../../services/followRequest.services'
+import { postFollowRequest, cancelFollowRequest } from '../../../services/followRequest.services'
 import { useState } from 'react'
-const UserSearchCard = ({ id, name, username, lastName, avatarUrl }: User) => {
-  const [followRequestSended, setfollowRequestSended] = useState(false)
-  const sendFollowRequest = async () => {
+
+type UserSearchCardProps = User & { isPending?: boolean }
+
+const UserSearchCard = ({ id, name, username, lastName, avatarUrl, isPending = false }: UserSearchCardProps) => {
+  const [followRequestSended, setfollowRequestSended] = useState(isPending)
+
+  const handleClickFollowRequest = async () => {
     try {
-      await postFollowRequest(id)
-      setfollowRequestSended(true)
-    } catch (e) {
-      console.log('Se ha producido un error al enviar la solicitud')
+      if (followRequestSended) {
+        await cancelFollowRequest(id)
+        setfollowRequestSended(false)
+      } else {
+        await postFollowRequest(id)
+        setfollowRequestSended(true)
+      }
+    } catch (e: any) {
+      if (e?.response?.status === 409) {
+        setfollowRequestSended(true)
+      } else {
+        console.log('Se ha producido un error con la solicitud')
+      }
     }
-  }
-  const handleClickFollowRequest = () => {
-    sendFollowRequest()
   }
 
   return (

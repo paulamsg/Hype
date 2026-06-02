@@ -8,6 +8,7 @@ import savedEventRoutes from './routes/savedEvents.routes'
 import photosRoutes from './routes/photos.routes'
 import usersRoutes from './routes/users.routes'
 import followRequestRoutes from './routes/followRequest.routes'
+import followRoutes from './routes/follow.routes'
 import notificationsRoutes from './routes/notifications.routes'
 import { expireOldEvents } from './jobs/expireEvents.job'
 import { updateFeaturedEvents } from './jobs/featuredEvents.job'
@@ -27,6 +28,7 @@ app.use('/saved-events', savedEventRoutes)
 app.use('/photos', photosRoutes)
 app.use('/users', usersRoutes)
 app.use('/follow-requests', followRequestRoutes)
+app.use('/follow', followRoutes)
 app.use('/notifications', notificationsRoutes)
 
 expireOldEvents()

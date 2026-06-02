@@ -15,16 +15,20 @@
 
 .notifications__info {
   max-width: 680px;
-  margin: var(--sp-lg) auto 0;
-  padding: 0 var(--sp-lg) var(--sp-2xl);
+  margin: var(--sp-lg) auto var(--sp-2xl);
+  padding: var(--sp-lg);
   display: flex;
   flex-direction: column;
   gap: var(--sp-sm);
+  background: var(--b1);
+  border: 1px solid var(--b2);
+  border-radius: var(--radius-lg);
 
   > p {
     text-align: center;
     color: var(--ink3);
     margin-top: var(--sp-xl);
+    margin-bottom: var(--sp-xl);
   }
 }
 

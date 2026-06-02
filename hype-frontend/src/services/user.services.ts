@@ -30,3 +30,13 @@ export const getAllUsers = async () => {
   })
   return response.data
 }
+
+export const getFriendsCount = async (): Promise<{ followersCount: number; followingCount: number }> => {
+  const token = localStorage.getItem('token')
+  const response = await axios.get(`${import.meta.env.VITE_SERVER_URL}/users/me/friends-count`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+  return response.data
+}

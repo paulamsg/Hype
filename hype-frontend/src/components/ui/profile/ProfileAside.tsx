@@ -10,7 +10,7 @@ const ProfileAside = () => {
   const [showLogout, setShowLogout] = useState(false)
   const [showEditModal, setShowEditModal] = useState(false)
 
-  const { photosCount, eventsCount } = useUserContext()
+  const { photosCount, eventsCount, followersCount } = useUserContext()
 
   return (
     <aside className="profile__aside">
@@ -33,7 +33,7 @@ const ProfileAside = () => {
           <span className="profile__stat-l">Fotos</span>
         </div>
         <div className="profile__stat">
-          <span className="profile__stat-n">128</span>
+          <span className="profile__stat-n">{followersCount}</span>
           <span className="profile__stat-l">Amigos</span>
         </div>
       </div>
