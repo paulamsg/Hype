@@ -44,7 +44,7 @@ const UserSearchCard = ({ id, name, username, lastName, avatarUrl, isPending = f
         ) : (
           <Button
             label={followRequestSended ? 'Pendiente' : 'Solicitar'}
-            variant="outline"
+            variant={followRequestSended ? 'outline-blue' : 'outline'}
             size="md"
             onClick={handleClickFollowRequest}
           />
