@@ -7,7 +7,7 @@ import { removeFollow } from '../../../services/follow.services'
 import { useUserContext } from '../../../context/userContext'
 
 const NotificationCard = ({ onRefresh, ...noti }: Notification) => {
-  const [accepted, setAccepted] = useState(false)
+  const [accepted, setAccepted] = useState(noti.type === 'FOLLOW_ACCEPTED')
   const [showConfirm, setShowConfirm] = useState(false)
   const { refreshProfile } = useUserContext()
 
@@ -35,6 +35,7 @@ const NotificationCard = ({ onRefresh, ...noti }: Notification) => {
     try {
       if (!noti.sender?.id) return
       await removeFollow(noti.sender.id)
+      await deleteNotification(noti.id)
       await refreshProfile()
       onRefresh()
     } catch (error) {
@@ -49,20 +50,23 @@ const NotificationCard = ({ onRefresh, ...noti }: Notification) => {
           {noti.sender?.avatarUrl && <img src={noti.sender.avatarUrl} alt={noti.sender.username} />}
         </div>
         <div className="notification__card--info">
-          <div className="user-message">{noti.message}</div>
-
           {!accepted ? (
-            <div className="btn">
-              <Button label="Aceptar" variant="primary" type="button" size="md" disabled={false} onClick={handleAccept} />
-              <Button label="Rechazar" variant="outline" type="button" size="md" disabled={false} onClick={handleDeny} />
-            </div>
+            <>
+              <div className="user-message">{noti.message}</div>
+              <div className="btn">
+                <Button label="Aceptar" variant="primary" type="button" size="md" disabled={false} onClick={handleAccept} />
+                <Button label="Rechazar" variant="outline" type="button" size="md" disabled={false} onClick={handleDeny} />
+              </div>
+            </>
           ) : (
-            <div className="btn">
-              <span className="notification__friends-label">Ahora sois amigos</span>
-              <button className="notification__remove-link" onClick={() => setShowConfirm(true)}>
+            <>
+              <div className="user-message">
+                {noti.sender?.name} (@{noti.sender?.username}) y tú sois <span className="notification__friends-word">amigos</span>
+              </div>
+              <span className="link-red" onClick={() => setShowConfirm(true)}>
                 Eliminar amigo
-              </button>
-            </div>
+              </span>
+            </>
           )}
         </div>
       </div>

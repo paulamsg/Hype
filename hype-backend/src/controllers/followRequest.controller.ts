@@ -124,8 +124,9 @@ export const acceptFollowRequest = async (req: AuthRequest, res: Response) => {
       },
     })
 
-    await prisma.notification.delete({
+    await prisma.notification.update({
       where: { id: notificationId },
+      data: { type: 'FOLLOW_ACCEPTED', read: true },
     })
 
     return res.status(200).json({ message: 'Solicitud aceptada' })

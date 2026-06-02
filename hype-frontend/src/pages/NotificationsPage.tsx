@@ -8,13 +8,17 @@ import { useNavigate } from 'react-router-dom'
 
 const NotificationsPage = () => {
   const [allNotifications, setAllNotifications] = useState<Notification[]>([])
+  const [loading, setLoading] = useState(true)
   const navigate = useNavigate()
+
   const getAllNotifications = async () => {
     try {
       const data = await getNotifications()
       setAllNotifications(data)
     } catch (e) {
       console.log(e)
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -28,23 +32,25 @@ const NotificationsPage = () => {
       <div className="notifications">
         <h1>Notificaciones</h1>
       </div>
-      <div className={`notifications__info${allNotifications.length > 0 ? ' notifications__info--filled' : ''}`}>
-        {allNotifications.length === 0 && (
-          <>
-            <p>Todavía no tienes notificaciones</p>
-            <Button
-              label="Buscar amigos"
-              variant="primary"
-              type="button"
-              size="md"
-              disabled={false}
-              onClick={() => navigate('/amigos')}
-            />
-          </>
-        )}
-        {allNotifications.length > 0 &&
-          allNotifications.map((noti) => <NotificationCard key={noti.id} {...noti} onRefresh={getAllNotifications} />)}
-      </div>
+      {!loading && (
+        <div className={`notifications__info${allNotifications.length > 0 ? ' notifications__info--filled' : ''}`}>
+          {allNotifications.length === 0 && (
+            <>
+              <p>Todavía no tienes notificaciones</p>
+              <Button
+                label="Buscar amigos"
+                variant="primary"
+                type="button"
+                size="md"
+                disabled={false}
+                onClick={() => navigate('/amigos')}
+              />
+            </>
+          )}
+          {allNotifications.length > 0 &&
+            allNotifications.map((noti) => <NotificationCard key={noti.id} {...noti} onRefresh={getAllNotifications} />)}
+        </div>
+      )}
     </>
   )
 }

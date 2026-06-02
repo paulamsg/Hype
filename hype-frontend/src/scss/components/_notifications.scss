@@ -40,7 +40,7 @@
 // ─── Notification Card ────────────────────────────────────────────────────────
 
 .notification__card {
-  background: var(--b1);
+  background: var(--off);
   border: 1.5px solid var(--lime);
   border-radius: var(--radius-lg);
   box-shadow: 0 1px 20px rgba(232, 255, 0, 0.25);
@@ -54,20 +54,11 @@
     box-shadow: 0 4px 40px rgba(232, 255, 0, 0.4);
   }
 
-  &__remove-link {
-    background: none;
-    border: none;
-    padding: 0;
+  .link-red {
+    color: var(--red);
     cursor: pointer;
     font-family: var(--sans);
     font-size: var(--text-md);
-    font-weight: 600;
-    color: var(--red);
-    text-decoration: none;
-
-    &:hover {
-      text-decoration: underline;
-    }
   }
 
   &--accepted {
