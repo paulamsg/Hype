@@ -3,6 +3,7 @@ import { createContext, useContext, useState, useEffect } from 'react'
 import { getPhotosByUser } from '../services/photos.services'
 import { getWantEvents, getGoingEvents, getGoneEvents, getExpiredEvents } from '../services/savedEvents.services'
 import { getFriendsCount } from '../services/user.services'
+import { useAuth } from './useAuth'
 
 type EventsCount = {
   wantGo: number
@@ -22,6 +23,7 @@ type UserContextType = {
 const UserContext = createContext<UserContextType | null>(null)
 
 export const UserProvider = ({ children }: { children: React.ReactNode }) => {
+  const { user } = useAuth()
   const [photosCount, setPhotosCount] = useState(0)
   const [eventsCount, setEventsCount] = useState<EventsCount>({
     wantGo: 0,
@@ -33,6 +35,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const [followingCount, setFollowingCount] = useState(0)
 
   const refreshProfile = async () => {
+    if (!user?.id) return
     try {
       const [photos, wantGo, going, gone, expired, friends] = await Promise.all([
         getPhotosByUser(),
@@ -55,9 +58,20 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     } catch (e) {}
   }
 
+  const resetProfile = () => {
+    setPhotosCount(0)
+    setEventsCount({ wantGo: 0, going: 0, gone: 0, expired: 0 })
+    setFollowersCount(0)
+    setFollowingCount(0)
+  }
+
   useEffect(() => {
-    refreshProfile()
-  }, [])
+    if (user?.id) {
+      refreshProfile()
+    } else {
+      resetProfile()
+    }
+  }, [user?.id])
 
   return (
     <UserContext.Provider value={{ photosCount, eventsCount, followersCount, followingCount, refreshProfile }}>

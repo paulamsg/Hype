@@ -69,9 +69,7 @@ export const getAllUsers = async (req: AuthRequest, res: Response) => {
 export const getFriendsCount = async (req: AuthRequest, res: Response) => {
   try {
     const userId = req.userId
-    if (!userId) {
-      return res.status(401).json({ message: 'No autorizado' })
-    }
+    if (!userId) return res.status(401).json({ message: 'No autorizado' })
 
     const followersCount = await prisma.follow.count({
       where: { followingId: userId },
