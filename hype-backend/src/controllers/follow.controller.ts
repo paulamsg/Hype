@@ -30,12 +30,12 @@ export const removeFollow = async (req: AuthRequest, res: Response) => {
   const followerId = Number(req.params.followerId)
 
   try {
-    await prisma.follow.delete({
+    await prisma.follow.deleteMany({
       where: {
-        followerId_followingId: {
-          followerId,
-          followingId: userId,
-        },
+        OR: [
+          { followerId, followingId: userId },
+          { followerId: userId, followingId: followerId },
+        ],
       },
     })
 

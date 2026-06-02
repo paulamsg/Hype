@@ -73,6 +73,16 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     }
   }, [user?.id])
 
+  useEffect(() => {
+    const handleVisibility = () => {
+      if (document.visibilityState === 'visible' && user?.id) {
+        refreshProfile()
+      }
+    }
+    document.addEventListener('visibilitychange', handleVisibility)
+    return () => document.removeEventListener('visibilitychange', handleVisibility)
+  }, [user?.id])
+
   return (
     <UserContext.Provider value={{ photosCount, eventsCount, followersCount, followingCount, refreshProfile }}>
       {children}

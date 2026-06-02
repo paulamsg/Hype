@@ -29,6 +29,14 @@ const SearchUserAside = () => {
     listUsers()
   }, [])
 
+  useEffect(() => {
+    const handleVisibility = () => {
+      if (document.visibilityState === 'visible') listUsers()
+    }
+    document.addEventListener('visibilitychange', handleVisibility)
+    return () => document.removeEventListener('visibilitychange', handleVisibility)
+  }, [])
+
   const searchUserByValue = async (value: string) => {
     try {
       const users = await searchUser(value)

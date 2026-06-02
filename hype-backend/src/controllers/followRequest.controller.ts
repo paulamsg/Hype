@@ -108,12 +108,10 @@ export const acceptFollowRequest = async (req: AuthRequest, res: Response) => {
 
     const senderId = notification.senderId
 
-    await prisma.follow.create({
-      data: {
-        followerId: senderId,
-        followingId: userId,
-      },
-    })
+    await prisma.$transaction([
+      prisma.follow.create({ data: { followerId: senderId, followingId: userId } }),
+      prisma.follow.create({ data: { followerId: userId, followingId: senderId } }),
+    ])
 
     await prisma.followRequest.delete({
       where: {
