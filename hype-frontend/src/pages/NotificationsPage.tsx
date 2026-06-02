@@ -5,6 +5,7 @@ import NotificationCard from '../components/ui/notifications/NotificationCard'
 import type { Notification } from '../types/notifications.types'
 import Button from '../components/ui/Button'
 import { useNavigate } from 'react-router-dom'
+
 const NotificationsPage = () => {
   const [allNotifications, setAllNotifications] = useState<Notification[]>([])
   const navigate = useNavigate()
