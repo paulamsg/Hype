@@ -24,6 +24,11 @@
   border: 0.5px solid var(--b2);
   border-radius: var(--radius-full);
 
+  &--filled {
+    background: var(--white);
+    border: none;
+  }
+
   > p {
     text-align: center;
     color: var(--ink3);
@@ -47,6 +52,31 @@
 
   &:hover {
     box-shadow: 0 4px 40px rgba(232, 255, 0, 0.4);
+  }
+
+  &__remove-link {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    font-family: var(--sans);
+    font-size: var(--text-md);
+    font-weight: 600;
+    color: var(--red);
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  &--accepted {
+    box-shadow: none;
+    border-color: var(--b2);
+
+    &:hover {
+      box-shadow: none;
+    }
   }
 
   &--img {

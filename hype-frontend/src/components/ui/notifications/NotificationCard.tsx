@@ -44,7 +44,7 @@ const NotificationCard = ({ onRefresh, ...noti }: Notification) => {
 
   return (
     <>
-      <div className="notification__card">
+      <div className={`notification__card${accepted ? ' notification__card--accepted' : ''}`}>
         <div className="notification__card--img">
           {noti.sender?.avatarUrl && <img src={noti.sender.avatarUrl} alt={noti.sender.username} />}
         </div>
@@ -59,14 +59,9 @@ const NotificationCard = ({ onRefresh, ...noti }: Notification) => {
           ) : (
             <div className="btn">
               <span className="notification__friends-label">Ahora sois amigos</span>
-              <Button
-                label="Eliminar amigo"
-                variant="danger-outline"
-                type="button"
-                size="md"
-                disabled={false}
-                onClick={() => setShowConfirm(true)}
-              />
+              <button className="notification__remove-link" onClick={() => setShowConfirm(true)}>
+                Eliminar amigo
+              </button>
             </div>
           )}
         </div>

@@ -28,7 +28,7 @@ const NotificationsPage = () => {
       <div className="notifications">
         <h1>Notificaciones</h1>
       </div>
-      <div className="notifications__info">
+      <div className={`notifications__info${allNotifications.length > 0 ? ' notifications__info--filled' : ''}`}>
         {allNotifications.length === 0 && (
           <>
             <p>Todavía no tienes notificaciones</p>
