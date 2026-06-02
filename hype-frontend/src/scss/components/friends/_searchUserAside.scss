@@ -1,19 +1,19 @@
 .search-aside {
   display: flex;
   flex-direction: column;
-  height: 70%;
-  border: 2px solid var(--b1);
+  border: 0.5px solid var(--b2);
   border-radius: var(--radius-full);
   padding: var(--sp-lg);
 
   &__title {
     font-size: var(--text-lg);
+    font-weight: 700;
     margin-bottom: var(--sp-md);
   }
 
   &__results {
-    margin-top: 1.5rem;
+    margin-top: var(--sp-md);
     overflow-y: auto;
-    padding-right: var(--sp-sm);
+    padding-right: var(--sp-xs);
   }
 }

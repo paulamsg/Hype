@@ -13,4 +13,33 @@
       border-left: 1px solid var(--b1);
     }
   }
+
+  // Tablet
+  @media (max-width: 1024px) {
+    grid-template-columns: 1fr 1fr;
+
+    &__col:first-child {
+      display: none;
+    }
+
+    &__col--aside {
+      border-left: 1px solid var(--b1);
+    }
+  }
+
+  // Mobile
+  @media (max-width: 640px) {
+    grid-template-columns: 1fr;
+    height: auto;
+    overflow: visible;
+
+    &__col:not(&__col--aside) {
+      display: none;
+    }
+
+    &__col--aside {
+      border-left: none;
+      padding: var(--sp-md);
+    }
+  }
 }

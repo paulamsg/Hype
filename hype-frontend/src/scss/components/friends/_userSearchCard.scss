@@ -1,36 +1,51 @@
 .user-search-card {
   display: flex;
-  gap: 0.8rem;
+  gap: var(--sp-md);
   align-items: center;
-  padding: 1rem;
-  margin-bottom: 1rem;
+  padding: var(--sp-md) var(--sp-sm);
   border-bottom: 1px solid var(--b1);
 
   &__avatar {
-    width: 60px;
-    height: 60px;
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
     border-radius: var(--radius-full);
     background: var(--blue-bg);
     display: flex;
     align-items: center;
     justify-content: center;
     font-family: var(--serif);
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 900;
     color: var(--lime-t);
-    cursor: pointer;
+    flex-shrink: 0;
   }
+
   &__info {
     display: flex;
     flex-direction: column;
+    min-width: 0;
+    flex: 1;
   }
+
+  &__name {
+    font-weight: 700;
+    font-size: var(--text-md);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
   &__username {
     color: var(--ink2);
+    font-size: var(--text-sm);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
-  &__name {
-    font-weight: 900;
-  }
+
   &__btn {
     margin-left: auto;
+    flex-shrink: 0;
   }
 }
