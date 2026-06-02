@@ -3,9 +3,9 @@ import Button from '../Button'
 import { postFollowRequest, cancelFollowRequest } from '../../../services/followRequest.services'
 import { useState } from 'react'
 
-type UserSearchCardProps = User & { isPending?: boolean }
+type UserSearchCardProps = User & { isPending?: boolean; isFriend?: boolean }
 
-const UserSearchCard = ({ id, name, username, lastName, avatarUrl, isPending = false }: UserSearchCardProps) => {
+const UserSearchCard = ({ id, name, username, lastName, avatarUrl, isPending = false, isFriend = false }: UserSearchCardProps) => {
   const [followRequestSended, setfollowRequestSended] = useState(isPending)
 
   const handleClickFollowRequest = async () => {
@@ -39,12 +39,16 @@ const UserSearchCard = ({ id, name, username, lastName, avatarUrl, isPending = f
         <span className="user-search-card__username">@{username}</span>
       </div>
       <div className="user-search-card__btn">
-        <Button
-          label={followRequestSended ? 'Pendiente' : 'Solicitar'}
-          variant="outline"
-          size="md"
-          onClick={handleClickFollowRequest}
-        />
+        {isFriend ? (
+          <span className="user-search-card__friends-label">Amigos</span>
+        ) : (
+          <Button
+            label={followRequestSended ? 'Pendiente' : 'Solicitar'}
+            variant="outline"
+            size="md"
+            onClick={handleClickFollowRequest}
+          />
+        )}
       </div>
     </div>
   )

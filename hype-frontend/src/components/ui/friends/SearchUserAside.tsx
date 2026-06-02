@@ -4,19 +4,22 @@ import { useState, useEffect } from 'react'
 import type { User } from '../../../types/auth.types'
 import { searchUser, getAllUsers } from '../../../services/user.services'
 import { getPendingRequests } from '../../../services/followRequest.services'
+import { getFriendIds } from '../../../services/follow.services'
 
 const SearchUserAside = () => {
   const [searchValue, setSearchValue] = useState('')
   const [searchUsers, setSearchUsers] = useState<User[]>([])
   const [isSearching, setIsSearching] = useState(false)
   const [pendingIds, setPendingIds] = useState<number[]>([])
+  const [friendIds, setFriendIds] = useState<number[]>([])
 
   const listUsers = async () => {
     try {
-      const [users, pending] = await Promise.all([getAllUsers(), getPendingRequests()])
+      const [users, pending, friends] = await Promise.all([getAllUsers(), getPendingRequests(), getFriendIds()])
       setIsSearching(false)
       setSearchUsers(users)
       setPendingIds(pending)
+      setFriendIds(friends)
     } catch (error) {
       console.log(error)
     }
@@ -68,14 +71,14 @@ const SearchUserAside = () => {
       {!isSearching && (
         <div className="search-aside__results">
           {searchUsers.map((user) => (
-            <UserSearchCard key={user.id} {...user} isPending={pendingIds.includes(user.id)} />
+            <UserSearchCard key={user.id} {...user} isPending={pendingIds.includes(user.id)} isFriend={friendIds.includes(user.id)} />
           ))}
         </div>
       )}
       {isSearching && searchUsers.length !== 0 && (
         <div className="search-aside__results">
           {searchUsers.map((user) => (
-            <UserSearchCard key={user.id} {...user} isPending={pendingIds.includes(user.id)} />
+            <UserSearchCard key={user.id} {...user} isPending={pendingIds.includes(user.id)} isFriend={friendIds.includes(user.id)} />
           ))}
         </div>
       )}

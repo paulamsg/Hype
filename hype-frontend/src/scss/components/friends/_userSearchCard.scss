@@ -48,4 +48,10 @@
     margin-left: auto;
     flex-shrink: 0;
   }
+
+  &__friends-label {
+    font-size: var(--text-sm);
+    color: var(--blue);
+    font-family: var(--sans);
+  }
 }
