@@ -1,6 +1,7 @@
 .search-aside {
   display: flex;
   flex-direction: column;
+  height: 100%;
   border: 0.5px solid var(--b2);
   border-radius: var(--radius-full);
   padding: var(--sp-lg);
@@ -9,9 +10,16 @@
     font-size: var(--text-lg);
     font-weight: 700;
     margin-bottom: var(--sp-md);
+    flex-shrink: 0;
+  }
+
+  .input-wrapper {
+    flex-shrink: 0;
   }
 
   &__results {
+    flex: 1;
+    min-height: 0;
     margin-top: var(--sp-md);
     overflow-y: auto;
     padding-right: var(--sp-xs);

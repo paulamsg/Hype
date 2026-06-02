@@ -58,7 +58,7 @@ export const getAllUsers = async (req: AuthRequest, res: Response) => {
       where: {
         NOT: { id: userId },
       },
-      take: 4,
+
     })
     return res.status(200).json(users)
   } catch (error) {
