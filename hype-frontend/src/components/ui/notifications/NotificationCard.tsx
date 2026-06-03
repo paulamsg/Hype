@@ -7,15 +7,15 @@ import { removeFollow } from '../../../services/follow.services'
 import { useUserContext } from '../../../context/userContext'
 
 const NotificationCard = ({ onRefresh, ...noti }: Notification) => {
-  const [accepted, setAccepted] = useState(noti.type === 'FOLLOW_ACCEPTED')
+  const accepted = noti.type === 'FOLLOW_ACCEPTED'
   const [showConfirm, setShowConfirm] = useState(false)
   const { refreshProfile } = useUserContext()
 
   const handleAccept = async () => {
     try {
       await updateFollowRequest(noti)
-      setAccepted(true)
       refreshProfile()
+      onRefresh()
     } catch (error) {
       console.log(error)
     }
@@ -64,7 +64,11 @@ const NotificationCard = ({ onRefresh, ...noti }: Notification) => {
           ) : (
             <>
               <div className="user-message">
-                {noti.sender?.name} (@{noti.sender?.username}) y tú sois <span className="notification__friends-word">amigos</span>
+                {noti.message.split(/(ha aceptado tu solicitud de amistad|y tú sois amigos)/).map((part, i) =>
+                  part === 'ha aceptado tu solicitud de amistad' || part === 'y tú sois amigos'
+                    ? <span key={i} className="notification__friends-word">{part}</span>
+                    : part
+                )}
               </div>
               <span className="link-red" onClick={() => setShowConfirm(true)}>
                 Eliminar amigo

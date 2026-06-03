@@ -108,9 +108,30 @@ export const acceptFollowRequest = async (req: AuthRequest, res: Response) => {
 
     const senderId = notification.senderId
 
+    const [acceptor, requester] = await Promise.all([
+      prisma.user.findUnique({ where: { id: userId }, select: { name: true, username: true } }),
+      prisma.user.findUnique({ where: { id: senderId }, select: { name: true, username: true } }),
+    ])
+
     await prisma.$transaction([
       prisma.follow.create({ data: { followerId: senderId, followingId: userId } }),
       prisma.follow.create({ data: { followerId: userId, followingId: senderId } }),
+      prisma.notification.update({
+        where: { id: notificationId },
+        data: {
+          type: 'FOLLOW_ACCEPTED',
+          read: true,
+          message: `${requester?.name} (@${requester?.username}) y tú sois amigos`,
+        },
+      }),
+      prisma.notification.create({
+        data: {
+          userId: senderId,
+          senderId: userId,
+          type: 'FOLLOW_ACCEPTED',
+          message: `${acceptor?.name} (@${acceptor?.username}) ha aceptado tu solicitud de amistad`,
+        },
+      }),
     ])
 
     await prisma.followRequest.delete({
@@ -120,11 +141,6 @@ export const acceptFollowRequest = async (req: AuthRequest, res: Response) => {
           receiverId: userId,
         },
       },
-    })
-
-    await prisma.notification.update({
-      where: { id: notificationId },
-      data: { type: 'FOLLOW_ACCEPTED', read: true },
     })
 
     return res.status(200).json({ message: 'Solicitud aceptada' })
