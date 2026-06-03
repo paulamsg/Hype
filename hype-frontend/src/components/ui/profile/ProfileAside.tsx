@@ -3,14 +3,16 @@ import { useAuth } from '../../../context/useAuth'
 import Button from '../Button'
 import Logout from './Logout'
 import EditProfileModal from './EditProfileModal'
+import FriendsModal from './FriendsModal'
 import { useUserContext } from '../../../context/userContext'
 import { Heart, Bookmark, ClockAlert, Sparkles, MapPin } from 'lucide-react'
 const ProfileAside = () => {
   const { user } = useAuth()
   const [showLogout, setShowLogout] = useState(false)
   const [showEditModal, setShowEditModal] = useState(false)
+  const [showFriendsModal, setShowFriendsModal] = useState(false)
 
-  const { photosCount, eventsCount, followersCount } = useUserContext()
+  const { photosCount, eventsCount, followersCount, refreshProfile } = useUserContext()
 
   return (
     <aside className="profile__aside">
@@ -32,7 +34,7 @@ const ProfileAside = () => {
           <span className="profile__stat-n profile__stat-n--blue">{photosCount}</span>
           <span className="profile__stat-l">Fotos</span>
         </div>
-        <div className="profile__stat">
+        <div className="profile__stat profile__stat--clickable" onClick={() => setShowFriendsModal(true)}>
           <span className="profile__stat-n">{followersCount}</span>
           <span className="profile__stat-l">Amigos</span>
         </div>
@@ -98,6 +100,13 @@ const ProfileAside = () => {
             <Logout onCancel={() => setShowLogout(false)} />
           </div>
         </>
+      )}
+
+      {showFriendsModal && (
+        <FriendsModal
+          onClose={() => setShowFriendsModal(false)}
+          onFriendRemoved={refreshProfile}
+        />
       )}
     </aside>
   )

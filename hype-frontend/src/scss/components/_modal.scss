@@ -1,3 +1,12 @@
+.link-red {
+  color: var(--red);
+  cursor: pointer;
+  font-family: var(--sans);
+  font-size: var(--text-md);
+  font-weight: 700;
+  text-decoration: none;
+}
+
 .modal-overlay {
   position: fixed;
   inset: 0;

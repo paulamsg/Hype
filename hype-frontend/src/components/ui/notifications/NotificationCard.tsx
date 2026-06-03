@@ -47,13 +47,16 @@ const NotificationCard = ({ onRefresh, ...noti }: Notification) => {
     <>
       <div className={`notification__card${accepted ? ' notification__card--accepted' : ''}`}>
         <div className="notification__card--img">
-          {noti.sender?.avatarUrl && <img src={noti.sender.avatarUrl} alt={noti.sender.username} />}
+          {noti.sender?.avatarUrl
+            ? <img src={noti.sender.avatarUrl} alt={noti.sender.username} />
+            : <span className="notification__card--img-fallback">{noti.sender?.name?.charAt(0).toUpperCase()}</span>
+          }
         </div>
         <div className="notification__card--info">
           {!accepted ? (
             <>
               <div className="user-message">{noti.message}</div>
-              <div className="btn">
+              <div className="notification__actions">
                 <Button label="Aceptar" variant="primary" type="button" size="md" disabled={false} onClick={handleAccept} />
                 <Button label="Rechazar" variant="outline" type="button" size="md" disabled={false} onClick={handleDeny} />
               </div>

@@ -40,12 +40,10 @@ export const deleteNotification = async (req: AuthRequest, res: Response) => {
 
     if (!notification) return res.status(404).json({ message: 'Notificación no encontrada' })
 
-    await prisma.followRequest.delete({
+    await prisma.followRequest.deleteMany({
       where: {
-        senderId_receiverId: {
-          senderId: notification.senderId!,
-          receiverId: userId,
-        },
+        senderId: notification.senderId!,
+        receiverId: userId,
       },
     })
 
