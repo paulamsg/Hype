@@ -180,6 +180,56 @@ export const getExpiredEvents = async (req: AuthRequest, res: Response) => {
   }
 }
 
+// FEED DE AMIGOS
+export const getFriendsFeed = async (req: AuthRequest, res: Response) => {
+  try {
+    const userId = req.userId
+    if (!userId) return res.status(401).json({ message: 'No autorizado' })
+
+    const follows = await prisma.follow.findMany({
+      where: { followerId: userId },
+      select: { followingId: true },
+    })
+    const friendIds = follows.map((f) => f.followingId)
+
+    if (friendIds.length === 0) return res.status(200).json({ events: [] })
+
+    const saved = await prisma.savedEvent.findMany({
+      where: {
+        userId: { in: friendIds },
+        folder: { in: ['WANT_GO', 'GOING'] },
+      },
+      include: {
+        user: { select: { id: true, name: true, username: true, avatarUrl: true } },
+      },
+      orderBy: { createdAt: 'desc' },
+    })
+
+    const events = saved.map((e) => ({
+      id: e.id,
+      eventId: e.eventId,
+      name: e.name,
+      date: e.date,
+      venue: e.venue,
+      city: e.city,
+      image: e.image,
+      category: e.category,
+      genre: e.genre,
+      folder: e.folder,
+      savedBy: {
+        id: e.user.id,
+        name: e.user.name,
+        username: e.user.username,
+        avatarUrl: e.user.avatarUrl,
+      },
+    }))
+
+    return res.status(200).json({ events })
+  } catch (error) {
+    return res.status(500).json({ message: 'Error al obtener el feed de amigos' })
+  }
+}
+
 // CAMBIO DE ESTADO DE LOS EVENTOS.
 export const updateEventFolder = async (req: AuthRequest, res: Response) => {
   try {

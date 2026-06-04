@@ -1,6 +1,6 @@
 .friends {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: 3fr 2fr;
   height: calc(100vh - 58px);
   overflow: hidden;
 
@@ -13,33 +13,29 @@
       border-left: 1px solid var(--b1);
       overflow: hidden;
     }
+
+    &--feed {
+      padding: var(--sp-xl) var(--sp-2xl);
+    }
   }
 
-  // Tablet
   @media (max-width: 1024px) {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
 
-    &__col:first-child {
+    &__col--aside {
       display: none;
     }
 
-    &__col--aside {
-      border-left: 1px solid var(--b1);
+    &__col--feed {
+      padding: var(--sp-lg);
     }
   }
 
-  // Mobile
   @media (max-width: 640px) {
-    grid-template-columns: 1fr;
     height: auto;
     overflow: visible;
 
-    &__col:not(&__col--aside) {
-      display: none;
-    }
-
-    &__col--aside {
-      border-left: none;
+    &__col--feed {
       padding: var(--sp-md);
     }
   }

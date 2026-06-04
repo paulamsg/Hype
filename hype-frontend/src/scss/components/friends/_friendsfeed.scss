@@ -1,0 +1,183 @@
+// ─── Friends Feed ─────────────────────────────────────────────────────────────
+
+.friends-feed {
+  &__title {
+    font-family: var(--serif);
+    font-size: var(--text-xl);
+    font-weight: 900;
+    margin-bottom: var(--sp-lg);
+  }
+
+  &__empty {
+    font-family: var(--sans);
+    font-size: var(--text-md);
+    color: var(--ink3);
+    margin-top: var(--sp-xl);
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-md);
+  }
+}
+
+// ─── Friend Event Card ────────────────────────────────────────────────────────
+
+.friend-event-card {
+  background: var(--white);
+  border: 1px solid var(--off);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.07), 0 1px 4px rgba(0, 0, 0, 0.04);
+  transition:
+    transform 0.15s,
+    box-shadow 0.15s;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--sh-md);
+  }
+
+  // ── Header: who saved it ────────────────────────────────────────────────────
+  &__header {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-sm);
+    padding: var(--sp-sm) var(--sp-md);
+    border-bottom: 1px solid var(--b1);
+  }
+
+  &__avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: var(--radius-full);
+    background: var(--blue-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    overflow: hidden;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    span {
+      font-family: var(--serif);
+      font-size: 11px;
+      font-weight: 900;
+      color: var(--ink);
+    }
+  }
+
+  &__user {
+    font-family: var(--sans);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--ink);
+    flex: 1;
+  }
+
+  &__pill {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+    padding: 3px 10px;
+    border-radius: var(--radius-full);
+
+    &--want_go {
+      background: var(--lime);
+      color: var(--ink);
+    }
+
+    &--going {
+      background: var(--blue);
+      color: var(--white);
+    }
+  }
+
+  &__user-username {
+    font-weight: 400;
+    color: var(--ink3);
+  }
+
+  // ── Event row (like EventProfileCard) ──────────────────────────────────────
+  &__event {
+    display: flex;
+    align-items: stretch;
+    margin: var(--sp-sm) var(--sp-md);
+    border-radius: var(--radius-md);
+    background: var(--off);
+    overflow: hidden;
+  }
+
+  &__event-img {
+    width: 100px;
+    min-width: 100px;
+    object-fit: cover;
+    display: block;
+  }
+
+  &__event-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 3px;
+    padding: var(--sp-sm) var(--sp-md);
+    min-width: 0;
+  }
+
+  &__event-title {
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &__event-meta {
+    font-size: 11px;
+    color: var(--ink3);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &__event-date {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: var(--sp-sm) var(--sp-md);
+    gap: 2px;
+    flex-shrink: 0;
+  }
+
+  &__event-day {
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--ink);
+  }
+
+  &__event-month {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--ink3);
+  }
+
+  // ── Actions ────────────────────────────────────────────────────────────────
+  &__actions {
+    display: flex;
+    gap: var(--sp-sm);
+    padding: var(--sp-sm) var(--sp-md);
+    border-top: 1px solid var(--b1);
+  }
+}

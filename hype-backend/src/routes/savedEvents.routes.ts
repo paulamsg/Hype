@@ -8,6 +8,7 @@ import {
   getGoneEvents,
   getExpiredEvents,
   updateEventFolder,
+  getFriendsFeed,
 } from '../controllers/savedEvents.controller'
 import { authMiddleware } from '../middleware/auth.middleware'
 
@@ -16,6 +17,7 @@ const router = Router()
 router.post('/', authMiddleware as RequestHandler, saveEvent as unknown as RequestHandler)
 router.delete('/:eventId', authMiddleware as RequestHandler, deleteEvent as unknown as RequestHandler)
 
+router.get('/feed', authMiddleware as RequestHandler, getFriendsFeed as unknown as RequestHandler)
 router.get('/', authMiddleware as RequestHandler, getSavedEvents as unknown as RequestHandler)
 router.get('/want', authMiddleware as RequestHandler, getWantEvents as unknown as RequestHandler)
 router.get('/going', authMiddleware as RequestHandler, getGoingEvents as unknown as RequestHandler)

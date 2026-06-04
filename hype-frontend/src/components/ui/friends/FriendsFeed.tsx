@@ -1,0 +1,34 @@
+import { useState, useEffect } from 'react'
+import { getFriendsFeed, type FriendEvent } from '../../../services/savedEvents.services'
+import FriendEventCard from './FriendEventCard'
+
+const FriendsFeed = () => {
+  const [events, setEvents] = useState<FriendEvent[]>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    getFriendsFeed()
+      .then(setEvents)
+      .catch(console.error)
+      .finally(() => setLoading(false))
+  }, [])
+
+  return (
+    <div className="friends-feed">
+      <h2 className="friends-feed__title">Feed de amigos</h2>
+      {loading ? (
+        <p className="friends-feed__empty">Cargando...</p>
+      ) : events.length === 0 ? (
+        <p className="friends-feed__empty">Tus amigos no han guardado eventos aún.</p>
+      ) : (
+        <div className="friends-feed__list">
+          {events.map((event) => (
+            <FriendEventCard key={event.id} {...event} />
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}
+
+export default FriendsFeed
