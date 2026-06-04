@@ -25,8 +25,9 @@
   border-radius: var(--radius-lg);
 
   &--filled {
-    background: var(--off);
+    background: var(--b1);
     border: 1px solid var(--b1);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.07), 0 1px 4px rgba(0, 0, 0, 0.04);
   }
 
   > p {
@@ -43,7 +44,7 @@
   background: var(--white);
   border: 1px solid var(--b1);
   border-radius: var(--radius-lg);
-  box-shadow: 0 1px 20px rgba(232, 255, 0, 0.25);
+  box-shadow: 0 2px 24px rgba(232, 255, 0, 0.35);
   padding: var(--sp-md) var(--sp-lg);
   display: flex;
   align-items: center;
@@ -55,11 +56,11 @@
   }
 
   &--accepted {
-    box-shadow: none;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.07), 0 1px 4px rgba(0, 0, 0, 0.04);
     border-color: var(--b1);
 
     &:hover {
-      box-shadow: none;
+      box-shadow: 0 6px 32px rgba(0, 0, 0, 0.11), 0 2px 6px rgba(0, 0, 0, 0.06);
     }
   }
 
