@@ -2,31 +2,42 @@ import axios from 'axios'
 import type { Event } from '../types/event.types'
 import type { Folder } from '../types/folder.types'
 
-export type FriendEvent = {
-  id: number
+type SavedBy = { id: number; name: string; username: string; avatarUrl: string | null }
+
+export type FriendSavedEvent = {
+  type: 'SAVED_EVENT'
+  id: string
+  createdAt: string
+  folder: string
   eventId: string
-  name: string
+  name?: string
   date?: string
   venue?: string
   city?: string
   image?: string
   category?: string
   genre?: string
-  folder: string
-  savedBy: {
-    id: number
-    name: string
-    username: string
-    avatarUrl: string | null
-  }
+  savedBy: SavedBy
 }
 
-export const getFriendsFeed = async (): Promise<FriendEvent[]> => {
+export type FriendPhoto = {
+  type: 'PHOTO'
+  id: string
+  createdAt: string
+  photoUrl: string
+  eventName?: string
+  eventId: string
+  savedBy: SavedBy
+}
+
+export type FriendActivity = FriendSavedEvent | FriendPhoto
+
+export const getFriendsFeed = async (): Promise<FriendActivity[]> => {
   const token = localStorage.getItem('token')
   const response = await axios.get(`${import.meta.env.VITE_SERVER_URL}/saved-events/feed`, {
     headers: { Authorization: `Bearer ${token}` },
   })
-  return response.data.events
+  return response.data.activities
 }
 
 export const saveEvent = async (event: Event) => {

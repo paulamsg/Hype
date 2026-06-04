@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react'
-import { getFriendsFeed, type FriendEvent } from '../../../services/savedEvents.services'
+import { getFriendsFeed, type FriendActivity } from '../../../services/savedEvents.services'
 import FriendEventCard from './FriendEventCard'
 
 const FriendsFeed = () => {
-  const [events, setEvents] = useState<FriendEvent[]>([])
+  const [events, setEvents] = useState<FriendActivity[]>([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {

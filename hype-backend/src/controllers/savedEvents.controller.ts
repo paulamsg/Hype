@@ -192,21 +192,34 @@ export const getFriendsFeed = async (req: AuthRequest, res: Response) => {
     })
     const friendIds = follows.map((f) => f.followingId)
 
-    if (friendIds.length === 0) return res.status(200).json({ events: [] })
+    if (friendIds.length === 0) return res.status(200).json({ activities: [] })
 
-    const saved = await prisma.savedEvent.findMany({
-      where: {
-        userId: { in: friendIds },
-        folder: { in: ['WANT_GO', 'GOING'] },
-      },
-      include: {
-        user: { select: { id: true, name: true, username: true, avatarUrl: true } },
-      },
-      orderBy: { createdAt: 'desc' },
-    })
+    const [savedEvents, photos] = await Promise.all([
+      prisma.savedEvent.findMany({
+        where: {
+          userId: { in: friendIds },
+          folder: { in: ['WANT_GO', 'GOING'] },
+        },
+        include: {
+          user: { select: { id: true, name: true, username: true, avatarUrl: true } },
+        },
+        orderBy: { createdAt: 'desc' },
+      }),
+      prisma.photo.findMany({
+        where: { userId: { in: friendIds } },
+        include: {
+          user: { select: { id: true, name: true, username: true, avatarUrl: true } },
+          savedEvent: { select: { name: true, eventId: true } },
+        },
+        orderBy: { createdAt: 'desc' },
+      }),
+    ])
 
-    const events = saved.map((e) => ({
-      id: e.id,
+    const savedEventActivities = savedEvents.map((e) => ({
+      type: 'SAVED_EVENT' as const,
+      id: `se_${e.id}`,
+      createdAt: e.createdAt.toISOString(),
+      folder: e.folder,
       eventId: e.eventId,
       name: e.name,
       date: e.date,
@@ -215,7 +228,6 @@ export const getFriendsFeed = async (req: AuthRequest, res: Response) => {
       image: e.image,
       category: e.category,
       genre: e.genre,
-      folder: e.folder,
       savedBy: {
         id: e.user.id,
         name: e.user.name,
@@ -224,7 +236,26 @@ export const getFriendsFeed = async (req: AuthRequest, res: Response) => {
       },
     }))
 
-    return res.status(200).json({ events })
+    const photoActivities = photos.map((p) => ({
+      type: 'PHOTO' as const,
+      id: `ph_${p.id}`,
+      createdAt: p.createdAt.toISOString(),
+      photoUrl: p.url,
+      eventName: p.savedEvent.name,
+      eventId: p.savedEvent.eventId,
+      savedBy: {
+        id: p.user.id,
+        name: p.user.name,
+        username: p.user.username,
+        avatarUrl: p.user.avatarUrl,
+      },
+    }))
+
+    const activities = [...savedEventActivities, ...photoActivities].sort(
+      (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+    )
+
+    return res.status(200).json({ activities })
   } catch (error) {
     return res.status(500).json({ message: 'Error al obtener el feed de amigos' })
   }

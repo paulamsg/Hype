@@ -173,6 +173,32 @@
     color: var(--ink3);
   }
 
+  // ── Photo ──────────────────────────────────────────────────────────────────
+  &__photo {
+    margin: var(--sp-sm) var(--sp-md);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background: var(--off);
+
+    img {
+      width: 100%;
+      aspect-ratio: 2/1;
+      object-fit: cover;
+      display: block;
+    }
+  }
+
+  &__photo-event {
+    font-size: 11px;
+    color: var(--ink3);
+    padding: 6px var(--sp-sm);
+  }
+
+  &__pill--photo {
+    background: var(--b2);
+    color: var(--ink2);
+  }
+
   // ── Actions ────────────────────────────────────────────────────────────────
   &__actions {
     display: flex;
