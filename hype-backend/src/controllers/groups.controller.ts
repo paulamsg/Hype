@@ -2,6 +2,21 @@ import { Response } from 'express'
 import prisma from '../config/database'
 import { AuthRequest } from '../middleware/auth.middleware'
 
+export const getSharedEventIds = async (req: AuthRequest, res: Response) => {
+  const userId = req.userId
+  if (!userId) return res.status(401).json({ error: 'No autorizado' })
+
+  try {
+    const events = await prisma.groupEvent.findMany({
+      where: { userId },
+      select: { eventId: true },
+    })
+    return res.status(200).json({ eventIds: [...new Set(events.map(e => e.eventId))] })
+  } catch (e) {
+    return res.status(500).json({ error: 'Error' })
+  }
+}
+
 export const createGroup = async (req: AuthRequest, res: Response) => {
   const userId = req.userId
   if (!userId) return res.status(401).json({ error: 'No autorizado' })
@@ -218,15 +233,32 @@ export const addEvent = async (req: AuthRequest, res: Response) => {
   const { eventId, name, date, venue, city, image } = req.body
 
   try {
-    const membership = await prisma.groupMember.findUnique({
-      where: { groupId_userId: { groupId, userId } },
-    })
+    const [membership, group, sender] = await Promise.all([
+      prisma.groupMember.findUnique({ where: { groupId_userId: { groupId, userId } } }),
+      prisma.group.findUnique({ where: { id: groupId }, include: { members: { select: { userId: true } } } }),
+      prisma.user.findUnique({ where: { id: userId }, select: { name: true, username: true } }),
+    ])
+
     if (!membership) return res.status(403).json({ error: 'No perteneces a este grupo' })
 
-    const event = await prisma.groupEvent.create({
-      data: { groupId, eventId, userId, name, date, venue, city, image },
-    })
-    return res.status(201).json({ event })
+    const otherMemberIds = group?.members.map(m => m.userId).filter(id => id !== userId) ?? []
+
+    await prisma.$transaction([
+      prisma.groupEvent.create({ data: { groupId, eventId, userId, name, date, venue, city, image } }),
+      ...otherMemberIds.map(memberId =>
+        prisma.notification.create({
+          data: {
+            userId: memberId,
+            senderId: userId,
+            type: 'EVENT_SHARED',
+            groupId,
+            message: `${sender?.name} (@${sender?.username}) ha compartido "${name}" en el grupo "${group?.name}"`,
+          },
+        })
+      ),
+    ])
+
+    return res.status(201).json({ message: 'Evento añadido' })
   } catch (e) {
     return res.status(500).json({ error: 'Error al añadir el evento' })
   }

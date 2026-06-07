@@ -9,7 +9,7 @@ import { useUserContext } from '../../../context/userContext'
 
 const NotificationCard = ({ onRefresh, ...noti }: Notification) => {
   const accepted = noti.type === 'FOLLOW_ACCEPTED'
-  const informational = noti.type === 'GROUP_ADDED'
+  const informational = noti.type === 'GROUP_ADDED' || noti.type === 'EVENT_SHARED'
   const [showConfirm, setShowConfirm] = useState(false)
   const [visited, setVisited] = useState(informational && noti.read)
   const { refreshProfile } = useUserContext()
@@ -60,16 +60,18 @@ const NotificationCard = ({ onRefresh, ...noti }: Notification) => {
           {informational ? (
             <>
               <div className="user-message">{noti.message}</div>
-              <div className="notification__actions">
-                <Button
-                  label="Ver grupo"
-                  variant="primary"
-                  type="button"
-                  size="md"
-                  disabled={false}
-                  onClick={async () => { setVisited(true); await markNotificationRead(noti.id); navigate('/grupos', { state: { groupId: noti.groupId } }) }}
-                />
-              </div>
+              {noti.groupId && (
+                <div className="notification__actions">
+                  <Button
+                    label="Ver grupo"
+                    variant="primary"
+                    type="button"
+                    size="md"
+                    disabled={false}
+                    onClick={async () => { setVisited(true); await markNotificationRead(noti.id); navigate('/grupos', { state: { groupId: noti.groupId } }) }}
+                  />
+                </div>
+              )}
             </>
           ) : !accepted ? (
             <>

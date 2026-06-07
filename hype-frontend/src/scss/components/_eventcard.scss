@@ -25,24 +25,60 @@
     }
   }
   &__btn-heart {
-    position: absolute;
-    top: 0;
-    right: 0;
-    margin: var(--sp-sm);
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: var(--sp-sm);
-    background-color: white;
+    padding: 5px;
+    background: white;
     border-radius: 50%;
     width: fit-content;
     height: fit-content;
+    cursor: pointer;
+    transition: background 0.15s;
+
+    &:hover { background: var(--off); }
+
+    &--saved {
+      background: var(--red);
+      &:hover { background: #c0392b; }
+    }
   }
 
   &__divider {
     border: none;
     border-top: 1px solid var(--b1);
     margin: var(--sp-xs) 0;
+  }
+
+  &__img-actions {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: var(--sp-sm);
+    display: flex;
+    gap: 4px;
+  }
+
+  &__btn-share {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    background-color: white;
+    border-radius: 50%;
+    width: fit-content;
+    height: fit-content;
+    cursor: pointer;
+    transition: background 0.15s;
+
+    &:hover { background: var(--blue-bg); svg { color: var(--blue); } }
+
+    &--sent {
+      background: var(--blue);
+      svg { color: white; }
+
+      &:hover { background: var(--blue-d); }
+    }
   }
 
   &__info {

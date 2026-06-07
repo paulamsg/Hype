@@ -176,10 +176,16 @@ const GroupDetail = ({ group, currentUserId, onUpdate, onDeleted }: Props) => {
                     Compartido por <strong>@{e.sharedBy.username}</strong>
                   </p>
                   <div className="group-detail__event-actions">
-                    <Button label="Ir juntos" variant="primary" type="button" size="sm" disabled={false} />
-                    <Button label="No me interesa" variant="outline" type="button" size="sm" disabled={false} />
-                    {(isCreator || e.sharedBy.id === currentUserId) && (
+                    {e.sharedBy.id === currentUserId ? (
                       <button className="group-detail__event-remove" onClick={() => handleRemoveEvent(e.id)}>Eliminar</button>
+                    ) : (
+                      <>
+                        <Button label="Ir juntos" variant="primary" type="button" size="sm" disabled={false} />
+                        <Button label="No me interesa" variant="outline" type="button" size="sm" disabled={false} />
+                        {isCreator && (
+                          <button className="group-detail__event-remove" onClick={() => handleRemoveEvent(e.id)}>Eliminar</button>
+                        )}
+                      </>
                     )}
                   </div>
                 </div>

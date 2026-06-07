@@ -1,5 +1,6 @@
 import { Router, RequestHandler } from 'express'
 import {
+  getSharedEventIds,
   createGroup,
   getMyGroups,
   getGroupById,
@@ -14,6 +15,7 @@ import { authMiddleware } from '../middleware/auth.middleware'
 
 const router = Router()
 
+router.get('/shared-event-ids', authMiddleware as RequestHandler, getSharedEventIds as unknown as RequestHandler)
 router.post('/', authMiddleware as RequestHandler, createGroup as unknown as RequestHandler)
 router.get('/', authMiddleware as RequestHandler, getMyGroups as unknown as RequestHandler)
 router.get('/:id', authMiddleware as RequestHandler, getGroupById as unknown as RequestHandler)

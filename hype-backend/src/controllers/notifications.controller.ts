@@ -25,6 +25,29 @@ export const getNotifications = async (req: AuthRequest, res: Response) => {
   }
 }
 
+export const shareEventToFriend = async (req: AuthRequest, res: Response) => {
+  const userId = req.userId
+  if (!userId) return res.status(401).json({ error: 'No autorizado' })
+
+  const { friendId, eventName } = req.body
+  if (!friendId || !eventName) return res.status(400).json({ error: 'Faltan datos' })
+
+  try {
+    const sender = await prisma.user.findUnique({ where: { id: userId }, select: { name: true, username: true } })
+    await prisma.notification.create({
+      data: {
+        userId: friendId,
+        senderId: userId,
+        type: 'EVENT_SHARED',
+        message: `${sender?.name} (@${sender?.username}) quiere que vayas a "${eventName}"`,
+      },
+    })
+    return res.status(201).json({ message: 'Evento enviado' })
+  } catch (e) {
+    return res.status(500).json({ error: 'Error al enviar el evento' })
+  }
+}
+
 export const deleteAllNotifications = async (req: AuthRequest, res: Response) => {
   try {
     const userId = req.userId
