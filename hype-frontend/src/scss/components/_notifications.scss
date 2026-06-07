@@ -2,15 +2,23 @@
 
 .notifications {
   max-width: 680px;
-  margin: var(--sp-2xl) auto 0;
+  margin: 0 auto;
   padding: 0 var(--sp-lg);
 
   h1 {
     font-size: var(--text-xl);
     font-weight: 700;
-    margin-bottom: var(--sp-sm);
     text-align: left;
   }
+}
+
+.notifications__header {
+  max-width: 680px;
+  margin: var(--sp-2xl) auto var(--sp-sm);
+  padding: 0 var(--sp-lg);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .notifications__info {

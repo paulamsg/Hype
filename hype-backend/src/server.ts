@@ -10,6 +10,7 @@ import usersRoutes from './routes/users.routes'
 import followRequestRoutes from './routes/followRequest.routes'
 import followRoutes from './routes/follow.routes'
 import notificationsRoutes from './routes/notifications.routes'
+import groupsRoutes from './routes/groups.routes'
 import { expireOldEvents } from './jobs/expireEvents.job'
 import { updateFeaturedEvents } from './jobs/featuredEvents.job'
 import nodeCron from 'node-cron'
@@ -30,6 +31,7 @@ app.use('/users', usersRoutes)
 app.use('/follow-requests', followRequestRoutes)
 app.use('/follow', followRoutes)
 app.use('/notifications', notificationsRoutes)
+app.use('/groups', groupsRoutes)
 
 expireOldEvents()
 nodeCron.schedule('0 0 * * *', () => {

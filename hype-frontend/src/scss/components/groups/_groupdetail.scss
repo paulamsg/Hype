@@ -1,0 +1,396 @@
+.group-detail {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-xl);
+  max-width: 680px;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-md);
+  }
+
+  &__name {
+    font-family: var(--serif);
+    font-size: var(--text-xl);
+    font-weight: 900;
+  }
+
+  &__edit-btn {
+    background: none;
+    border: none;
+    font-family: var(--sans);
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--ink3);
+    cursor: pointer;
+    padding: 2px 8px;
+    border-radius: var(--radius-full);
+    border: 1px solid var(--b2);
+    transition: all 0.12s;
+
+    &:hover { color: var(--blue); border-color: var(--blue); }
+  }
+
+  &__name-edit {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-sm);
+    flex: 1;
+  }
+
+  &__name-input {
+    font-family: var(--serif);
+    font-size: var(--text-xl);
+    font-weight: 900;
+    border: none;
+    border-bottom: 2px solid var(--blue);
+    outline: none;
+    background: transparent;
+    color: var(--ink);
+    min-width: 0;
+    flex: 1;
+  }
+
+  &__name-save {
+    background: var(--blue);
+    color: var(--white);
+    border: none;
+    border-radius: var(--radius-full);
+    padding: 4px 12px;
+    font-family: var(--sans);
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  &__name-cancel {
+    background: none;
+    border: none;
+    color: var(--ink3);
+    cursor: pointer;
+    font-size: 14px;
+    padding: 4px;
+
+    &:hover { color: var(--ink); }
+  }
+
+  &__creator-badge {
+    font-family: var(--sans);
+    font-size: 10px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: var(--radius-full);
+    background: var(--blue-bg);
+    color: var(--blue);
+    letter-spacing: 0.3px;
+  }
+
+  &__section {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-sm);
+  }
+
+  &__section-title {
+    font-family: var(--sans);
+    font-size: var(--text-sm);
+    font-weight: 700;
+    color: var(--ink3);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+  }
+
+  // ── Members ─────────────────────────────────────────────────────────────────
+  &__members {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  &__member {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-sm);
+    padding: var(--sp-sm) var(--sp-md);
+    border-radius: var(--radius-md);
+    background: var(--white);
+    border: 1px solid var(--off);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  }
+
+  &__avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-full);
+    background: var(--blue-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    overflow: hidden;
+
+    img { width: 100%; height: 100%; object-fit: cover; }
+
+    span {
+      font-family: var(--serif);
+      font-size: 14px;
+      font-weight: 900;
+      color: var(--ink);
+    }
+  }
+
+  &__member-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    min-width: 0;
+  }
+
+  &__member-name {
+    font-family: var(--sans);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  &__member-username {
+    font-size: 11px;
+    color: var(--ink3);
+  }
+
+  &__member-badge {
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: var(--radius-full);
+    background: var(--lime);
+    color: var(--ink);
+  }
+
+  &__remove-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--ink3);
+    font-size: 12px;
+    padding: 4px;
+    border-radius: var(--radius-full);
+    line-height: 1;
+
+    &:hover { color: var(--red); background: var(--off); }
+  }
+
+  &__add-member-btn {
+    background: none;
+    border: 1.5px dashed var(--b2);
+    color: var(--ink3);
+    border-radius: var(--radius-md);
+    padding: var(--sp-sm) var(--sp-md);
+    font-family: var(--sans);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.15s;
+    margin-top: var(--sp-xs);
+
+    &:hover { border-color: var(--blue); color: var(--blue); }
+  }
+
+  &__add-member {
+    border: 1px solid var(--b1);
+    border-radius: var(--radius-md);
+    padding: var(--sp-md);
+    background: var(--off);
+    margin-top: var(--sp-xs);
+  }
+
+  &__add-member-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--sp-sm);
+    font-family: var(--sans);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--ink2);
+  }
+
+  &__friend-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  &__friend-item {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-sm);
+    padding: var(--sp-sm);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: background 0.12s;
+
+    &:hover { background: var(--white); }
+  }
+
+  &__add-icon {
+    font-size: 18px;
+    color: var(--blue);
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  &__empty-text {
+    font-family: var(--sans);
+    font-size: var(--text-sm);
+    color: var(--ink3);
+  }
+
+  // ── Events ──────────────────────────────────────────────────────────────────
+  &__events {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-sm);
+  }
+
+  &__event {
+    display: flex;
+    align-items: stretch;
+    background: var(--white);
+    border: 1px solid var(--off);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.07), 0 1px 4px rgba(0,0,0,0.04);
+  }
+
+  &__event-img {
+    width: 100px;
+    min-width: 100px;
+    background: var(--b1);
+    flex-shrink: 0;
+
+    img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  }
+
+  &__event-info {
+    flex: 1;
+    padding: var(--sp-sm) var(--sp-md);
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    justify-content: center;
+    min-width: 0;
+  }
+
+  &__event-title {
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &__event-meta {
+    font-size: 11px;
+    color: var(--ink3);
+  }
+
+  &__event-shared {
+    font-size: 11px;
+    color: var(--ink3);
+
+    strong { color: var(--ink2); }
+  }
+
+  &__event-actions {
+    display: flex;
+    gap: var(--sp-xs);
+    margin-top: 4px;
+    align-items: center;
+  }
+
+  &__event-remove {
+    background: none;
+    border: none;
+    color: var(--ink3);
+    font-family: var(--sans);
+    font-size: 11px;
+    cursor: pointer;
+    padding: 0 4px;
+
+    &:hover { color: var(--red); }
+  }
+
+  // ── Footer ──────────────────────────────────────────────────────────────────
+  &__footer {
+    padding-top: var(--sp-md);
+    border-top: 1px solid var(--b1);
+  }
+
+  &__confirm {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-sm);
+
+    p {
+      font-family: var(--sans);
+      font-size: var(--text-sm);
+      color: var(--ink2);
+    }
+  }
+
+  &__confirm-btns {
+    display: flex;
+    gap: var(--sp-sm);
+  }
+}
+
+// ── Create Group Modal ────────────────────────────────────────────────────────
+
+.create-group-modal {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: var(--sp-xl) var(--sp-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-lg);
+  min-width: 340px;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__title {
+    font-family: var(--serif);
+    font-size: var(--text-lg);
+    font-weight: 900;
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-md);
+  }
+
+  &__error {
+    font-family: var(--sans);
+    font-size: var(--text-sm);
+    color: var(--red);
+  }
+
+  &__actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--sp-sm);
+  }
+}

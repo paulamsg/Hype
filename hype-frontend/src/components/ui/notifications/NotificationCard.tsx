@@ -1,15 +1,19 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import type { Notification } from '../../../types/notifications.types'
 import Button from '../Button'
 import { updateFollowRequest } from '../../../services/followRequest.services'
-import { deleteNotification } from '../../../services/notifications.services'
+import { deleteNotification, markNotificationRead } from '../../../services/notifications.services'
 import { removeFollow } from '../../../services/follow.services'
 import { useUserContext } from '../../../context/userContext'
 
 const NotificationCard = ({ onRefresh, ...noti }: Notification) => {
   const accepted = noti.type === 'FOLLOW_ACCEPTED'
+  const informational = noti.type === 'GROUP_ADDED'
   const [showConfirm, setShowConfirm] = useState(false)
+  const [visited, setVisited] = useState(informational && noti.read)
   const { refreshProfile } = useUserContext()
+  const navigate = useNavigate()
 
   const handleAccept = async () => {
     try {
@@ -45,7 +49,7 @@ const NotificationCard = ({ onRefresh, ...noti }: Notification) => {
 
   return (
     <>
-      <div className={`notification__card${accepted ? ' notification__card--accepted' : ''}`}>
+      <div className={`notification__card${accepted || visited ? ' notification__card--accepted' : ''}`}>
         <div className="notification__card--img">
           {noti.sender?.avatarUrl
             ? <img src={noti.sender.avatarUrl} alt={noti.sender.username} />
@@ -53,7 +57,21 @@ const NotificationCard = ({ onRefresh, ...noti }: Notification) => {
           }
         </div>
         <div className="notification__card--info">
-          {!accepted ? (
+          {informational ? (
+            <>
+              <div className="user-message">{noti.message}</div>
+              <div className="notification__actions">
+                <Button
+                  label="Ver grupo"
+                  variant="primary"
+                  type="button"
+                  size="md"
+                  disabled={false}
+                  onClick={async () => { setVisited(true); await markNotificationRead(noti.id); navigate('/grupos', { state: { groupId: noti.groupId } }) }}
+                />
+              </div>
+            </>
+          ) : !accepted ? (
             <>
               <div className="user-message">{noti.message}</div>
               <div className="notification__actions">

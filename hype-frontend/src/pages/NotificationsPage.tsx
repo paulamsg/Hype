@@ -1,6 +1,6 @@
 import Topbar from '../components/ui/TopBar'
 import { useState, useEffect } from 'react'
-import { getNotifications } from './../services/notifications.services'
+import { getNotifications, deleteAllNotifications } from './../services/notifications.services'
 import NotificationCard from '../components/ui/notifications/NotificationCard'
 import type { Notification } from '../types/notifications.types'
 import Button from '../components/ui/Button'
@@ -26,15 +26,27 @@ const NotificationsPage = () => {
     getAllNotifications()
   }, [])
 
+  const unread = allNotifications.filter(n => !n.read)
+
   return (
     <>
       <Topbar />
       <div className="notifications">
-        <h1>Notificaciones</h1>
+        <div className="notifications__header">
+          <h1>Notificaciones</h1>
+          {allNotifications.length > 0 && (
+            <span
+              className="link-red"
+              onClick={async () => { await deleteAllNotifications(); setAllNotifications([]) }}
+            >
+              Borrar todas
+            </span>
+          )}
+        </div>
       </div>
       {!loading && (
-        <div className={`notifications__info${allNotifications.length > 0 ? ' notifications__info--filled' : ''}`}>
-          {allNotifications.length === 0 && (
+        <div className={`notifications__info${unread.length > 0 ? ' notifications__info--filled' : ''}`}>
+          {unread.length === 0 && (
             <>
               <p>Todavía no tienes notificaciones</p>
               <Button
@@ -47,8 +59,7 @@ const NotificationsPage = () => {
               />
             </>
           )}
-          {allNotifications.length > 0 &&
-            allNotifications.map((noti) => <NotificationCard key={noti.id} {...noti} onRefresh={getAllNotifications} />)}
+          {allNotifications.filter(n => !n.read).map((noti) => <NotificationCard key={noti.id} {...noti} onRefresh={getAllNotifications} />)}
         </div>
       )}
     </>

@@ -10,6 +10,28 @@ export const getNotifications = async () => {
   return response.data.notifications
 }
 
+export const deleteAllNotifications = async () => {
+  const token = localStorage.getItem('token')
+  await axios.delete(`${import.meta.env.VITE_SERVER_URL}/notifications`, {
+    headers: { Authorization: `Bearer ${token}` },
+  })
+}
+
+export const getUnreadCount = async (): Promise<number> => {
+  const token = localStorage.getItem('token')
+  const response = await axios.get(`${import.meta.env.VITE_SERVER_URL}/notifications/unread-count`, {
+    headers: { Authorization: `Bearer ${token}` },
+  })
+  return response.data.unreadCount
+}
+
+export const markNotificationRead = async (notificationId: number) => {
+  const token = localStorage.getItem('token')
+  await axios.patch(`${import.meta.env.VITE_SERVER_URL}/notifications/${notificationId}/read`, {}, {
+    headers: { Authorization: `Bearer ${token}` },
+  })
+}
+
 export const deleteNotification = async (notificationId: Number) => {
   const token = localStorage.getItem('token')
   const response = await axios.delete(`${import.meta.env.VITE_SERVER_URL}/notifications/${notificationId}`, {

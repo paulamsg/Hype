@@ -26,7 +26,8 @@ model User {
   receivedNotifications Notification[] @relation("receivedNotifications")
   sentNotifications     Notification[] @relation("sentNotifications")
   groupMembers  GroupMember[]
-  photos        Photo[]   
+  groupEvents   GroupEvent[]
+  photos        Photo[]
 
   sentRequests     FollowRequest[] @relation("sentRequests")
   receivedRequests FollowRequest[] @relation("receivedRequests")
@@ -84,6 +85,7 @@ model Notification {
   type      String
   message   String
   read      Boolean  @default(false)
+  groupId   Int?
   createdAt DateTime @default(now())
 
   user      User     @relation("receivedNotifications", fields: [userId], references: [id])
@@ -126,7 +128,7 @@ model GroupMember {
   userId    Int
   createdAt DateTime @default(now())
 
-  group     Group    @relation(fields: [groupId], references: [id])
+  group     Group    @relation(fields: [groupId], references: [id], onDelete: Cascade)
   user      User     @relation(fields: [userId], references: [id])
 
   @@unique([groupId, userId])
@@ -137,9 +139,15 @@ model GroupEvent {
   groupId   Int
   eventId   String
   userId    Int
+  name      String?
+  date      String?
+  venue     String?
+  city      String?
+  image     String?
   createdAt DateTime @default(now())
 
-  group     Group    @relation(fields: [groupId], references: [id])
+  group     Group    @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id])
 }
 
 model MockEvent {

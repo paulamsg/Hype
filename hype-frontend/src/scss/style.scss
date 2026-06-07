@@ -8,6 +8,7 @@
 @use 'layout/main-layout';
 @use 'layout/profile-layout';
 @use 'layout/friends-layout';
+@use 'layout/groups-layout';
 
 @use 'components/form';
 @use 'components/status';
@@ -35,3 +36,4 @@
 @use 'components/categoryHeader';
 @use 'components/featuredEventCard';
 @use 'components/notifications';
+@use 'components/groups/groupdetail';
