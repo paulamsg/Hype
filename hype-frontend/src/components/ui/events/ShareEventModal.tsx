@@ -38,7 +38,7 @@ const ShareEventModal = ({ event, onClose, onSent }: Props) => {
   }
 
   const handleSendToFriend = async (friendId: number) => {
-    await shareEventToFriend(friendId, event.name ?? '')
+    await shareEventToFriend(friendId, { name: event.name, image: event.image, date: event.date, venue: event.venue, city: event.city })
     setSentFriends(prev => new Set(prev).add(friendId))
     onSent()
   }

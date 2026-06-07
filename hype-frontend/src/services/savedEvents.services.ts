@@ -30,7 +30,34 @@ export type FriendPhoto = {
   savedBy: SavedBy
 }
 
-export type FriendActivity = FriendSavedEvent | FriendPhoto
+export type FriendGroupEvent = {
+  type: 'GROUP_EVENT'
+  id: string
+  createdAt: string
+  eventId: string
+  name?: string
+  date?: string
+  venue?: string
+  city?: string
+  image?: string
+  groupId: number
+  groupName: string
+  savedBy: SavedBy
+}
+
+export type FriendEventShared = {
+  type: 'EVENT_SHARED'
+  id: string
+  createdAt: string
+  eventName?: string
+  eventImage?: string
+  eventDate?: string
+  eventVenue?: string
+  eventCity?: string
+  savedBy: SavedBy
+}
+
+export type FriendActivity = FriendSavedEvent | FriendPhoto | FriendGroupEvent | FriendEventShared
 
 export const getFriendsFeed = async (): Promise<FriendActivity[]> => {
   const token = localStorage.getItem('token')

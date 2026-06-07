@@ -1,5 +1,6 @@
 import SearchUserAside from '../components/ui/friends/SearchUserAside'
 import FriendsFeed from '../components/ui/friends/FriendsFeed'
+import GroupsAside from '../components/ui/friends/GroupsAside'
 import Topbar from '../components/ui/TopBar'
 
 const FriendsPage = () => {
@@ -12,6 +13,7 @@ const FriendsPage = () => {
         </div>
         <div className="friends__col friends__col--aside">
           <SearchUserAside />
+          <GroupsAside />
         </div>
       </div>
     </>

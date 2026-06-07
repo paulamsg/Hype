@@ -17,9 +17,19 @@ export const deleteAllNotifications = async () => {
   })
 }
 
-export const shareEventToFriend = async (friendId: number, eventName: string) => {
+export const shareEventToFriend = async (
+  friendId: number,
+  event: { name?: string; image?: string; date?: string; venue?: string; city?: string }
+) => {
   const token = localStorage.getItem('token')
-  await axios.post(`${import.meta.env.VITE_SERVER_URL}/notifications/share-event`, { friendId, eventName }, {
+  await axios.post(`${import.meta.env.VITE_SERVER_URL}/notifications/share-event`, {
+    friendId,
+    eventName: event.name,
+    eventImage: event.image,
+    eventDate: event.date,
+    eventVenue: event.venue,
+    eventCity: event.city,
+  }, {
     headers: { Authorization: `Bearer ${token}` },
   })
 }

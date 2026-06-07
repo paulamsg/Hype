@@ -194,7 +194,7 @@ export const getFriendsFeed = async (req: AuthRequest, res: Response) => {
 
     if (friendIds.length === 0) return res.status(200).json({ activities: [] })
 
-    const [savedEvents, photos] = await Promise.all([
+    const [savedEvents, photos, groupEvents, sharedWithMe] = await Promise.all([
       prisma.savedEvent.findMany({
         where: {
           userId: { in: friendIds },
@@ -210,6 +210,21 @@ export const getFriendsFeed = async (req: AuthRequest, res: Response) => {
         include: {
           user: { select: { id: true, name: true, username: true, avatarUrl: true } },
           savedEvent: { select: { name: true, eventId: true } },
+        },
+        orderBy: { createdAt: 'desc' },
+      }),
+      prisma.groupEvent.findMany({
+        where: { userId: { in: friendIds } },
+        include: {
+          user: { select: { id: true, name: true, username: true, avatarUrl: true } },
+          group: { select: { id: true, name: true } },
+        },
+        orderBy: { createdAt: 'desc' },
+      }),
+      prisma.notification.findMany({
+        where: { userId, senderId: { in: friendIds }, type: 'EVENT_SHARED' },
+        include: {
+          sender: { select: { id: true, name: true, username: true, avatarUrl: true } },
         },
         orderBy: { createdAt: 'desc' },
       }),
@@ -251,7 +266,44 @@ export const getFriendsFeed = async (req: AuthRequest, res: Response) => {
       },
     }))
 
-    const activities = [...savedEventActivities, ...photoActivities].sort(
+    const groupEventActivities = groupEvents.map((ge) => ({
+      type: 'GROUP_EVENT' as const,
+      id: `ge_${ge.id}`,
+      createdAt: ge.createdAt.toISOString(),
+      eventId: ge.eventId,
+      name: ge.name,
+      date: ge.date,
+      venue: ge.venue,
+      city: ge.city,
+      image: ge.image,
+      groupId: ge.groupId,
+      groupName: ge.group.name,
+      savedBy: {
+        id: ge.user.id,
+        name: ge.user.name,
+        username: ge.user.username,
+        avatarUrl: ge.user.avatarUrl,
+      },
+    }))
+
+    const sharedActivities = sharedWithMe.map((n) => ({
+      type: 'EVENT_SHARED' as const,
+      id: `noti_${n.id}`,
+      createdAt: n.createdAt.toISOString(),
+      eventName: n.eventName ?? undefined,
+      eventImage: n.eventImage ?? undefined,
+      eventDate: n.eventDate ?? undefined,
+      eventVenue: n.eventVenue ?? undefined,
+      eventCity: n.eventCity ?? undefined,
+      savedBy: {
+        id: n.sender!.id,
+        name: n.sender!.name,
+        username: n.sender!.username,
+        avatarUrl: n.sender!.avatarUrl,
+      },
+    }))
+
+    const activities = [...savedEventActivities, ...photoActivities, ...groupEventActivities, ...sharedActivities].sort(
       (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
     )
 

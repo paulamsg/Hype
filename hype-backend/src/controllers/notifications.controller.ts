@@ -29,7 +29,7 @@ export const shareEventToFriend = async (req: AuthRequest, res: Response) => {
   const userId = req.userId
   if (!userId) return res.status(401).json({ error: 'No autorizado' })
 
-  const { friendId, eventName } = req.body
+  const { friendId, eventName, eventImage, eventDate, eventVenue, eventCity } = req.body
   if (!friendId || !eventName) return res.status(400).json({ error: 'Faltan datos' })
 
   try {
@@ -40,6 +40,11 @@ export const shareEventToFriend = async (req: AuthRequest, res: Response) => {
         senderId: userId,
         type: 'EVENT_SHARED',
         message: `${sender?.name} (@${sender?.username}) quiere que vayas a "${eventName}"`,
+        eventName,
+        eventImage: eventImage ?? null,
+        eventDate: eventDate ?? null,
+        eventVenue: eventVenue ?? null,
+        eventCity: eventCity ?? null,
       },
     })
     return res.status(201).json({ message: 'Evento enviado' })

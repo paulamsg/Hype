@@ -85,7 +85,12 @@ model Notification {
   type      String
   message   String
   read      Boolean  @default(false)
-  groupId   Int?
+  groupId    Int?
+  eventName  String?
+  eventImage String?
+  eventDate  String?
+  eventVenue String?
+  eventCity  String?
   createdAt DateTime @default(now())
 
   user      User     @relation("receivedNotifications", fields: [userId], references: [id])

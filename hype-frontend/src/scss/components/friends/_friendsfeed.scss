@@ -97,6 +97,31 @@
       background: var(--blue);
       color: var(--white);
     }
+
+    &--group {
+      background: var(--off);
+      color: var(--ink2);
+      border: 1px solid var(--b2);
+      max-width: 120px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    &--shared {
+      background: var(--blue-bg);
+      color: var(--blue);
+    }
+  }
+
+  &__shared-msg {
+    padding: var(--sp-sm) var(--sp-md);
+    font-family: var(--sans);
+    font-size: var(--text-sm);
+    color: var(--ink2);
+    background: var(--off);
+    margin: var(--sp-xs) var(--sp-sm);
+    border-radius: var(--radius-md);
   }
 
   &__user-username {
