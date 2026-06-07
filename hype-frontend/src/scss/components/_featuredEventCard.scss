@@ -106,6 +106,17 @@
       }
     }
 
+    &--saved {
+      background: var(--red);
+      border-color: var(--red);
+      color: var(--white);
+
+      &:hover {
+        background: #c0392b;
+        border-color: #c0392b;
+      }
+    }
+
     &--shared {
       background: var(--blue);
       border-color: var(--blue);
