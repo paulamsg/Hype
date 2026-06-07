@@ -78,7 +78,7 @@ const ShareEventModal = ({ event, onClose, onSent }: Props) => {
                       onClick={() => handleSendToGroup(g.id)}
                       disabled={sentGroups.has(g.id)}
                     >
-                      {sentGroups.has(g.id) ? '✓ Enviado' : 'Enviar'}
+                      {sentGroups.has(g.id) ? '✓ Compartido' : 'Compartir'}
                     </button>
                   </li>
                 ))}
@@ -111,7 +111,7 @@ const ShareEventModal = ({ event, onClose, onSent }: Props) => {
                       onClick={() => handleSendToFriend(f.id)}
                       disabled={sentFriends.has(f.id)}
                     >
-                      {sentFriends.has(f.id) ? '✓ Enviado' : 'Enviar'}
+                      {sentFriends.has(f.id) ? '✓ Compartido' : 'Compartir'}
                     </button>
                   </li>
                 ))}

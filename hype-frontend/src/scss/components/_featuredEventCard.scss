@@ -105,6 +105,17 @@
         background: var(--lime-d);
       }
     }
+
+    &--shared {
+      background: var(--blue);
+      border-color: var(--blue);
+      color: var(--white);
+
+      &:hover {
+        background: var(--blue-d);
+        border-color: var(--blue-d);
+      }
+    }
   }
 
   &--hero {
