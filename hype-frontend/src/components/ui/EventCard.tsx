@@ -41,7 +41,7 @@ const EventCard = (event: Event) => {
               className={`event-card__btn-heart${isSaved ? ' event-card__btn-heart--saved' : ''}`}
               onClick={(e) => { e.stopPropagation(); handleClickHeart() }}
             >
-              <Heart size={12} fill={isSaved ? 'white' : 'black'} color={isSaved ? 'white' : 'black'} />
+              <Heart size={12} fill="none" color={isSaved ? 'white' : 'black'} />
             </div>
             <div className={`event-card__btn-share${hasSent ? ' event-card__btn-share--sent' : ''}`} onClick={(e) => { e.stopPropagation(); setShowShare(true) }}>
               <Users size={12} />
