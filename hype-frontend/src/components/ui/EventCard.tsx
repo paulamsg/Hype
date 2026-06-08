@@ -4,11 +4,13 @@ import { useState, useEffect } from 'react'
 import { saveEvent, deleteEvent, getSavedEvents } from '../../services/savedEvents.services'
 import { getSharedEventIds } from '../../services/groups.services'
 import ShareEventModal from './events/ShareEventModal'
+import EventDetailModal from './events/EventDetailModal'
 
 const EventCard = (event: Event) => {
   const [isSaved, setIsSaved] = useState(false)
   const [showShare, setShowShare] = useState(false)
   const [hasSent, setHasSent] = useState(false)
+  const [showDetail, setShowDetail] = useState(false)
 
   useEffect(() => {
     getSavedEvents()
@@ -31,17 +33,17 @@ const EventCard = (event: Event) => {
 
   return (
     <>
-      <div className="event-card">
+      <div className="event-card" onClick={() => setShowDetail(true)}>
         <div className="event-card__img">
           <img src={event.image}></img>
           <div className="event-card__img-actions">
             <div
               className={`event-card__btn-heart${isSaved ? ' event-card__btn-heart--saved' : ''}`}
-              onClick={handleClickHeart}
+              onClick={(e) => { e.stopPropagation(); handleClickHeart() }}
             >
               <Heart size={12} fill={isSaved ? 'white' : 'black'} color={isSaved ? 'white' : 'black'} />
             </div>
-            <div className={`event-card__btn-share${hasSent ? ' event-card__btn-share--sent' : ''}`} onClick={() => setShowShare(true)}>
+            <div className={`event-card__btn-share${hasSent ? ' event-card__btn-share--sent' : ''}`} onClick={(e) => { e.stopPropagation(); setShowShare(true) }}>
               <Users size={12} />
             </div>
           </div>
@@ -69,6 +71,7 @@ const EventCard = (event: Event) => {
       </div>
 
       {showShare && <ShareEventModal event={event} onClose={() => setShowShare(false)} onSent={() => setHasSent(true)} />}
+      {showDetail && <EventDetailModal event={event} onClose={(saved, sent) => { setShowDetail(false); setIsSaved(saved); setHasSent(sent) }} />}
     </>
   )
 }
