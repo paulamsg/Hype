@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import type { Event } from '../../../types/event.types'
-import { getMyGroups, addEventToGroup, type Group } from '../../../services/groups.services'
+import { getMyGroups, addEventToGroup, getGroupIdsForEvent, type Group } from '../../../services/groups.services'
 import { getFriends, type Friend } from '../../../services/follow.services'
 import { shareEventToFriend } from '../../../services/notifications.services'
 
@@ -19,9 +19,16 @@ const ShareEventModal = ({ event, onClose, onSent }: Props) => {
   const [sentGroups, setSentGroups] = useState<Set<number>>(new Set())
   const [sentFriends, setSentFriends] = useState<Set<number>>(new Set())
 
+  const LS_KEY = `hype_shared_friends_${event.id}`
+
   useEffect(() => {
     getMyGroups().then(setGroups).catch(console.error)
     getFriends().then(setFriends).catch(console.error)
+    getGroupIdsForEvent(event.id)
+      .then(ids => setSentGroups(new Set(ids)))
+      .catch(console.error)
+    const stored = JSON.parse(localStorage.getItem(LS_KEY) || '[]') as number[]
+    if (stored.length) setSentFriends(new Set(stored))
   }, [])
 
   const handleSendToGroup = async (groupId: number) => {
@@ -39,7 +46,11 @@ const ShareEventModal = ({ event, onClose, onSent }: Props) => {
 
   const handleSendToFriend = async (friendId: number) => {
     await shareEventToFriend(friendId, { name: event.name, image: event.image, date: event.date, venue: event.venue, city: event.city })
-    setSentFriends(prev => new Set(prev).add(friendId))
+    setSentFriends(prev => {
+      const updated = new Set(prev).add(friendId)
+      localStorage.setItem(LS_KEY, JSON.stringify([...updated]))
+      return updated
+    })
     onSent()
   }
 
@@ -68,7 +79,7 @@ const ShareEventModal = ({ event, onClose, onSent }: Props) => {
             ) : (
               <ul className="share-modal__list">
                 {groups.map(g => (
-                  <li key={g.id} className="share-modal__item">
+                  <li key={g.id} className={`share-modal__item${sentGroups.has(g.id) ? ' share-modal__item--sent' : ''}`}>
                     <div className="share-modal__item-info">
                       <span className="share-modal__item-name">{g.name}</span>
                       <span className="share-modal__item-meta">{g.memberCount} miembros</span>
@@ -100,7 +111,7 @@ const ShareEventModal = ({ event, onClose, onSent }: Props) => {
             ) : (
               <ul className="share-modal__list">
                 {filteredFriends.map(f => (
-                  <li key={f.id} className="share-modal__item">
+                  <li key={f.id} className={`share-modal__item${sentFriends.has(f.id) ? ' share-modal__item--sent' : ''}`}>
                     <Avatar name={f.name} avatarUrl={f.avatarUrl} />
                     <div className="share-modal__item-info">
                       <span className="share-modal__item-name">{f.name} {f.lastName}</span>

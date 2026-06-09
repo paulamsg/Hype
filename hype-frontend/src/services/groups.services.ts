@@ -38,6 +38,11 @@ export type GroupDetail = {
   events: GroupEvent[]
 }
 
+export const getGroupIdsForEvent = async (eventId: string): Promise<number[]> => {
+  const res = await axios.get(`${import.meta.env.VITE_SERVER_URL}/groups/event-groups?eventId=${encodeURIComponent(eventId)}`, api())
+  return res.data.groupIds
+}
+
 export const getSharedEventIds = async (): Promise<string[]> => {
   const res = await axios.get(`${import.meta.env.VITE_SERVER_URL}/groups/shared-event-ids`, api())
   return res.data.eventIds

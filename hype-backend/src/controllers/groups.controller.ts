@@ -2,6 +2,23 @@ import { Response } from 'express'
 import prisma from '../config/database'
 import { AuthRequest } from '../middleware/auth.middleware'
 
+export const getGroupIdsForEvent = async (req: AuthRequest, res: Response) => {
+  const userId = req.userId
+  if (!userId) return res.status(401).json({ error: 'No autorizado' })
+
+  const eventId = req.query.eventId as string
+  if (!eventId) return res.status(400).json({ error: 'Falta el eventId' })
+  try {
+    const rows = await prisma.groupEvent.findMany({
+      where: { userId, eventId },
+      select: { groupId: true },
+    })
+    return res.status(200).json({ groupIds: rows.map((r) => r.groupId) })
+  } catch (e) {
+    return res.status(500).json({ error: 'Error' })
+  }
+}
+
 export const getSharedEventIds = async (req: AuthRequest, res: Response) => {
   const userId = req.userId
   if (!userId) return res.status(401).json({ error: 'No autorizado' })
