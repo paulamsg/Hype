@@ -40,6 +40,8 @@ export type FriendGroupEvent = {
   venue?: string
   city?: string
   image?: string
+  category?: string
+  genre?: string
   groupId: number
   groupName: string
   savedBy: SavedBy

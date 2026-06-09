@@ -276,6 +276,8 @@ export const getFriendsFeed = async (req: AuthRequest, res: Response) => {
       venue: ge.venue,
       city: ge.city,
       image: ge.image,
+      category: ge.category,
+      genre: ge.genre,
       groupId: ge.groupId,
       groupName: ge.group.name,
       savedBy: {

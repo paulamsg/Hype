@@ -9,7 +9,7 @@ import { useUserContext } from '../../../context/userContext'
 
 const NotificationCard = ({ onRefresh, ...noti }: Notification) => {
   const accepted = noti.type === 'FOLLOW_ACCEPTED'
-  const informational = noti.type === 'GROUP_ADDED' || noti.type === 'EVENT_SHARED'
+  const informational = noti.type === 'GROUP_ADDED' || noti.type === 'EVENT_SHARED' || noti.type === 'EVENT_JOIN' || noti.type === 'EVENT_DECLINE'
   const [showConfirm, setShowConfirm] = useState(false)
   const [visited, setVisited] = useState(informational && noti.read)
   const { refreshProfile } = useUserContext()

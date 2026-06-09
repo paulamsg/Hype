@@ -39,6 +39,8 @@ const ShareEventModal = ({ event, onClose, onSent }: Props) => {
       venue: event.venue,
       city: event.city,
       image: event.image,
+      category: event.category,
+      genre: event.genre,
     })
     setSentGroups(prev => new Set(prev).add(groupId))
     onSent()

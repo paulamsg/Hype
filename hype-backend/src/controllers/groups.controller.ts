@@ -102,6 +102,9 @@ export const getGroupById = async (req: AuthRequest, res: Response) => {
         events: {
           include: {
             user: { select: { id: true, name: true, username: true, avatarUrl: true } },
+            votes: {
+              include: { user: { select: { id: true, name: true, username: true, avatarUrl: true } } },
+            },
           },
           orderBy: { createdAt: 'desc' },
         },
@@ -122,21 +125,27 @@ export const getGroupById = async (req: AuthRequest, res: Response) => {
           username: m.user.username,
           avatarUrl: m.user.avatarUrl,
         })),
-        events: group.events.map((e) => ({
-          id: e.id,
-          eventId: e.eventId,
-          name: e.name,
-          date: e.date,
-          venue: e.venue,
-          city: e.city,
-          image: e.image,
-          sharedBy: {
-            id: e.user.id,
-            name: e.user.name,
-            username: e.user.username,
-            avatarUrl: e.user.avatarUrl,
-          },
-        })),
+        events: group.events.map((e) => {
+          const toVoter = (v: { user: { id: number; name: string; username: string; avatarUrl: string | null } }) => ({
+            id: v.user.id, name: v.user.name, username: v.user.username, avatarUrl: v.user.avatarUrl,
+          })
+          return {
+            id: e.id,
+            eventId: e.eventId,
+            name: e.name,
+            date: e.date,
+            venue: e.venue,
+            city: e.city,
+            image: e.image,
+            sharedBy: { id: e.user.id, name: e.user.name, username: e.user.username, avatarUrl: e.user.avatarUrl },
+            votes: {
+              GOING: e.votes.filter(v => v.vote === 'GOING').map(toVoter),
+              NOT_INTERESTED: e.votes.filter(v => v.vote === 'NOT_INTERESTED').map(toVoter),
+              CANT_GO: e.votes.filter(v => v.vote === 'CANT_GO').map(toVoter),
+              myVote: e.votes.find(v => v.userId === userId)?.vote ?? null,
+            },
+          }
+        }),
       },
     })
   } catch (e) {
@@ -247,7 +256,7 @@ export const addEvent = async (req: AuthRequest, res: Response) => {
   if (!userId) return res.status(401).json({ error: 'No autorizado' })
 
   const groupId = Number(req.params.id)
-  const { eventId, name, date, venue, city, image } = req.body
+  const { eventId, name, date, venue, city, image, category, genre } = req.body
 
   try {
     const [membership, group, sender] = await Promise.all([
@@ -261,7 +270,7 @@ export const addEvent = async (req: AuthRequest, res: Response) => {
     const otherMemberIds = group?.members.map(m => m.userId).filter(id => id !== userId) ?? []
 
     await prisma.$transaction([
-      prisma.groupEvent.create({ data: { groupId, eventId, userId, name, date, venue, city, image } }),
+      prisma.groupEvent.create({ data: { groupId, eventId, userId, name, date, venue, city, image, category, genre } }),
       ...otherMemberIds.map(memberId =>
         prisma.notification.create({
           data: {
@@ -302,5 +311,44 @@ export const removeEvent = async (req: AuthRequest, res: Response) => {
     return res.status(200).json({ message: 'Evento eliminado' })
   } catch (e) {
     return res.status(500).json({ error: 'Error al eliminar el evento' })
+  }
+}
+
+export const voteOnGroupEvent = async (req: AuthRequest, res: Response) => {
+  const userId = req.userId
+  if (!userId) return res.status(401).json({ error: 'No autorizado' })
+
+  const groupId = Number(req.params.id)
+  const groupEventId = Number(req.params.eventId)
+  const { vote } = req.body
+
+  if (!['GOING', 'NOT_INTERESTED', 'CANT_GO'].includes(vote)) {
+    return res.status(400).json({ error: 'Voto no válido' })
+  }
+
+  try {
+    const membership = await prisma.groupMember.findUnique({
+      where: { groupId_userId: { groupId, userId } },
+    })
+    if (!membership) return res.status(403).json({ error: 'No perteneces a este grupo' })
+
+    const existing = await prisma.groupEventVote.findUnique({
+      where: { groupEventId_userId: { groupEventId, userId } },
+    })
+
+    if (existing && existing.vote === vote) {
+      await prisma.groupEventVote.delete({ where: { id: existing.id } })
+      return res.status(200).json({ vote: null })
+    }
+
+    await prisma.groupEventVote.upsert({
+      where: { groupEventId_userId: { groupEventId, userId } },
+      create: { groupEventId, userId, vote },
+      update: { vote },
+    })
+
+    return res.status(200).json({ vote })
+  } catch (e) {
+    return res.status(500).json({ error: 'Error al votar' })
   }
 }

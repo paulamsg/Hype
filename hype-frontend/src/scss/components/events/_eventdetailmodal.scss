@@ -123,6 +123,13 @@
     }
   }
 
+  &__responded {
+    font-family: var(--sans);
+    font-size: var(--text-sm);
+    color: var(--blue);
+    font-weight: 600;
+  }
+
   &__actions {
     display: flex;
     gap: var(--sp-sm);

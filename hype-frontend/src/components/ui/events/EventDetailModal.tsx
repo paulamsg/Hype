@@ -4,22 +4,34 @@ import { Heart, Users, ExternalLink, MapPin, Calendar, Ticket } from 'lucide-rea
 import { saveEvent, deleteEvent, getSavedEvents } from '../../../services/savedEvents.services'
 import { formatDate } from '../../../utils/date.utils'
 import { getSharedEventIds } from '../../../services/groups.services'
+import { respondToEvent } from '../../../services/notifications.services'
 import ShareEventModal from './ShareEventModal'
 
-type Props = { event: Event; onClose: (saved: boolean, sent: boolean) => void }
+type FriendMode = { recipientId: number; recipientName: string }
 
-const EventDetailModal = ({ event, onClose }: Props) => {
+type Props = {
+  event: Event
+  onClose: (saved: boolean, sent: boolean) => void
+  friendMode?: FriendMode
+  onResponded?: () => void
+  alreadyResponded?: boolean
+}
+
+const EventDetailModal = ({ event, onClose, friendMode, onResponded, alreadyResponded = false }: Props) => {
   const [isSaved, setIsSaved] = useState(false)
   const [hasSent, setHasSent] = useState(false)
   const [showShare, setShowShare] = useState(false)
+  const [responded, setResponded] = useState(alreadyResponded)
 
   useEffect(() => {
-    getSavedEvents()
-      .then(data => setIsSaved(data.savedEvents.some((e: { id: string }) => e.id === event.id)))
-      .catch(() => {})
-    getSharedEventIds()
-      .then(ids => setHasSent(ids.includes(event.id)))
-      .catch(() => {})
+    if (!friendMode) {
+      getSavedEvents()
+        .then(data => setIsSaved(data.savedEvents.some((e: { id: string }) => e.id === event.id)))
+        .catch(() => {})
+      getSharedEventIds()
+        .then(ids => setHasSent(ids.includes(event.id)))
+        .catch(() => {})
+    }
   }, [event.id])
 
   const handleSave = async () => {
@@ -27,11 +39,18 @@ const EventDetailModal = ({ event, onClose }: Props) => {
     else { await saveEvent(event); setIsSaved(true) }
   }
 
+  const handleRespond = async (joined: boolean) => {
+    await respondToEvent(friendMode!.recipientId, event.name, joined)
+    setResponded(true)
+    onResponded?.()
+    setTimeout(() => onClose(isSaved, hasSent), 800)
+  }
+
   const price = event.priceMin != null
     ? event.priceMin === 0 ? 'Gratis' : `Desde ${event.priceMin} €`
     : 'Precio disponible en la web'
 
-  const category = [event.category === 'Undefined' ? null : event.category, event.genre, event.subGenre]
+  const category = [event.category === 'Undefined' ? null : event.category, event.genre]
     .filter(Boolean).join(' · ')
 
   return (
@@ -67,41 +86,49 @@ const EventDetailModal = ({ event, onClose }: Props) => {
           </div>
 
           <div className="event-modal__actions">
-            <button
-              className={`event-modal__action-btn event-modal__action-btn--save${isSaved ? ' event-modal__action-btn--saved' : ''}`}
-              onClick={handleSave}
-            >
-              <Heart size={14} fill={isSaved ? 'currentColor' : 'none'} />
-              {isSaved ? 'Guardado' : 'Guardar'}
-            </button>
-            <button
-              className={`event-modal__action-btn${hasSent ? ' event-modal__action-btn--shared' : ''}`}
-              onClick={() => setShowShare(true)}
-            >
-              <Users size={14} />
-              Compartir
-            </button>
-            {event.url && (
-              <a
-                href={event.url}
-                target="_blank"
-                rel="noreferrer"
-                className="event-modal__action-btn event-modal__action-btn--primary"
-              >
-                Ver entradas
-                <ExternalLink size={13} />
-              </a>
+            {friendMode ? (
+              responded ? (
+                <p className="event-modal__responded">¡Respuesta enviada!</p>
+              ) : (
+                <>
+                  <button className="event-modal__action-btn event-modal__action-btn--primary" onClick={() => handleRespond(true)}>
+                    Ir juntos
+                  </button>
+                  <button className="event-modal__action-btn event-modal__action-btn--save" onClick={() => handleRespond(false)}>
+                    Rechazar
+                  </button>
+                </>
+              )
+            ) : (
+              <>
+                <button
+                  className={`event-modal__action-btn event-modal__action-btn--save${isSaved ? ' event-modal__action-btn--saved' : ''}`}
+                  onClick={handleSave}
+                >
+                  <Heart size={14} fill={isSaved ? 'currentColor' : 'none'} />
+                  {isSaved ? 'Guardado' : 'Guardar'}
+                </button>
+                <button
+                  className={`event-modal__action-btn${hasSent ? ' event-modal__action-btn--shared' : ''}`}
+                  onClick={() => setShowShare(true)}
+                >
+                  <Users size={14} />
+                  Compartir
+                </button>
+                {event.url && (
+                  <a href={event.url} target="_blank" rel="noreferrer" className="event-modal__action-btn event-modal__action-btn--primary">
+                    Ver entradas
+                    <ExternalLink size={13} />
+                  </a>
+                )}
+              </>
             )}
           </div>
         </div>
       </div>
 
       {showShare && (
-        <ShareEventModal
-          event={event}
-          onClose={() => setShowShare(false)}
-          onSent={() => setHasSent(true)}
-        />
+        <ShareEventModal event={event} onClose={() => setShowShare(false)} onSent={() => setHasSent(true)} />
       )}
     </>
   )

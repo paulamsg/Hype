@@ -17,6 +17,13 @@ export const deleteAllNotifications = async () => {
   })
 }
 
+export const respondToEvent = async (recipientId: number, eventName: string, joined: boolean) => {
+  const token = localStorage.getItem('token')
+  await axios.post(`${import.meta.env.VITE_SERVER_URL}/notifications/event-response`, { recipientId, eventName, joined }, {
+    headers: { Authorization: `Bearer ${token}` },
+  })
+}
+
 export const shareEventToFriend = async (
   friendId: number,
   event: { name?: string; image?: string; date?: string; venue?: string; city?: string }

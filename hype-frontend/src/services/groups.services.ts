@@ -12,6 +12,8 @@ export type GroupMember = {
   avatarUrl: string | null
 }
 
+export type VoteUser = { id: number; name: string; username: string; avatarUrl: string | null }
+
 export type GroupEvent = {
   id: number
   eventId: string
@@ -21,6 +23,12 @@ export type GroupEvent = {
   city?: string
   image?: string
   sharedBy: { id: number; name: string; username: string; avatarUrl: string | null }
+  votes: {
+    GOING: VoteUser[]
+    NOT_INTERESTED: VoteUser[]
+    CANT_GO: VoteUser[]
+    myVote: string | null
+  }
 }
 
 export type Group = {
@@ -81,11 +89,16 @@ export const deleteGroup = async (groupId: number): Promise<void> => {
 
 export const addEventToGroup = async (
   groupId: number,
-  event: { eventId: string; name?: string; date?: string; venue?: string; city?: string; image?: string },
+  event: { eventId: string; name?: string; date?: string; venue?: string; city?: string; image?: string; category?: string; genre?: string },
 ): Promise<void> => {
   await axios.post(`${import.meta.env.VITE_SERVER_URL}/groups/${groupId}/events`, event, api())
 }
 
 export const removeEventFromGroup = async (groupId: number, groupEventId: number): Promise<void> => {
   await axios.delete(`${import.meta.env.VITE_SERVER_URL}/groups/${groupId}/events/${groupEventId}`, api())
+}
+
+export const voteOnGroupEvent = async (groupId: number, groupEventId: number, vote: string): Promise<{ vote: string | null }> => {
+  const res = await axios.post(`${import.meta.env.VITE_SERVER_URL}/groups/${groupId}/events/${groupEventId}/vote`, { vote }, api())
+  return res.data
 }

@@ -25,9 +25,10 @@ model User {
   followers     Follow[]       @relation("followers")
   receivedNotifications Notification[] @relation("receivedNotifications")
   sentNotifications     Notification[] @relation("sentNotifications")
-  groupMembers  GroupMember[]
-  groupEvents   GroupEvent[]
-  photos        Photo[]
+  groupMembers      GroupMember[]
+  groupEvents       GroupEvent[]
+  groupEventVotes   GroupEventVote[]
+  photos            Photo[]
 
   sentRequests     FollowRequest[] @relation("sentRequests")
   receivedRequests FollowRequest[] @relation("receivedRequests")
@@ -149,10 +150,26 @@ model GroupEvent {
   venue     String?
   city      String?
   image     String?
+  category  String?
+  genre     String?
   createdAt DateTime @default(now())
 
-  group     Group    @relation(fields: [groupId], references: [id], onDelete: Cascade)
-  user      User     @relation(fields: [userId], references: [id])
+  group     Group            @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  user      User             @relation(fields: [userId], references: [id])
+  votes     GroupEventVote[]
+}
+
+model GroupEventVote {
+  id           Int      @id @default(autoincrement())
+  groupEventId Int
+  userId       Int
+  vote         String
+  createdAt    DateTime @default(now())
+
+  groupEvent GroupEvent @relation(fields: [groupEventId], references: [id], onDelete: Cascade)
+  user       User       @relation(fields: [userId], references: [id])
+
+  @@unique([groupEventId, userId])
 }
 
 model MockEvent {

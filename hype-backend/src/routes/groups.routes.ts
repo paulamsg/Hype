@@ -11,6 +11,7 @@ import {
   deleteGroup,
   addEvent,
   removeEvent,
+  voteOnGroupEvent,
 } from '../controllers/groups.controller'
 import { authMiddleware } from '../middleware/auth.middleware'
 
@@ -26,6 +27,7 @@ router.post('/:id/members', authMiddleware as RequestHandler, addMember as unkno
 router.delete('/:id/members/:memberId', authMiddleware as RequestHandler, removeMember as unknown as RequestHandler)
 router.delete('/:id', authMiddleware as RequestHandler, deleteGroup as unknown as RequestHandler)
 router.post('/:id/events', authMiddleware as RequestHandler, addEvent as unknown as RequestHandler)
+router.post('/:id/events/:eventId/vote', authMiddleware as RequestHandler, voteOnGroupEvent as unknown as RequestHandler)
 router.delete('/:id/events/:eventId', authMiddleware as RequestHandler, removeEvent as unknown as RequestHandler)
 
 export default router

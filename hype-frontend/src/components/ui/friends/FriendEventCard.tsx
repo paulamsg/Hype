@@ -1,6 +1,10 @@
+import { useState } from 'react'
 import type { FriendActivity, FriendSavedEvent, FriendPhoto, FriendGroupEvent, FriendEventShared } from '../../../services/savedEvents.services'
+import type { Event } from '../../../types/event.types'
 import Button from '../Button'
 import { getDay, getMonthAbbr } from '../../../utils/date.utils'
+import EventDetailModal from '../events/EventDetailModal'
+import { respondToEvent } from '../../../services/notifications.services'
 
 const Avatar = ({ savedBy }: { savedBy: FriendActivity['savedBy'] }) => (
   <div className="friend-event-card__avatar">
@@ -26,8 +30,21 @@ const EventRow = ({ image, name, city, venue, date }: { image?: string; name?: s
   </div>
 )
 
+const toEvent = (a: FriendSavedEvent | FriendGroupEvent | FriendEventShared): Event => {
+  if (a.type === 'EVENT_SHARED') return { id: a.id, name: a.eventName ?? '', image: a.eventImage, date: a.eventDate, venue: a.eventVenue, city: a.eventCity }
+  return { id: a.eventId, name: a.name ?? '', image: a.image, date: a.date, venue: a.venue, city: a.city, category: a.category, genre: a.genre }
+}
+
 const FriendEventCard = (activity: FriendActivity) => {
   const { savedBy } = activity
+  const [showModal, setShowModal] = useState(false)
+  const [responded, setResponded] = useState(false)
+
+  const handleRespond = async (joined: boolean) => {
+    const eventName = (activity as FriendGroupEvent).name ?? (activity as FriendEventShared).eventName ?? ''
+    await respondToEvent(savedBy.id, eventName, joined)
+    setResponded(true)
+  }
 
   const saved   = activity.type === 'SAVED_EVENT'   ? (activity as FriendSavedEvent)  : null
   const photo   = activity.type === 'PHOTO'          ? (activity as FriendPhoto)        : null
@@ -40,57 +57,81 @@ const FriendEventCard = (activity: FriendActivity) => {
              :           { label: 'Ha subido una foto', cls: 'photo'   }
 
   return (
-    <div className="friend-event-card">
-      <div className="friend-event-card__header">
-        <Avatar savedBy={savedBy} />
-        <span className="friend-event-card__user">
-          {savedBy.name} <span className="friend-event-card__user-username">(@{savedBy.username})</span>
-        </span>
-        <span className={`friend-event-card__pill friend-event-card__pill--${pill.cls}`}>
-          {pill.label}
-        </span>
+    <>
+      <div className="friend-event-card">
+        <div className="friend-event-card__header">
+          <Avatar savedBy={savedBy} />
+          <span className="friend-event-card__user">
+            {savedBy.name} <span className="friend-event-card__user-username">(@{savedBy.username})</span>
+          </span>
+          <span className={`friend-event-card__pill friend-event-card__pill--${pill.cls}`}>
+            {pill.label}
+          </span>
+        </div>
+
+        {saved && <EventRow image={saved.image} name={saved.name} city={saved.city} venue={saved.venue} date={saved.date} />}
+        {group && <EventRow image={group.image} name={group.name} city={group.city} venue={group.venue} date={group.date} />}
+
+        {photo && (
+          <div className="friend-event-card__photo">
+            <img src={photo.photoUrl} alt={photo.eventName ?? 'foto'} />
+            {photo.eventName && <p className="friend-event-card__photo-event">{photo.eventName}</p>}
+          </div>
+        )}
+
+        {shared && shared.eventName && (
+          <EventRow
+            image={shared.eventImage ?? undefined}
+            name={shared.eventName}
+            city={shared.eventCity ?? undefined}
+            venue={shared.eventVenue ?? undefined}
+            date={shared.eventDate ?? undefined}
+          />
+        )}
+
+        {saved && (
+          <div className="friend-event-card__actions">
+            <Button label="Ver evento" variant="outline" type="button" size="sm" disabled={false} onClick={() => setShowModal(true)} />
+          </div>
+        )}
+
+        {group && (
+          <div className="friend-event-card__actions">
+            <Button label="Ver evento" variant="outline" type="button" size="sm" disabled={false} onClick={() => setShowModal(true)} />
+            {responded
+              ? <Button label="Respuesta enviada" variant="outline" type="button" size="sm" disabled={true} onClick={() => {}} />
+              : <>
+                  <Button label="Ir juntos" variant="primary" type="button" size="sm" disabled={false} onClick={() => handleRespond(true)} />
+                  <Button label="No puedo" variant="outline" type="button" size="sm" disabled={false} onClick={() => handleRespond(false)} />
+                </>
+            }
+          </div>
+        )}
+
+        {shared && (
+          <div className="friend-event-card__actions">
+            <Button label="Ver evento" variant="outline" type="button" size="sm" disabled={false} onClick={() => setShowModal(true)} />
+            {responded
+              ? <Button label="Respuesta enviada" variant="outline" type="button" size="sm" disabled={true} onClick={() => {}} />
+              : <>
+                  <Button label="Ir juntos" variant="primary" type="button" size="sm" disabled={false} onClick={() => handleRespond(true)} />
+                  <Button label="No puedo" variant="outline" type="button" size="sm" disabled={false} onClick={() => handleRespond(false)} />
+                </>
+            }
+          </div>
+        )}
       </div>
 
-      {saved && <EventRow image={saved.image} name={saved.name} city={saved.city} venue={saved.venue} date={saved.date} />}
-      {group && <EventRow image={group.image} name={group.name} city={group.city} venue={group.venue} date={group.date} />}
-
-      {photo && (
-        <div className="friend-event-card__photo">
-          <img src={photo.photoUrl} alt={photo.eventName ?? 'foto'} />
-          {photo.eventName && <p className="friend-event-card__photo-event">{photo.eventName}</p>}
-        </div>
-      )}
-
-      {shared && shared.eventName && (
-        <EventRow
-          image={shared.eventImage ?? undefined}
-          name={shared.eventName}
-          city={shared.eventCity ?? undefined}
-          venue={shared.eventVenue ?? undefined}
-          date={shared.eventDate ?? undefined}
+      {showModal && !photo && (
+        <EventDetailModal
+          event={toEvent(activity as FriendSavedEvent | FriendGroupEvent | FriendEventShared)}
+          onClose={(_s, _t) => setShowModal(false)}
+          friendMode={(group || shared) ? { recipientId: savedBy.id, recipientName: savedBy.name } : undefined}
+          onResponded={() => setResponded(true)}
+          alreadyResponded={responded}
         />
       )}
-
-      {saved && (
-        <div className="friend-event-card__actions">
-          <Button label="Ver evento" variant="outline" type="button" size="sm" disabled={false} />
-        </div>
-      )}
-
-      {group && (
-        <div className="friend-event-card__actions">
-          <Button label="Ver evento" variant="outline" type="button" size="sm" disabled={false} />
-          <Button label="Ir juntos" variant="primary" type="button" size="sm" disabled={false} />
-        </div>
-      )}
-
-      {shared && (
-        <div className="friend-event-card__actions">
-          <Button label="Ver evento" variant="outline" type="button" size="sm" disabled={false} />
-          <Button label="Ir juntos" variant="primary" type="button" size="sm" disabled={false} />
-        </div>
-      )}
-    </div>
+    </>
   )
 }
 

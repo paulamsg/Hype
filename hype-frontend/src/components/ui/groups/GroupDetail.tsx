@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import type { GroupDetail as GroupDetailType, GroupMember } from '../../../services/groups.services'
-import { addMember, removeMember, deleteGroup, removeEventFromGroup, updateGroupName } from '../../../services/groups.services'
+import type { GroupDetail as GroupDetailType, GroupMember, VoteUser } from '../../../services/groups.services'
+import { addMember, removeMember, deleteGroup, removeEventFromGroup, updateGroupName, voteOnGroupEvent } from '../../../services/groups.services'
 import { formatDate } from '../../../utils/date.utils'
 import { getFriends, type Friend } from '../../../services/follow.services'
 import Button from '../Button'
@@ -30,6 +30,41 @@ const GroupDetail = ({ group, currentUserId, onUpdate, onDeleted }: Props) => {
   const [confirmLeave, setConfirmLeave] = useState(false)
   const [editingName, setEditingName] = useState(false)
   const [nameInput, setNameInput] = useState(group.name)
+
+  type VoteType = 'GOING' | 'NOT_INTERESTED' | 'CANT_GO'
+  type EventVotes = { GOING: VoteUser[]; NOT_INTERESTED: VoteUser[]; CANT_GO: VoteUser[]; myVote: string | null }
+
+  // Only holds in-flight optimistic updates; cleared when the API responds and onUpdate() refreshes group
+  const [pendingVotes, setPendingVotes] = useState<Map<number, EventVotes>>(new Map())
+  const [voterPanel, setVoterPanel] = useState<{ eventId: number; type: VoteType } | null>(null)
+
+  const handleVote = async (groupEventId: number, vote: VoteType) => {
+    const event = group.events.find(ev => ev.id === groupEventId)
+    if (!event) return
+    const current = pendingVotes.get(groupEventId) ?? event.votes
+    const isSame = current.myVote === vote
+    const me: VoteUser = { id: currentUserId, name: '', username: '', avatarUrl: null }
+
+    const next: EventVotes = {
+      GOING: current.GOING.filter(u => u.id !== currentUserId),
+      NOT_INTERESTED: current.NOT_INTERESTED.filter(u => u.id !== currentUserId),
+      CANT_GO: current.CANT_GO.filter(u => u.id !== currentUserId),
+      myVote: isSame ? null : vote,
+    }
+    if (!isSame) next[vote] = [...next[vote], me]
+    setPendingVotes(prev => new Map(prev).set(groupEventId, next))
+
+    const result = await voteOnGroupEvent(group.id, groupEventId, vote)
+    setPendingVotes(prev => { const m = new Map(prev); m.delete(groupEventId); return m })
+    onUpdate()
+    if (result.vote === null) setVoterPanel(null)
+  }
+
+  const toggleVoterPanel = (eventId: number, type: VoteType) => {
+    setVoterPanel(prev =>
+      prev?.eventId === eventId && prev?.type === type ? null : { eventId, type }
+    )
+  }
 
   const memberIds = new Set(group.members.map((m: GroupMember) => m.id))
 
@@ -177,15 +212,53 @@ const GroupDetail = ({ group, currentUserId, onUpdate, onDeleted }: Props) => {
                     Compartido por <strong>@{e.sharedBy.username}</strong>
                   </p>
                   <div className="group-detail__event-actions">
-                    {e.sharedBy.id === currentUserId ? (
+                    {e.sharedBy.id === currentUserId && (
                       <button className="group-detail__event-remove" onClick={() => handleRemoveEvent(e.id)}>Eliminar</button>
-                    ) : (
-                      <>
-                        <Button label="Ir juntos" variant="primary" type="button" size="sm" disabled={false} />
-                        <Button label="No me interesa" variant="outline" type="button" size="sm" disabled={false} />
-                      </>
                     )}
                   </div>
+
+                  {(() => {
+                    const ev = pendingVotes.get(e.id) ?? e.votes
+                    const btns: { type: 'GOING' | 'NOT_INTERESTED' | 'CANT_GO'; label: string; cls: string }[] = [
+                      { type: 'GOING', label: 'Voy', cls: 'going' },
+                      { type: 'NOT_INTERESTED', label: 'No me interesa', cls: 'not-interested' },
+                      { type: 'CANT_GO', label: 'No puedo', cls: 'cant-go' },
+                    ]
+                    return (
+                      <div className="group-detail__vote-section">
+                        <div className="group-detail__vote-btns">
+                          {btns.map(({ type, label, cls }) => (
+                            <button
+                              key={type}
+                              className={`group-detail__vote-btn group-detail__vote-btn--${cls}${ev.myVote === type ? ' group-detail__vote-btn--active' : ''}`}
+                              onClick={() => handleVote(e.id, type)}
+                            >
+                              {label}
+                              <span
+                                className="group-detail__vote-count"
+                                onClick={(evt) => { evt.stopPropagation(); toggleVoterPanel(e.id, type) }}
+                              >
+                                {ev[type].length}
+                              </span>
+                            </button>
+                          ))}
+                        </div>
+                        {voterPanel?.eventId === e.id && (
+                          <div className="group-detail__voters">
+                            {ev[voterPanel.type].length === 0 ? (
+                              <span className="group-detail__voter-empty">Nadie aún</span>
+                            ) : (
+                              ev[voterPanel.type].map((u: VoteUser) => (
+                                <span key={u.id} className="group-detail__voter-chip">
+                                  @{u.username || 'tú'}
+                                </span>
+                              ))
+                            )}
+                          </div>
+                        )}
+                      </div>
+                    )
+                  })()}
                 </div>
               </li>
             ))}

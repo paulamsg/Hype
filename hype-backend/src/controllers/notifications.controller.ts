@@ -25,6 +25,29 @@ export const getNotifications = async (req: AuthRequest, res: Response) => {
   }
 }
 
+export const respondToEvent = async (req: AuthRequest, res: Response) => {
+  const userId = req.userId
+  if (!userId) return res.status(401).json({ error: 'No autorizado' })
+
+  const { recipientId, eventName, joined } = req.body
+  if (!recipientId || !eventName) return res.status(400).json({ error: 'Faltan datos' })
+
+  try {
+    const sender = await prisma.user.findUnique({ where: { id: userId }, select: { name: true, username: true } })
+    const type = joined ? 'EVENT_JOIN' : 'EVENT_DECLINE'
+    const message = joined
+      ? `${sender?.name} (@${sender?.username}) quiere ir contigo a "${eventName}"`
+      : `${sender?.name} (@${sender?.username}) no puede ir a "${eventName}"`
+
+    await prisma.notification.create({
+      data: { userId: recipientId, senderId: userId, type, message },
+    })
+    return res.status(201).json({ message: 'Respuesta enviada' })
+  } catch (e) {
+    return res.status(500).json({ error: 'Error al enviar la respuesta' })
+  }
+}
+
 export const shareEventToFriend = async (req: AuthRequest, res: Response) => {
   const userId = req.userId
   if (!userId) return res.status(401).json({ error: 'No autorizado' })
