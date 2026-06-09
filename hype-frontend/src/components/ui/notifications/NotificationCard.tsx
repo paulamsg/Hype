@@ -60,8 +60,8 @@ const NotificationCard = ({ onRefresh, ...noti }: Notification) => {
           {informational ? (
             <>
               <div className="user-message">{noti.message}</div>
-              {noti.groupId && (
-                <div className="notification__actions">
+              <div className="notification__actions">
+                {noti.groupId && (
                   <Button
                     label="Ver grupo"
                     variant="primary"
@@ -70,8 +70,18 @@ const NotificationCard = ({ onRefresh, ...noti }: Notification) => {
                     disabled={false}
                     onClick={async () => { setVisited(true); await markNotificationRead(noti.id); navigate('/grupos', { state: { groupId: noti.groupId } }) }}
                   />
-                </div>
-              )}
+                )}
+                {noti.type === 'EVENT_SHARED' && !noti.groupId && (
+                  <Button
+                    label="Ver"
+                    variant="primary"
+                    type="button"
+                    size="md"
+                    disabled={false}
+                    onClick={async () => { setVisited(true); await markNotificationRead(noti.id); navigate('/amigos') }}
+                  />
+                )}
+              </div>
             </>
           ) : !accepted ? (
             <>
