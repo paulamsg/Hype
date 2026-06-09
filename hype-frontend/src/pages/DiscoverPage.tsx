@@ -138,12 +138,11 @@ const Discover = () => {
         selectedDate={date}
         onDateChange={handleDateChange}
       />
-      {loading && <p>Cargando los eventos eventos</p>}
-      {isCategoryChange && categoryName !== 'all' && (
+      {isCategoryChange && categoryName !== 'all' && !loading && (
         <CategoryHeader name={categoryName} total={eventsFiltered.length} />
       )}
 
-      {eventsFeaturedFiltered.length > 0 && category !== 'all' && (
+      {!loading && eventsFeaturedFiltered.length > 0 && category !== 'all' && (
         <>
           <h2 className="featured-section__title">Destacado de esta semana</h2>
           {eventsFeaturedFiltered.map((event) => (
@@ -151,7 +150,7 @@ const Discover = () => {
           ))}
         </>
       )}
-      {featuredEvents.length > 0 && category === 'all' && (
+      {!loading && featuredEvents.length > 0 && category === 'all' && (
         <>
           <h2 className="featured-section__title">Destacados de esta semana</h2>
           <div className="featured-grid">
@@ -161,12 +160,22 @@ const Discover = () => {
           </div>
         </>
       )}
-      <h1 className="discover__title">Todos los eventos</h1>
-      <div className="grid__layout">
-        {eventsFiltered.map((event: Event) => (
-          <EventCard key={event.id} {...event} />
-        ))}
-      </div>
+
+      {loading ? (
+        <div className="discover__loader">
+          <div className="discover__spinner" />
+          <p>Buscando eventos...</p>
+        </div>
+      ) : (
+        <>
+          <h1 className="discover__title">Todos los eventos</h1>
+          <div className="grid__layout">
+            {eventsFiltered.map((event: Event) => (
+              <EventCard key={event.id} {...event} />
+            ))}
+          </div>
+        </>
+      )}
     </>
   )
 }
