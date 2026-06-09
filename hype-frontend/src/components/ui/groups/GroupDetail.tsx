@@ -183,9 +183,6 @@ const GroupDetail = ({ group, currentUserId, onUpdate, onDeleted }: Props) => {
                       <>
                         <Button label="Ir juntos" variant="primary" type="button" size="sm" disabled={false} />
                         <Button label="No me interesa" variant="outline" type="button" size="sm" disabled={false} />
-                        {isCreator && (
-                          <button className="group-detail__event-remove" onClick={() => handleRemoveEvent(e.id)}>Eliminar</button>
-                        )}
                       </>
                     )}
                   </div>

@@ -294,9 +294,8 @@ export const removeEvent = async (req: AuthRequest, res: Response) => {
     })
     if (!groupEvent) return res.status(404).json({ error: 'Evento no encontrado' })
 
-    const group = await prisma.group.findUnique({ where: { id: groupId } })
-    if (groupEvent.userId !== userId && group?.createdBy !== userId) {
-      return res.status(403).json({ error: 'Sin permisos' })
+    if (groupEvent.userId !== userId) {
+      return res.status(403).json({ error: 'Solo quien envió el evento puede eliminarlo' })
     }
 
     await prisma.groupEvent.delete({ where: { id: groupEventId } })
