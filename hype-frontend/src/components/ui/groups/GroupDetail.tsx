@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import type { GroupDetail as GroupDetailType, GroupMember } from '../../../services/groups.services'
 import { addMember, removeMember, deleteGroup, removeEventFromGroup, updateGroupName } from '../../../services/groups.services'
+import { formatDate } from '../../../utils/date.utils'
 import { getFriends, type Friend } from '../../../services/follow.services'
 import Button from '../Button'
 
@@ -171,7 +172,7 @@ const GroupDetail = ({ group, currentUserId, onUpdate, onDeleted }: Props) => {
                 </div>
                 <div className="group-detail__event-info">
                   <p className="group-detail__event-title">{e.name}</p>
-                  <p className="group-detail__event-meta">{e.city} · {e.date}</p>
+                  <p className="group-detail__event-meta">{e.city} · {formatDate(e.date)}</p>
                   <p className="group-detail__event-shared">
                     Compartido por <strong>@{e.sharedBy.username}</strong>
                   </p>

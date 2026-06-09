@@ -1,10 +1,6 @@
 import type { FriendActivity, FriendSavedEvent, FriendPhoto, FriendGroupEvent, FriendEventShared } from '../../../services/savedEvents.services'
 import Button from '../Button'
-
-const MONTHS = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic']
-
-const getDay = (date?: string) => (date ? new Date(date).getDate() : '')
-const getMonth = (date?: string) => (date ? MONTHS[new Date(date).getMonth()] : '')
+import { getDay, getMonthAbbr } from '../../../utils/date.utils'
 
 const Avatar = ({ savedBy }: { savedBy: FriendActivity['savedBy'] }) => (
   <div className="friend-event-card__avatar">
@@ -25,7 +21,7 @@ const EventRow = ({ image, name, city, venue, date }: { image?: string; name?: s
     </div>
     <div className="friend-event-card__event-date">
       <p className="friend-event-card__event-day">{getDay(date)}</p>
-      <p className="friend-event-card__event-month">{getMonth(date)}</p>
+      <p className="friend-event-card__event-month">{getMonthAbbr(date)}</p>
     </div>
   </div>
 )

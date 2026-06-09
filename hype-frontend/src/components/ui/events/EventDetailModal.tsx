@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import type { Event } from '../../../types/event.types'
 import { Heart, Users, ExternalLink, MapPin, Calendar, Ticket } from 'lucide-react'
 import { saveEvent, deleteEvent, getSavedEvents } from '../../../services/savedEvents.services'
+import { formatDate } from '../../../utils/date.utils'
 import { getSharedEventIds } from '../../../services/groups.services'
 import ShareEventModal from './ShareEventModal'
 
@@ -56,7 +57,7 @@ const EventDetailModal = ({ event, onClose }: Props) => {
             {(event.date || event.time) && (
               <div className="event-modal__detail">
                 <Calendar size={14} />
-                <span>{[event.date, event.time].filter(Boolean).join(' · ')}</span>
+                <span>{[formatDate(event.date), event.time].filter(Boolean).join(' · ')}</span>
               </div>
             )}
             <div className="event-modal__detail">

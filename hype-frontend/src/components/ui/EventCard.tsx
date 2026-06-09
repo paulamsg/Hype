@@ -2,6 +2,7 @@ import type { Event } from '../../types/event.types'
 import { Heart, Users } from 'lucide-react'
 import { useState, useEffect } from 'react'
 import { saveEvent, deleteEvent, getSavedEvents } from '../../services/savedEvents.services'
+import { formatDate } from '../../utils/date.utils'
 import { getSharedEventIds } from '../../services/groups.services'
 import ShareEventModal from './events/ShareEventModal'
 import EventDetailModal from './events/EventDetailModal'
@@ -58,7 +59,7 @@ const EventCard = (event: Event) => {
             <b>{event.name}</b>
           </p>
           <p>{event.venue}</p>
-          <p>{event.date}</p>
+          <p>{formatDate(event.date)}</p>
           <hr className="event-card__divider" />
           <p>
             {event.priceMin != null

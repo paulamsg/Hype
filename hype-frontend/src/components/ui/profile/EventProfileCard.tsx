@@ -4,34 +4,11 @@ import type { Folder } from '../../../types/folder.types'
 import { useState } from 'react'
 import { deleteEvent, updateEventFolder } from '../../../services/savedEvents.services'
 import { useUserContext } from '../../../context/userContext'
+import { getDay, getMonthAbbr } from '../../../utils/date.utils'
 
 const EventProfileCard = ({ folder, onUpdate, ...event }: Event & { folder: Folder; onUpdate: () => void }) => {
-  const MONTHS = [
-    'Enero',
-    'Febrero',
-    'Marzo',
-    'Abril',
-    'Mayo',
-    'Junio',
-    'Julio',
-    'Agosto',
-    'Septiembre',
-    'Octubre',
-    'Noviembre',
-    'Diciembre',
-  ]
   const [dropdownOpen, setDropdownOpen] = useState(false)
   const { refreshProfile } = useUserContext()
-
-  const getDay = (date?: string) => {
-    if (!date) return ''
-    return new Date(date).getDate()
-  }
-
-  const getMonth = (date?: string) => {
-    if (!date) return ''
-    return MONTHS[new Date(date).getMonth()]
-  }
 
   const handleDelete = async (event: Event) => {
     try {
@@ -68,7 +45,7 @@ const EventProfileCard = ({ folder, onUpdate, ...event }: Event & { folder: Fold
       </div>
       <div className="event-profile-card__date">
         <p className="event-profile-card__day">{getDay(event.date)}</p>
-        <p className="event-profile-card__month">{getMonth(event.date)}</p>
+        <p className="event-profile-card__month">{getMonthAbbr(event.date)}</p>
       </div>
       <div className="event-profile-card__update">
         <EllipsisVertical size={12} onClick={() => setDropdownOpen((state) => !state)} />

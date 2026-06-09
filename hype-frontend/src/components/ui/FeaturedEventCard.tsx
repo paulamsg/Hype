@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import type { Event } from '../../types/event.types'
 import { getSharedEventIds } from '../../services/groups.services'
+import { formatDate } from '../../utils/date.utils'
 import { saveEvent, deleteEvent, getSavedEvents } from '../../services/savedEvents.services'
 import ShareEventModal from './events/ShareEventModal'
 
@@ -40,7 +41,7 @@ const FeaturedEventCard = ({ hero, ...event }: FeaturedEventCardProps) => {
         <div className="featured-card__info">
           <p className="featured-card__name">{event.name}</p>
           <p className="featured-card__date">
-            {event.venue} | {event.date}
+            {event.venue} | {formatDate(event.date)}
           </p>
           <p className="featured-card__price">
             {event.priceMin != null
