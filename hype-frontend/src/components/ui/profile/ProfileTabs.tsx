@@ -1,44 +1,34 @@
-export type ProfileTab = 'fotos' | 'proximos-eventos' | 'mis-eventos' | 'guardados' | 'archivo'
+import type { ProfileTab } from '../../../types/components.types'
+import { Ticket, Heart, Sparkles, Clock, Camera } from 'lucide-react'
 
-export interface ProfileTabsProps {
+interface ProfileTabsProps {
   activeTab: ProfileTab
   onTabChange: (tab: ProfileTab) => void
 }
 
+const TABS: { id: ProfileTab; label: string; icon: React.ReactNode }[] = [
+  { id: 'fotos',       label: 'Fotos',       icon: <Camera size={13} /> },
+  { id: 'voy-a-ir',    label: 'Voy a ir',    icon: <Ticket size={13} /> },
+  { id: 'me-interesa', label: 'Me interesa', icon: <Heart size={13} /> },
+  { id: 'fui',         label: 'Asistidos',   icon: <Sparkles size={13} /> },
+  { id: 'pasados',     label: 'Pasados',     icon: <Clock size={13} /> },
+]
+
 const ProfileTabs = ({ activeTab, onTabChange }: ProfileTabsProps) => {
   return (
     <div className="profile__content-tabs">
-      <button
-        className={`profile__tab${activeTab === 'fotos' ? ' profile__tab--active' : ''}`}
-        onClick={() => onTabChange('fotos')}
-      >
-        Fotos
-      </button>
-      <button
-        className={`profile__tab${activeTab === 'proximos-eventos' ? ' profile__tab--active' : ''}`}
-        onClick={() => onTabChange('proximos-eventos')}
-      >
-        Próximos eventos
-      </button>
-      <button
-        className={`profile__tab${activeTab === 'mis-eventos' ? ' profile__tab--active' : ''}`}
-        onClick={() => onTabChange('mis-eventos')}
-      >
-        Mis eventos
-      </button>
-      <button
-        className={`profile__tab${activeTab === 'guardados' ? ' profile__tab--active' : ''}`}
-        onClick={() => onTabChange('guardados')}
-      >
-        Guardados
-      </button>
-      <button
-        className={`profile__tab${activeTab === 'archivo' ? ' profile__tab--active' : ''}`}
-        onClick={() => onTabChange('archivo')}
-      >
-        Archivo
-      </button>
+      {TABS.map(({ id, label, icon }) => (
+        <button
+          key={id}
+          className={`profile__tab${activeTab === id ? ' profile__tab--active' : ''}`}
+          onClick={() => onTabChange(id)}
+        >
+          {icon}
+          {label}
+        </button>
+      ))}
     </div>
   )
 }
+
 export default ProfileTabs

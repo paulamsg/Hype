@@ -141,7 +141,23 @@
     align-items: center;
     gap: 9px;
     padding: 9px 12px;
-    transition: background 0.15s;
+    transition: background 0.15s, border-color 0.15s;
+
+    &--clickable {
+      cursor: pointer;
+      &:hover { background: var(--blue-bg); border-color: var(--blue-light, #bfdbfe); }
+    }
+
+    &--active {
+      background: var(--blue-bg);
+      border-color: var(--blue);
+
+      .profile__folder-name { color: var(--blue); font-weight: 700; }
+      .profile__folder-cnt  { color: var(--blue); }
+      .profile__folder-ico  { background: var(--blue); color: var(--white);
+        svg { stroke: var(--white); }
+      }
+    }
   }
 
   &__folder-ico {
@@ -153,17 +169,13 @@
     justify-content: center;
     font-size: 10px;
     flex-shrink: 0;
+    color: var(--ink3);
+    transition: background 0.15s, color 0.15s;
 
-    &--heart {
-      background: var(--off);
-    }
-    &--check {
-      background: var(--off);
-    }
-    &--clock {
-      background: var(--off);
-      border: 1px solid var(--b1);
-    }
+    &--going  { background: #eff6ff; color: #2563eb; }
+    &--heart  { background: #fff1f2; color: #dc2626; }
+    &--check  { background: #f0fdf4; color: #16a34a; }
+    &--clock  { background: var(--off); color: var(--ink3); border: 1px solid var(--b1); }
   }
 
   &__folder-name {

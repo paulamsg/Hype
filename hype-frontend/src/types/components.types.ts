@@ -29,4 +29,4 @@ export interface FilterBarProps {
   onDateChange: (category: string) => void
 }
 
-export type ProfileTab = 'fotos' | 'mis-eventos' | 'guardados' | 'archivo' | 'proximos-eventos'
+export type ProfileTab = 'fotos' | 'voy-a-ir' | 'me-interesa' | 'fui' | 'pasados'

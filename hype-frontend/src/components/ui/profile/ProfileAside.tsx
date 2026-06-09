@@ -6,7 +6,21 @@ import EditProfileModal from './EditProfileModal'
 import FriendsModal from './FriendsModal'
 import { useUserContext } from '../../../context/userContext'
 import { Heart, Bookmark, ClockAlert, Sparkles, MapPin } from 'lucide-react'
-const ProfileAside = () => {
+import type { ProfileTab } from '../../../types/components.types'
+
+interface Props {
+  activeTab: ProfileTab
+  onTabChange: (tab: ProfileTab) => void
+}
+
+const FOLDERS: { tab: ProfileTab; icon: React.ReactNode; cls: string; label: string; countKey: 'wantGo' | 'going' | 'gone' | 'expired' }[] = [
+  { tab: 'voy-a-ir',    icon: <Bookmark size={15} />, cls: 'going',    label: 'Voy a ir',    countKey: 'going'    },
+  { tab: 'me-interesa', icon: <Heart size={15} />,    cls: 'heart',    label: 'Me interesa', countKey: 'wantGo'   },
+  { tab: 'fui',         icon: <Sparkles size={15} />, cls: 'check',    label: 'Asistidos',   countKey: 'gone'     },
+  { tab: 'pasados',     icon: <ClockAlert size={15} />, cls: 'clock',  label: 'Pasados',     countKey: 'expired'  },
+]
+
+const ProfileAside = ({ activeTab, onTabChange }: Props) => {
   const { user } = useAuth()
   const [showLogout, setShowLogout] = useState(false)
   const [showEditModal, setShowEditModal] = useState(false)
@@ -44,9 +58,7 @@ const ProfileAside = () => {
         label="Editar perfil"
         variant="outline"
         size="md"
-        onClick={() => {
-          setShowEditModal(true)
-        }}
+        onClick={() => setShowEditModal(true)}
       />
       {showEditModal && (
         <>
@@ -58,35 +70,20 @@ const ProfileAside = () => {
       )}
 
       <div className="profile__folders">
-        <p className="profile__folders-label">Mis carpetas</p>
-        <div className="profile__folder">
-          <div className="profile__folder-ico profile__folder-ico--heart">
-            <Heart size={15} />
+        <p className="profile__folders-label">Mis eventos</p>
+        {FOLDERS.map(({ tab, icon, cls, label, countKey }) => (
+          <div
+            key={tab}
+            className={`profile__folder profile__folder--clickable${activeTab === tab ? ' profile__folder--active' : ''}`}
+            onClick={() => onTabChange(tab)}
+          >
+            <div className={`profile__folder-ico profile__folder-ico--${cls}`}>
+              {icon}
+            </div>
+            <span className="profile__folder-name">{label}</span>
+            <span className="profile__folder-cnt">{eventsCount[countKey]}</span>
           </div>
-          <span className="profile__folder-name">Eventos guardados</span>
-          <span className="profile__folder-cnt">{eventsCount.wantGo}</span>
-        </div>
-        <div className="profile__folder">
-          <div className="profile__folder-ico profile__folder-ico--check">
-            <Bookmark size={15} />
-          </div>
-          <span className="profile__folder-name">Próximos eventos</span>
-          <span className="profile__folder-cnt">{eventsCount.going}</span>
-        </div>
-        <div className="profile__folder">
-          <div className="profile__folder-ico profile__folder-ico--check">
-            <Sparkles size={15} />
-          </div>
-          <span className="profile__folder-name">Mis eventos</span>
-          <span className="profile__folder-cnt">{eventsCount.gone}</span>
-        </div>
-        <div className="profile__folder">
-          <div className="profile__folder-ico profile__folder-ico--clock">
-            <ClockAlert size={15} />
-          </div>
-          <span className="profile__folder-name">Archivo</span>
-          <span className="profile__folder-cnt">{eventsCount.expired}</span>
-        </div>
+        ))}
       </div>
 
       <div className="profile__logout">

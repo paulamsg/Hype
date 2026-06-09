@@ -6,11 +6,17 @@
 }
 
 .profile__tab {
-  margin-right: 48px;
+  margin-right: 32px;
   color: var(--ink3);
   font-size: 12px;
   font-weight: 700;
   font-family: var(--sans);
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: color 0.12s;
+
+  &:hover { color: var(--ink2); }
 
   &--active {
     color: var(--blue-d);

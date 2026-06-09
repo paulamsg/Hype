@@ -9,7 +9,7 @@ import PhotoGallery from '../components/ui/profile/PhotoGallery'
 import UserEventList from '../components/ui/profile/UserEventList'
 
 const Profile = () => {
-  const [activeTab, setActiveTab] = useState<ProfileTab>('fotos')
+  const [activeTab, setActiveTab] = useState<ProfileTab>('voy-a-ir')
   const [pendingPhotos, setPendingPhotos] = useState<File[]>([])
   const [galleryKey, setGalleryKey] = useState(0)
 
@@ -17,9 +17,9 @@ const Profile = () => {
     <>
       <Topbar />
       <div className="profile">
-        <ProfileAside />
+        <ProfileAside activeTab={activeTab} onTabChange={setActiveTab} />
         <section className="profile__content">
-          <ProfileTabs activeTab={activeTab} onTabChange={(tab) => setActiveTab(tab)} />
+          <ProfileTabs activeTab={activeTab} onTabChange={setActiveTab} />
           {activeTab === 'fotos' && (
             <>
               <PhotoUploader onPhotosSelected={setPendingPhotos} />
@@ -37,10 +37,10 @@ const Profile = () => {
             />
           )}
 
-          {activeTab === 'mis-eventos' && <UserEventList folder="GONE" />}
-          {activeTab === 'proximos-eventos' && <UserEventList folder="GOING" />}
-          {activeTab === 'guardados' && <UserEventList folder="WANT_GO" />}
-          {activeTab === 'archivo' && <UserEventList folder="EXPIRED" />}
+          {activeTab === 'voy-a-ir'    && <UserEventList folder="GOING" />}
+          {activeTab === 'me-interesa' && <UserEventList folder="WANT_GO" />}
+          {activeTab === 'fui'         && <UserEventList folder="GONE" />}
+          {activeTab === 'pasados'     && <UserEventList folder="EXPIRED" />}
         </section>
       </div>
     </>
