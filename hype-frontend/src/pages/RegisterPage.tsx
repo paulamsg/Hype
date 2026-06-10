@@ -6,6 +6,7 @@ import { useState } from 'react'
 import { register } from '../services/auth.services'
 import Input from '../components/ui/Input'
 import Button from '../components/ui/Button'
+import { CITIES } from '../mocks/cities'
 
 const Register = () => {
   const navigate = useNavigate()
@@ -39,6 +40,10 @@ const Register = () => {
     setForm({ ...form, [e.target.name]: e.target.value })
   }
 
+  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setForm({ ...form, [e.target.name]: e.target.value })
+  }
+
   return (
     <div className="auth__layout">
       <h1 className="logo__text">hype</h1>
@@ -59,7 +64,12 @@ const Register = () => {
             value={form.password}
             onChange={handleChange}
           />
-          <Input type="text" name="location" placeholder="Localidad" value={form.location} onChange={handleChange} />
+          <select name="location" value={form.location} onChange={handleSelectChange}>
+            <option value="" disabled>Localidad</option>
+            {CITIES.map((city) => (
+              <option key={city} value={city}>{city}</option>
+            ))}
+          </select>
           <Button label="Crear cuenta →" variant="primary" size="xl" type="submit" disabled={loading} />
         </form>
       </div>
