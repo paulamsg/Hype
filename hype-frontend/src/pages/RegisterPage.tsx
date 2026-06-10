@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useAuth } from '../context/useAuth'
 import { useNavigate, Link } from 'react-router-dom'
 import { useForm, Controller, type Resolver } from 'react-hook-form'
@@ -7,6 +7,13 @@ import { register as registerUser } from '../services/auth.services'
 import Input from '../components/ui/Input'
 import Button from '../components/ui/Button'
 import { CITIES } from '../mocks/cities'
+
+const VIDEOS = [
+  '/videos/11999024_1920_1080_25fps.mp4',
+  '/videos/12504903_2560_1440_30fps.mp4',
+  '/videos/13082773-hd_1920_1080_60fps.mp4',
+  '/videos/15878108_1920_1080_25fps.mp4',
+]
 
 const schema = z.object({
   name: z.string().min(2, 'El nombre debe tener al menos 2 caracteres'),
@@ -40,6 +47,7 @@ const resolver: Resolver<RegisterFormData> = async (values) => {
 const Register = () => {
   const navigate = useNavigate()
   const { saveAuth } = useAuth()
+  const [video] = useState(() => VIDEOS[Math.floor(Math.random() * VIDEOS.length)])
   const [serverError, setServerError] = React.useState<string | null>(null)
 
   const {
@@ -65,6 +73,8 @@ const Register = () => {
 
   return (
     <div className="auth__layout">
+      <video className="auth__layout__video" src={video} autoPlay loop muted playsInline />
+      <div className="auth__layout__overlay" />
       <h1 className="logo__text">hype</h1>
       <div className="auth__layout__form">
         <h1 className="auth__layout__form-title">Crea tu cuenta</h1>

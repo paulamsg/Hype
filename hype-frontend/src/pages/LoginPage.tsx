@@ -1,15 +1,22 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useAuth } from '../context/useAuth'
 import { useNavigate, Link } from 'react-router-dom'
 import type { LoginForm } from '../types/auth.types'
-import { useState } from 'react'
 import { login } from '../services/auth.services'
 import Input from '../components/ui/Input'
 import Button from '../components/ui/Button'
 
+const VIDEOS = [
+  '/videos/11999024_1920_1080_25fps.mp4',
+  '/videos/12504903_2560_1440_30fps.mp4',
+  '/videos/13082773-hd_1920_1080_60fps.mp4',
+  '/videos/15878108_1920_1080_25fps.mp4',
+]
+
 const Login = () => {
   const navigate = useNavigate()
   const { saveAuth } = useAuth()
+  const [video] = useState(() => VIDEOS[Math.floor(Math.random() * VIDEOS.length)])
 
   const [form, setForm] = useState<LoginForm>({
     email: '',
@@ -40,6 +47,8 @@ const Login = () => {
 
   return (
     <div className="auth__layout">
+      <video className="auth__layout__video" src={video} autoPlay loop muted playsInline />
+      <div className="auth__layout__overlay" />
       <h1 className="logo__text">hype</h1>
       <div className="auth__layout__form">
         <h1 className="auth__layout__form-title">Bienvenido de nuevo</h1>
