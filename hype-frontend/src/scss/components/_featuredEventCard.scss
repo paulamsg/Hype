@@ -157,6 +157,16 @@
       font-size: var(--text-xl);
     }
   }
+
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr;
+    padding: var(--sp-md);
+    gap: var(--sp-sm);
+
+    .featured-card:first-child {
+      grid-column: auto;
+    }
+  }
 }
 
 .featured-section__title {

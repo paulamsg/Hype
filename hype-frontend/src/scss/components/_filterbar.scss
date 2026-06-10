@@ -8,6 +8,7 @@
   position: sticky;
   top: 58px;
   z-index: 100;
+  border-bottom: 1px solid var(--b1);
 
   &__nav,
   &__left {
@@ -108,6 +109,43 @@
       background: var(--lime);
       border-color: var(--lime-d);
       font-weight: 700;
+    }
+  }
+
+  @media (max-width: 768px) {
+    height: auto;
+    padding: 0 var(--sp-md);
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    gap: var(--sp-xs);
+    scrollbar-width: none;
+    &::-webkit-scrollbar { display: none; }
+
+    &__left,
+    &__nav {
+      flex-shrink: 0;
+    }
+
+    &__right {
+      flex-shrink: 0;
+      padding: var(--sp-sm) 0;
+    }
+
+    &__tab-wrapper {
+      height: 48px;
+      flex-shrink: 0;
+    }
+
+    &__tab {
+      padding: 0 10px;
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    &__select select {
+      font-size: 12px;
+      height: 28px;
+      padding: 0 22px 0 8px;
     }
   }
 }

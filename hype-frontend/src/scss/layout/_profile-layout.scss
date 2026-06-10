@@ -13,11 +13,22 @@
   // Tablet
   @media (max-width: 1024px) {
     grid-template-columns: 200px 1fr;
+
+    &__content {
+      padding: var(--sp-lg);
+    }
   }
 
-  // Mobile
+  // Mobile — switch to block so grid height quirks disappear
   @media (max-width: 768px) {
-    grid-template-columns: 1fr;
-    grid-template-rows: auto 1fr;
+    display: block;
+    height: auto;
+    overflow: visible;
+
+    &__content {
+      padding: var(--sp-md);
+      height: auto;
+      overflow: visible;
+    }
   }
 }

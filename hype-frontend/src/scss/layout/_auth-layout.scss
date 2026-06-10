@@ -26,4 +26,20 @@
       font-size: 13px;
     }
   }
+
+  @media (max-width: 768px) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--sp-md);
+
+    &__form {
+      position: static;
+      transform: none;
+      width: 100%;
+      max-width: 400px;
+      border-radius: var(--radius-lg);
+      background: var(--white);
+    }
+  }
 }

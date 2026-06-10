@@ -23,7 +23,8 @@
 
   &__img {
     width: 140px;
-    min-width: 90px;
+    min-width: 80px;
+    max-width: 30%;
     align-self: stretch;
     object-fit: cover;
     border-radius: 8px 0 0 8px;

@@ -8,6 +8,7 @@ export const getGroupIdsForEvent = async (req: AuthRequest, res: Response) => {
 
   const eventId = req.query.eventId as string
   if (!eventId) return res.status(400).json({ error: 'Falta el eventId' })
+
   try {
     const rows = await prisma.groupEvent.findMany({
       where: { userId, eventId },

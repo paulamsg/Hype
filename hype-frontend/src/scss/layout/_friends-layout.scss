@@ -22,11 +22,22 @@
     }
   }
 
+  // Tablet + mobile — switch to block, aside moves below feed
   @media (max-width: 1024px) {
-    grid-template-columns: 1fr;
+    display: block;
+    height: auto;
+    overflow: visible;
+
+    &__col {
+      height: auto;
+      overflow-y: visible;
+      padding: var(--sp-lg);
+    }
 
     &__col--aside {
-      display: none;
+      border-left: none;
+      border-top: 1px solid var(--b1);
+      overflow-y: visible;
     }
 
     &__col--feed {
@@ -35,10 +46,9 @@
   }
 
   @media (max-width: 640px) {
-    height: auto;
-    overflow: visible;
-
-    &__col--feed {
+    &__col,
+    &__col--feed,
+    &__col--aside {
       padding: var(--sp-md);
     }
   }

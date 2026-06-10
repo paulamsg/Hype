@@ -176,10 +176,26 @@
 
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
+    height: auto;
+    overflow: visible;
+    min-height: calc(100vh - 58px);
 
     &__sidebar {
       border-right: none;
       border-bottom: 1px solid var(--b1);
+      overflow-y: visible;
+      height: auto;
+    }
+
+    &__main {
+      overflow-y: visible;
+      padding: var(--sp-lg);
+    }
+  }
+
+  @media (max-width: 480px) {
+    &__main {
+      padding: var(--sp-md);
     }
   }
 }
