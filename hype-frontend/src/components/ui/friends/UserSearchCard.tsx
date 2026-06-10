@@ -2,10 +2,12 @@ import type { User } from '../../../types/auth.types'
 import Button from '../Button'
 import { postFollowRequest, cancelFollowRequest } from '../../../services/followRequest.services'
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 type UserSearchCardProps = User & { isPending?: boolean; isFriend?: boolean }
 
 const UserSearchCard = ({ id, name, username, lastName, avatarUrl, isPending = false, isFriend = false }: UserSearchCardProps) => {
+  const navigate = useNavigate()
   const [followRequestSended, setfollowRequestSended] = useState(isPending)
 
   const handleClickFollowRequest = async () => {
@@ -28,11 +30,15 @@ const UserSearchCard = ({ id, name, username, lastName, avatarUrl, isPending = f
 
   return (
     <div className="user-search-card">
-      <div className="user-search-card__avatar">
+      <div
+        className="user-search-card__avatar"
+        onClick={() => navigate(`/usuario/${id}`)}
+        style={{ cursor: 'pointer' }}
+      >
         {name.charAt(0).toUpperCase()}
         {avatarUrl}
       </div>
-      <div className="user-search-card__info">
+      <div className="user-search-card__info" style={{ cursor: 'pointer' }} onClick={() => navigate(`/usuario/${id}`)}>
         <span className="user-search-card__name">
           {name} {lastName}
         </span>

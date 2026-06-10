@@ -79,6 +79,8 @@
     font-weight: 600;
     color: var(--ink);
     flex: 1;
+
+    &--link { cursor: pointer; &:hover { color: var(--blue); } }
   }
 
   &__pill {

@@ -40,3 +40,33 @@ export const getFriendsCount = async (): Promise<{ followersCount: number; follo
   })
   return response.data
 }
+
+export type PublicProfile = {
+  user: { id: number; name: string; lastName: string; username: string; bio?: string; location: string; avatarUrl?: string }
+  isFriend: boolean
+  stats: { photosCount: number; friendsCount: number }
+}
+
+export const getUserProfile = async (userId: number): Promise<PublicProfile> => {
+  const token = localStorage.getItem('token')
+  const response = await axios.get(`${import.meta.env.VITE_SERVER_URL}/users/${userId}/profile`, {
+    headers: { Authorization: `Bearer ${token}` },
+  })
+  return response.data
+}
+
+export const getUserPhotos = async (userId: number) => {
+  const token = localStorage.getItem('token')
+  const response = await axios.get(`${import.meta.env.VITE_SERVER_URL}/users/${userId}/photos`, {
+    headers: { Authorization: `Bearer ${token}` },
+  })
+  return response.data
+}
+
+export const getUserGoneEvents = async (userId: number) => {
+  const token = localStorage.getItem('token')
+  const response = await axios.get(`${import.meta.env.VITE_SERVER_URL}/users/${userId}/gone`, {
+    headers: { Authorization: `Bearer ${token}` },
+  })
+  return response.data
+}

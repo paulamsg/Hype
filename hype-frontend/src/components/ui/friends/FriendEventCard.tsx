@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import type { FriendActivity, FriendSavedEvent, FriendPhoto, FriendGroupEvent, FriendEventShared } from '../../../services/savedEvents.services'
 import type { Event } from '../../../types/event.types'
 import Button from '../Button'
@@ -37,6 +38,7 @@ const toEvent = (a: FriendSavedEvent | FriendGroupEvent | FriendEventShared): Ev
 
 const FriendEventCard = (activity: FriendActivity) => {
   const { savedBy } = activity
+  const navigate = useNavigate()
   const [showModal, setShowModal] = useState(false)
   const [responded, setResponded] = useState(false)
 
@@ -60,8 +62,13 @@ const FriendEventCard = (activity: FriendActivity) => {
     <>
       <div className="friend-event-card">
         <div className="friend-event-card__header">
-          <Avatar savedBy={savedBy} />
-          <span className="friend-event-card__user">
+          <div onClick={() => navigate(`/usuario/${savedBy.id}`)} style={{ cursor: 'pointer' }}>
+            <Avatar savedBy={savedBy} />
+          </div>
+          <span
+            className="friend-event-card__user friend-event-card__user--link"
+            onClick={() => navigate(`/usuario/${savedBy.id}`)}
+          >
             {savedBy.name} <span className="friend-event-card__user-username">(@{savedBy.username})</span>
           </span>
           <span className={`friend-event-card__pill friend-event-card__pill--${pill.cls}`}>

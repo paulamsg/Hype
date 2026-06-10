@@ -8,6 +8,7 @@ import Profile from './pages/ProfilePage'
 import Friends from './pages/FriendsPage'
 import Groups from './pages/GroupsPage'
 import Notifications from './pages/NotificationsPage'
+import UserProfilePage from './pages/UserProfilePage'
 function App() {
   return (
     <Routes>
@@ -19,6 +20,7 @@ function App() {
       <Route element={<ProtectedRoute />}>
         <Route path="/descubre" element={<Discover />} />
         <Route path="/perfil" element={<Profile />} />
+        <Route path="/usuario/:userId" element={<UserProfilePage />} />
         <Route path="/amigos" element={<Friends />} />
         <Route path="/grupos" element={<Groups />} />
         <Route path="/notificaciones" element={<Notifications />} />

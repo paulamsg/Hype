@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { getFriends, removeFollow, type Friend } from '../../../services/follow.services'
 
 type Props = {
@@ -7,6 +8,7 @@ type Props = {
 }
 
 const FriendsModal = ({ onClose, onFriendRemoved }: Props) => {
+  const navigate = useNavigate()
   const [friends, setFriends] = useState<Friend[]>([])
   const [confirmId, setConfirmId] = useState<number | null>(null)
 
@@ -40,9 +42,15 @@ const FriendsModal = ({ onClose, onFriendRemoved }: Props) => {
             <ul className="friends-modal__list">
               {friends.map((friend) => (
                 <li key={friend.id} className="friends-modal__item">
-                  <div className="friends-modal__avatar">{friend.name.charAt(0).toUpperCase()}</div>
+                  <div
+                    className="friends-modal__avatar friends-modal__avatar--link"
+                    onClick={() => { onClose(); navigate(`/usuario/${friend.id}`) }}
+                  >{friend.name.charAt(0).toUpperCase()}</div>
                   <div className="friends-modal__info">
-                    <span className="friends-modal__name">{friend.name} {friend.lastName}</span>
+                    <span
+                      className="friends-modal__name friends-modal__name--link"
+                      onClick={() => { onClose(); navigate(`/usuario/${friend.id}`) }}
+                    >{friend.name} {friend.lastName}</span>
                     <span className="friends-modal__username">@{friend.username}</span>
                   </div>
                   {confirmId === friend.id ? (

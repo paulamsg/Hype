@@ -84,3 +84,82 @@ export const getFriendsCount = async (req: AuthRequest, res: Response) => {
     return res.status(500).json({ message: error })
   }
 }
+
+export const getUserPhotos = async (req: AuthRequest, res: Response) => {
+  const userId = req.userId
+  if (!userId) return res.status(401).json({ error: 'No autorizado' })
+  const targetId = Number(req.params.userId)
+  if (isNaN(targetId)) return res.status(400).json({ error: 'ID inválido' })
+  try {
+    const follow = await prisma.follow.findFirst({
+      where: { OR: [{ followerId: userId, followingId: targetId }, { followerId: targetId, followingId: userId }] },
+    })
+    if (!follow) return res.status(403).json({ error: 'No sois amigos' })
+    const photos = await prisma.photo.findMany({
+      where: { userId: targetId },
+      orderBy: { createdAt: 'desc' },
+      include: { savedEvent: { select: { eventId: true, name: true } } },
+    })
+    return res.status(200).json({ photos })
+  } catch (e) {
+    return res.status(500).json({ error: 'Error al obtener las fotos' })
+  }
+}
+
+export const getUserGoneEvents = async (req: AuthRequest, res: Response) => {
+  const userId = req.userId
+  if (!userId) return res.status(401).json({ error: 'No autorizado' })
+  const targetId = Number(req.params.userId)
+  if (isNaN(targetId)) return res.status(400).json({ error: 'ID inválido' })
+  try {
+    const follow = await prisma.follow.findFirst({
+      where: { OR: [{ followerId: userId, followingId: targetId }, { followerId: targetId, followingId: userId }] },
+    })
+    if (!follow) return res.status(403).json({ error: 'No sois amigos' })
+    const saved = await prisma.savedEvent.findMany({
+      where: { userId: targetId, folder: 'GONE' },
+      orderBy: { createdAt: 'desc' },
+    })
+    const savedEvents = saved.map((e) => ({
+      id: e.eventId, name: e.name, date: e.date, venue: e.venue, image: e.image, city: e.city,
+    }))
+    return res.status(200).json({ savedEvents })
+  } catch (e) {
+    return res.status(500).json({ error: 'Error al obtener los eventos' })
+  }
+}
+
+export const getUserProfile = async (req: AuthRequest, res: Response) => {
+  const userId = req.userId
+  if (!userId) return res.status(401).json({ error: 'No autorizado' })
+
+  const targetId = Number(req.params.userId)
+  if (isNaN(targetId)) return res.status(400).json({ error: 'ID inválido' })
+
+  try {
+    const [target, photosCount, friendsCount, follow] = await Promise.all([
+      prisma.user.findUnique({
+        where: { id: targetId },
+        select: { id: true, name: true, lastName: true, username: true, bio: true, location: true, avatarUrl: true },
+      }),
+      prisma.photo.count({ where: { userId: targetId } }),
+      prisma.follow.count({ where: { followingId: targetId } }),
+      prisma.follow.findFirst({
+        where: { OR: [
+          { followerId: userId, followingId: targetId },
+          { followerId: targetId, followingId: userId },
+        ]},
+      }),
+    ])
+
+    if (!target) return res.status(404).json({ error: 'Usuario no encontrado' })
+
+    return res.status(200).json({
+      user: target,
+      isFriend: !!follow,
+      stats: { photosCount, friendsCount },
+    })
+  } catch (e) {
+    return res.status(500).json({ error: 'Error al obtener el perfil' })
+  }
+}
