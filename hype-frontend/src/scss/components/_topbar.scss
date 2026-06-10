@@ -74,6 +74,13 @@
     font-weight: 900;
     color: var(--lime-t);
     cursor: pointer;
+    overflow: hidden;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
   }
   &__bell {
     cursor: pointer;

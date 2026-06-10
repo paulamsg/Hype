@@ -60,14 +60,14 @@ const FriendEventCard = (activity: FriendActivity) => {
 
   return (
     <>
-      <div className="friend-event-card">
+      <div className="friend-event-card" onClick={() => !photo && setShowModal(true)} style={{ cursor: photo ? 'default' : 'pointer' }}>
         <div className="friend-event-card__header">
-          <div onClick={() => navigate(`/usuario/${savedBy.id}`)} style={{ cursor: 'pointer' }}>
+          <div onClick={(e) => { e.stopPropagation(); navigate(`/usuario/${savedBy.id}`) }} style={{ cursor: 'pointer' }}>
             <Avatar savedBy={savedBy} />
           </div>
           <span
             className="friend-event-card__user friend-event-card__user--link"
-            onClick={() => navigate(`/usuario/${savedBy.id}`)}
+            onClick={(e) => { e.stopPropagation(); navigate(`/usuario/${savedBy.id}`) }}
           >
             {savedBy.name} <span className="friend-event-card__user-username">(@{savedBy.username})</span>
           </span>
@@ -96,15 +96,8 @@ const FriendEventCard = (activity: FriendActivity) => {
           />
         )}
 
-        {saved && (
-          <div className="friend-event-card__actions">
-            <Button label="Ver evento" variant="outline" type="button" size="sm" disabled={false} onClick={() => setShowModal(true)} />
-          </div>
-        )}
-
         {group && (
-          <div className="friend-event-card__actions">
-            <Button label="Ver evento" variant="outline" type="button" size="sm" disabled={false} onClick={() => setShowModal(true)} />
+          <div className="friend-event-card__actions" onClick={(e) => e.stopPropagation()}>
             {responded
               ? <Button label="Respuesta enviada" variant="outline" type="button" size="sm" disabled={true} onClick={() => {}} />
               : <>
@@ -116,8 +109,7 @@ const FriendEventCard = (activity: FriendActivity) => {
         )}
 
         {shared && (
-          <div className="friend-event-card__actions">
-            <Button label="Ver evento" variant="outline" type="button" size="sm" disabled={false} onClick={() => setShowModal(true)} />
+          <div className="friend-event-card__actions" onClick={(e) => e.stopPropagation()}>
             {responded
               ? <Button label="Respuesta enviada" variant="outline" type="button" size="sm" disabled={true} onClick={() => {}} />
               : <>

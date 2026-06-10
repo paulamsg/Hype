@@ -69,7 +69,10 @@ const Topbar = () => {
           )}
         </div>
         <div className="topbar__avatar" onClick={() => goTo('/perfil')}>
-          {user?.name?.charAt(0).toUpperCase()}
+          {user?.avatarUrl
+            ? <img src={user.avatarUrl} alt={user.name} />
+            : user?.name?.charAt(0).toUpperCase()
+          }
         </div>
         <button
           className={`topbar__burger${menuOpen ? ' topbar__burger--open' : ''}`}

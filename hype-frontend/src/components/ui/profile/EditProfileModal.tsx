@@ -2,11 +2,14 @@ import { useRef, useState, useEffect } from 'react'
 import { useAuth } from '../../../context/useAuth'
 import Button from '../Button'
 import { updateUserData } from '../../../services/user.services'
+import { uploadImageToCloudinary } from '../../../services/claudinary.services'
 
 const EditProfileModal = ({ onClose }: { onClose: () => void }) => {
   const { user, updateUser } = useAuth()
   const inputRef = useRef<HTMLInputElement>(null)
   const [preview, setPreview] = useState<string | null>(null)
+  const [pendingFile, setPendingFile] = useState<File | null>(null)
+  const [uploading, setUploading] = useState(false)
   const [formData, setFormData] = useState({
     avatarUrl: user?.avatarUrl,
     name: user?.name,
@@ -45,6 +48,7 @@ const EditProfileModal = ({ onClose }: { onClose: () => void }) => {
   const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (file) {
+      setPendingFile(file)
       setPreview(URL.createObjectURL(file))
     }
   }
@@ -64,12 +68,18 @@ const EditProfileModal = ({ onClose }: { onClose: () => void }) => {
 
   const handleFormSubmit = async () => {
     try {
-      await updateUserData(formData)
-      updateUser(formData)
-      console.log('user después de updateUser:', user)
+      setUploading(true)
+      let data = { ...formData }
+      if (pendingFile) {
+        const url = await uploadImageToCloudinary(pendingFile)
+        data = { ...data, avatarUrl: url }
+      }
+      await updateUserData(data)
+      updateUser(data)
     } catch (e) {
       console.log('error', e)
     } finally {
+      setUploading(false)
       onClose()
     }
   }
@@ -131,11 +141,11 @@ const EditProfileModal = ({ onClose }: { onClose: () => void }) => {
             />
             <Button label="Cancelar" variant="outline" type="button" size="md" disabled={false} onClick={onClose} />
             <Button
-              label="Guardar"
+              label={uploading ? 'Guardando...' : 'Guardar'}
               variant="primary"
               type="button"
               size="md"
-              disabled={false}
+              disabled={uploading}
               onClick={handleFormSubmit}
             />
           </form>

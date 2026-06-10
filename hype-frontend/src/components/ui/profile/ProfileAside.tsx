@@ -31,7 +31,12 @@ const ProfileAside = ({ activeTab, onTabChange }: Props) => {
   return (
     <aside className="profile__aside">
       <section className="profile__identity">
-        <div className="profile__avatar">{user?.name?.charAt(0).toUpperCase()}</div>
+        <div className="profile__avatar">
+          {user?.avatarUrl
+            ? <img src={user.avatarUrl} alt={user.name} />
+            : user?.name?.charAt(0).toUpperCase()
+          }
+        </div>
         <div className="profile__bio">
           <p className="profile__name">{user?.name}</p>
           <p className="profile__handle">@{user?.username}</p>

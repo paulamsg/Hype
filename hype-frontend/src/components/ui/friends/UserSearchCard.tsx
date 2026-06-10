@@ -35,8 +35,10 @@ const UserSearchCard = ({ id, name, username, lastName, avatarUrl, isPending = f
         onClick={() => navigate(`/usuario/${id}`)}
         style={{ cursor: 'pointer' }}
       >
-        {name.charAt(0).toUpperCase()}
-        {avatarUrl}
+        {avatarUrl
+          ? <img src={avatarUrl} alt={name} />
+          : name.charAt(0).toUpperCase()
+        }
       </div>
       <div className="user-search-card__info" style={{ cursor: 'pointer' }} onClick={() => navigate(`/usuario/${id}`)}>
         <span className="user-search-card__name">
