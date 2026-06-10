@@ -60,6 +60,10 @@
         color: #9ca3af;
       }
     }
+
+    .input-wrap--error select {
+      border-color: var(--red);
+    }
   }
 
   @media (max-width: 768px) {

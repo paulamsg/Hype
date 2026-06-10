@@ -10,14 +10,17 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@hookform/resolvers": "^5.4.0",
     "axios": "^1.13.5",
     "date-fns": "^4.4.0",
     "lucide-react": "^1.6.0",
     "lucide-react-native": "^1.8.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
+    "react-hook-form": "^7.78.0",
     "react-router-dom": "^7.13.1",
-    "sass": "^1.97.3"
+    "sass": "^1.97.3",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
