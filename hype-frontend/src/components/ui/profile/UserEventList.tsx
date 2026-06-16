@@ -3,13 +3,22 @@ import type { FolderType } from '../../../types/folder.types'
 import type { Event } from '../../../types/event.types'
 import { getWantEvents, getGoneEvents, getGoingEvents, getExpiredEvents } from '../../../services/savedEvents.services'
 import { useState, useEffect } from 'react'
-//recibo por parametro que eventos tengo que mostrar -> recibo el folder --> folder type
+
+const EMPTY_MESSAGES: Record<string, string> = {
+  GOING: 'Todavía no has guardado ningún evento próximo',
+  WANT_GO: 'Todavía no has guardado ningún evento',
+  GONE: 'Todavía no has asistido a ningún evento',
+  EXPIRED: 'No tienes eventos pasados',
+}
+
 const UserEventList = ({ folder }: FolderType) => {
   const [events, setEvents] = useState<Event[]>([])
+  const [loading, setLoading] = useState(true)
   const [refresh, setOnRefresh] = useState(false)
 
   useEffect(() => {
     const getEventsByFolder = async () => {
+      setLoading(true)
       try {
         if (folder === 'WANT_GO') {
           const data = await getWantEvents()
@@ -29,10 +38,16 @@ const UserEventList = ({ folder }: FolderType) => {
         }
       } catch (e) {
         console.log('error', e)
+      } finally {
+        setLoading(false)
       }
     }
     getEventsByFolder()
   }, [folder, refresh])
+
+  if (!loading && events.length === 0) {
+    return <p className="empty-folder-msg">{EMPTY_MESSAGES[folder]}</p>
+  }
 
   return (
     <div className="display">

@@ -9,7 +9,7 @@ import PhotoGallery from '../components/ui/profile/PhotoGallery'
 import UserEventList from '../components/ui/profile/UserEventList'
 
 const Profile = () => {
-  const [activeTab, setActiveTab] = useState<ProfileTab>('voy-a-ir')
+  const [activeTab, setActiveTab] = useState<ProfileTab>('fotos')
   const [pendingPhotos, setPendingPhotos] = useState<File[]>([])
   const [galleryKey, setGalleryKey] = useState(0)
 
