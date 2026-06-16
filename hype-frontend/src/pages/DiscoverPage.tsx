@@ -3,6 +3,7 @@ import { useSearchParams } from 'react-router-dom'
 import { useAuth } from '../context/useAuth'
 import { getEvents } from '../services/event.services'
 import { getMockEvents, getFeaturedMockEvents } from '../services/mockEvents.services'
+import { isEventInDateRange } from '../utils/date.utils'
 import type { Event } from '../types/event.types'
 import EventCard from '../components/ui/EventCard'
 import FeaturedEventCard from '../components/ui/FeaturedEventCard'
@@ -97,7 +98,7 @@ const Discover = () => {
     return events.filter(
       (e) =>
         (category === 'all' || e.category === category) &&
-        (date === 'all' || e.date === date) &&
+        isEventInDateRange(e.date, date) &&
         (!price ||
           (e.priceMin != null && e.priceMax != null && e.priceMin >= price.priceMin && e.priceMax <= price.priceMax)),
     )
@@ -169,11 +170,19 @@ const Discover = () => {
       ) : (
         <>
           <h1 className="discover__title">Todos los eventos</h1>
-          <div className="grid__layout">
-            {eventsFiltered.map((event: Event) => (
-              <EventCard key={event.id} {...event} />
-            ))}
-          </div>
+          {eventsFiltered.length === 0 ? (
+            <p className="discover__empty">
+              {date !== 'all'
+                ? 'No hay eventos previstos para esa fecha.'
+                : 'No se han encontrado eventos con estos filtros.'}
+            </p>
+          ) : (
+            <div className="grid__layout">
+              {eventsFiltered.map((event: Event) => (
+                <EventCard key={event.id} {...event} />
+              ))}
+            </div>
+          )}
         </>
       )}
     </>

@@ -33,6 +33,14 @@
   color: var(--ink);
 }
 
+.discover__empty {
+  padding: var(--sp-2xl) var(--sp-lg);
+  text-align: center;
+  color: var(--ink3);
+  font-size: var(--text-sm);
+  font-family: var(--sans);
+}
+
 .grid__layout {
   padding: 1.5rem;
   display: grid;
