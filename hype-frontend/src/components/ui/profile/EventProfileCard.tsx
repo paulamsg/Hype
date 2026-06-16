@@ -1,7 +1,7 @@
 import type { Event } from '../../../types/event.types'
 import { EllipsisVertical } from 'lucide-react'
 import type { Folder } from '../../../types/folder.types'
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { deleteEvent, updateEventFolder } from '../../../services/savedEvents.services'
 import { useUserContext } from '../../../context/userContext'
 import { getDay, getMonthAbbr } from '../../../utils/date.utils'
@@ -9,6 +9,18 @@ import { getDay, getMonthAbbr } from '../../../utils/date.utils'
 const EventProfileCard = ({ folder, onUpdate, ...event }: Event & { folder: Folder; onUpdate: () => void }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false)
   const { refreshProfile } = useUserContext()
+  const dropdownRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (!dropdownOpen) return
+    const handleClickOutside = (e: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setDropdownOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [dropdownOpen])
 
   const handleDelete = async (event: Event) => {
     try {
@@ -47,7 +59,7 @@ const EventProfileCard = ({ folder, onUpdate, ...event }: Event & { folder: Fold
         <p className="event-profile-card__day">{getDay(event.date)}</p>
         <p className="event-profile-card__month">{getMonthAbbr(event.date)}</p>
       </div>
-      <div className="event-profile-card__update">
+      <div className="event-profile-card__update" ref={dropdownRef}>
         <EllipsisVertical size={12} onClick={() => setDropdownOpen((state) => !state)} />
         {dropdownOpen && (
           <div className="event-profile-card__dropdown">

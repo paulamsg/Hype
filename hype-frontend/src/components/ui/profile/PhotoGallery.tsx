@@ -10,7 +10,7 @@ const PhotoGallery = () => {
   const { token } = useAuth()
   const [savedPhotos, setSavedPhotos] = useState<Photo[]>([])
   const [loading, setLoading] = useState(false)
-  const [dropdownOpen, setDropdownOpen] = useState(false)
+  const [dropdownOpen, setDropdownOpen] = useState<number | null>(null)
   const { refreshProfile } = useUserContext()
 
   const getSavedPhotos = async () => {
@@ -34,6 +34,7 @@ const PhotoGallery = () => {
       console.log(e)
     } finally {
       setSavedPhotos((prev) => prev.filter((p) => p.id !== photo.id))
+      setDropdownOpen(null)
       refreshProfile()
     }
   }
@@ -63,8 +64,8 @@ const PhotoGallery = () => {
           <div className="photo-gallery__item-footer">
             <p className="photo-gallery__item-name">{photo.savedEvent?.name}</p>
             <div className="photo-gallery__item-menu">
-              <EllipsisVertical size={12} onClick={() => setDropdownOpen((state) => !state)} />
-              {dropdownOpen && (
+              <EllipsisVertical size={12} onClick={() => setDropdownOpen(dropdownOpen === photo.id ? null : photo.id)} />
+              {dropdownOpen === photo.id && (
                 <div className="photo-gallery__drpdown">
                   <button onClick={() => handleDelete(photo)}>Eliminar foto</button>
                 </div>

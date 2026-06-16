@@ -14,7 +14,6 @@
   box-shadow:
     0 4px 12px rgba(0, 0, 0, 0.08),
     0 1px 3px rgba(0, 0, 0, 0.06);
-  overflow: hidden;
   width: 100%;
   margin-top: 16px;
   cursor: pointer;
@@ -37,6 +36,7 @@
     object-fit: cover;
     border-radius: 8px 0 0 8px;
     display: block;
+    flex-shrink: 0;
   }
 
   &__info {
@@ -90,30 +90,61 @@
 
   &__update {
     padding: 8px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    position: relative;
+    flex-shrink: 0;
+
+    svg {
+      cursor: pointer;
+      color: var(--ink3);
+      transition: color 0.15s;
+
+      &:hover {
+        color: var(--ink);
+      }
+    }
   }
 
   &__dropdown {
     position: absolute;
-    right: 0;
+    right: 8px;
+    top: calc(100% + 4px);
     background: var(--white);
     border: 1.5px solid var(--b1);
     border-radius: var(--radius-md);
     box-shadow: var(--shadow-md);
-    z-index: 10;
+    z-index: 50;
     display: flex;
     flex-direction: column;
+    min-width: 190px;
+    overflow: hidden;
 
     button {
-      padding: 8px 16px;
+      padding: 10px 16px;
       font-size: 13px;
+      font-family: var(--sans);
       text-align: left;
       background: none;
       border: none;
+      border-bottom: 1px solid var(--b1);
       cursor: pointer;
       color: var(--ink);
+      white-space: nowrap;
+      transition: background 0.15s;
+
+      &:last-child {
+        border-bottom: none;
+        color: var(--red);
+      }
 
       &:hover {
         background: var(--off);
+      }
+
+      &:last-child:hover {
+        background: #fff0f0;
       }
     }
   }
