@@ -4,6 +4,7 @@ import { getSharedEventIds } from '../../services/groups.services'
 import { formatDate } from '../../utils/date.utils'
 import { saveEvent, deleteEvent, getSavedEvents } from '../../services/savedEvents.services'
 import ShareEventModal from './events/ShareEventModal'
+import EventDetailModal from './events/EventDetailModal'
 
 interface FeaturedEventCardProps extends Event {
   hero?: boolean
@@ -13,6 +14,7 @@ const FeaturedEventCard = ({ hero, ...event }: FeaturedEventCardProps) => {
   const [showShare, setShowShare] = useState(false)
   const [hasSent, setHasSent] = useState(false)
   const [isSaved, setIsSaved] = useState(false)
+  const [showDetail, setShowDetail] = useState(false)
 
   useEffect(() => {
     getSharedEventIds()
@@ -63,14 +65,12 @@ const FeaturedEventCard = ({ hero, ...event }: FeaturedEventCardProps) => {
             >
               Compartir
             </button>
-            <a
-              href={event.url}
-              target="_blank"
-              rel="noreferrer"
+            <button
               className="featured-card__btn featured-card__btn--primary"
+              onClick={() => setShowDetail(true)}
             >
               Ver evento
-            </a>
+            </button>
           </div>
         </div>
       </div>
@@ -80,6 +80,12 @@ const FeaturedEventCard = ({ hero, ...event }: FeaturedEventCardProps) => {
           event={event}
           onClose={() => setShowShare(false)}
           onSent={() => setHasSent(true)}
+        />
+      )}
+      {showDetail && (
+        <EventDetailModal
+          event={event}
+          onClose={(saved, sent) => { setShowDetail(false); setIsSaved(saved); setHasSent(sent) }}
         />
       )}
     </>
