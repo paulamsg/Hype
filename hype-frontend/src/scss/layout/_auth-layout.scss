@@ -92,12 +92,15 @@
   }
 
   @media (max-width: 768px) {
+    height: auto;
+    min-height: 100vh;
+    overflow-y: auto;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: 1.5rem;
-    padding: var(--sp-md);
+    padding: 2rem 1.25rem;
 
     .logo__text {
       position: relative;
@@ -107,11 +110,25 @@
     &__form {
       position: relative;
       transform: none;
+      right: auto;
       width: 100%;
-      max-width: 400px;
-      border-radius: var(--radius-lg);
+      max-width: 420px;
+      border-radius: var(--radius-full);
       background: var(--white);
       z-index: 2;
+    }
+  }
+
+  @media (max-width: 480px) {
+    padding: 1.5rem 1rem;
+    gap: 1rem;
+
+    &__form {
+      padding: 1.5rem;
+
+      &-title {
+        font-size: var(--text-lg);
+      }
     }
   }
 }
