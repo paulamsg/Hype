@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useAuth } from '../context/useAuth'
 import { useNavigate, Link } from 'react-router-dom'
+import { isAxiosError } from 'axios'
 import type { LoginForm } from '../types/auth.types'
 import { login } from '../services/auth.services'
 import Input from '../components/ui/Input'
@@ -39,7 +40,11 @@ const Login = () => {
       saveAuth(data.token, data.user)
       navigate('/descubre')
     } catch (err) {
-      setError(`Email o contraseña incorrectos: ${err}`)
+      const message =
+        isAxiosError(err) && err.response?.data?.message
+          ? err.response.data.message
+          : 'Email o contraseña incorrectos'
+      setError(message)
     } finally {
       setLoading(false)
     }
