@@ -146,9 +146,7 @@ const Discover = () => {
       {!loading && eventsFeaturedFiltered.length > 0 && category !== 'all' && (
         <>
           <h2 className="featured-section__title">Destacado de esta semana</h2>
-          {eventsFeaturedFiltered.map((event) => (
-            <FeaturedEventCard key={event.id} {...event} hero />
-          ))}
+          <FeaturedEventCard key={eventsFeaturedFiltered[0].id} {...eventsFeaturedFiltered[0]} hero />
         </>
       )}
       {!loading && featuredEvents.length > 0 && category === 'all' && (

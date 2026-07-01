@@ -37,7 +37,7 @@ const FeaturedEventCard = ({ hero, ...event }: FeaturedEventCardProps) => {
 
   return (
     <>
-      <div className={`featured-card${hero ? ' featured-card--hero' : ''}`}>
+      <div className={`featured-card${hero ? ' featured-card--hero' : ''}`} onClick={() => setShowDetail(true)}>
         <img src={event.image} alt={event.name} className="featured-card__img" />
         <div className="featured-card__overlay" />
         <div className="featured-card__info">
@@ -63,12 +63,9 @@ const FeaturedEventCard = ({ hero, ...event }: FeaturedEventCardProps) => {
               className={`featured-card__btn${hasSent ? ' featured-card__btn--shared' : ''}`}
               onClick={() => setShowShare(true)}
             >
-              Compartir
+              {hasSent ? 'Compartido' : 'Compartir'}
             </button>
-            <button
-              className="featured-card__btn featured-card__btn--primary"
-              onClick={() => setShowDetail(true)}
-            >
+            <button className="featured-card__btn featured-card__btn--primary" onClick={() => setShowDetail(true)}>
               Ver evento
             </button>
           </div>
@@ -76,16 +73,16 @@ const FeaturedEventCard = ({ hero, ...event }: FeaturedEventCardProps) => {
       </div>
 
       {showShare && (
-        <ShareEventModal
-          event={event}
-          onClose={() => setShowShare(false)}
-          onSent={() => setHasSent(true)}
-        />
+        <ShareEventModal event={event} onClose={() => setShowShare(false)} onSent={() => setHasSent(true)} />
       )}
       {showDetail && (
         <EventDetailModal
           event={event}
-          onClose={(saved, sent) => { setShowDetail(false); setIsSaved(saved); setHasSent(sent) }}
+          onClose={(saved, sent) => {
+            setShowDetail(false)
+            setIsSaved(saved)
+            setHasSent(sent)
+          }}
         />
       )}
     </>
