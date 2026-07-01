@@ -19,11 +19,10 @@ const UserSearchCard = ({ id, name, username, lastName, avatarUrl, isPending = f
         await postFollowRequest(id)
         setfollowRequestSended(true)
       }
-    } catch (e: any) {
-      if (e?.response?.status === 409) {
+    } catch (e: unknown) {
+      const err = e as { response?: { status?: number } }
+      if (err?.response?.status === 409) {
         setfollowRequestSended(true)
-      } else {
-        console.log('Se ha producido un error con la solicitud')
       }
     }
   }

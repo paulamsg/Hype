@@ -78,8 +78,7 @@ const EditProfileModal = ({ onClose }: { onClose: () => void }) => {
       }
       await updateUserData(data)
       updateUser(data)
-    } catch (e) {
-      console.log('error', e)
+    } catch {
     } finally {
       setUploading(false)
       onClose()

@@ -20,8 +20,7 @@ const NotificationCard = ({ onRefresh, ...noti }: Notification) => {
       await updateFollowRequest(noti)
       refreshProfile()
       onRefresh()
-    } catch (error) {
-      console.log(error)
+    } catch {
     }
   }
 
@@ -30,8 +29,7 @@ const NotificationCard = ({ onRefresh, ...noti }: Notification) => {
       if (!noti.id) return
       await deleteNotification(noti.id)
       onRefresh()
-    } catch (error) {
-      console.log(error)
+    } catch {
     }
   }
 
@@ -42,8 +40,7 @@ const NotificationCard = ({ onRefresh, ...noti }: Notification) => {
       await deleteNotification(noti.id)
       await refreshProfile()
       onRefresh()
-    } catch (error) {
-      console.log(error)
+    } catch {
     }
   }
 

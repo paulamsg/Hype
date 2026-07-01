@@ -86,9 +86,8 @@ const Discover = () => {
         date,
       })
       setEvents([...data, ...dataMock])
-      console.log('hola caracola', data[3])
     } catch (e) {
-      console.log('error', e)
+      console.error(e)
     } finally {
       setLoading(false)
     }
@@ -113,7 +112,6 @@ const Discover = () => {
       const data = await getFeaturedMockEvents()
       setFeaturedEvents(data)
     } catch (e) {
-      console.log(e)
       setFeaturedEvents([])
     }
   }

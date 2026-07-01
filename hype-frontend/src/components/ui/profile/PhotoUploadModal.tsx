@@ -17,9 +17,7 @@ const PhotoUploadModal = ({ photos, onClose, onUpload }: PhotoUploadModalProps) 
   useEffect(() => {
     const fetchEvents = async () => {
       const data = await getSavedEvents()
-      console.log('data de savedEvents', data)
       setSavedEvents(data.savedEvents.filter((e: { id: string; name: string | null }) => e.name !== null))
-      console.log('Eventos del usuario:', savedEvents)
     }
     fetchEvents()
   }, [token])

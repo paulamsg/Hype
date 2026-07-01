@@ -142,15 +142,6 @@
     .btn { flex: 1; }
   }
 
-  &__logout {
-    margin-top: auto;
-    flex-shrink: 0;
-
-    @media (max-width: 768px) {
-      margin-top: 0;
-    }
-  }
-
   &__folders {
     display: flex;
     flex-direction: column;

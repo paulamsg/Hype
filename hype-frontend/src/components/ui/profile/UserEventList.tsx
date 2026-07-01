@@ -36,8 +36,7 @@ const UserEventList = ({ folder }: FolderType) => {
           const data = await getExpiredEvents()
           setEvents(data.savedEvents)
         }
-      } catch (e) {
-        console.log('error', e)
+      } catch {
       } finally {
         setLoading(false)
       }

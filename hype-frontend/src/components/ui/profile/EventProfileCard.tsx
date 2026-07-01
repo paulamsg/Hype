@@ -25,8 +25,7 @@ const EventProfileCard = ({ folder, onUpdate, ...event }: Event & { folder: Fold
   const handleDelete = async (event: Event) => {
     try {
       await deleteEvent(event)
-    } catch (e) {
-      console.log(e)
+    } catch {
     } finally {
       refreshProfile()
       setDropdownOpen(false)
@@ -36,10 +35,8 @@ const EventProfileCard = ({ folder, onUpdate, ...event }: Event & { folder: Fold
 
   const handleMoveToFolder = async (event: Event, folder: Folder) => {
     try {
-      console.log('evento + folder:', event, folder)
       await updateEventFolder(event, folder)
-    } catch (e) {
-      console.log(e)
+    } catch {
     } finally {
       refreshProfile()
       setDropdownOpen(false)

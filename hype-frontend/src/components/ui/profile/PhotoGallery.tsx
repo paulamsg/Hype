@@ -21,8 +21,8 @@ const PhotoGallery = () => {
     try {
       const data = await getPhotosByUser()
       setSavedPhotos(data.photos)
-    } catch (error) {
-      return console.log(error)
+    } catch {
+      return
     } finally {
       setLoading(false)
     }
@@ -30,8 +30,7 @@ const PhotoGallery = () => {
   const handleDelete = async (photo: Photo) => {
     try {
       await deletePhoto(photo)
-    } catch (e) {
-      console.log(e)
+    } catch {
     } finally {
       setSavedPhotos((prev) => prev.filter((p) => p.id !== photo.id))
       setDropdownOpen(null)
