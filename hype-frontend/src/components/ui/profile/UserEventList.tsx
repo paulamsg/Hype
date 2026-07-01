@@ -5,7 +5,7 @@ import { getWantEvents, getGoneEvents, getGoingEvents, getExpiredEvents } from '
 import { useState, useEffect } from 'react'
 
 const EMPTY_MESSAGES: Record<string, string> = {
-  GOING: 'Todavía no has guardado ningún evento próximo',
+  GOING: 'Todavía no tienes eventos confirmados',
   WANT_GO: 'Todavía no has guardado ningún evento',
   GONE: 'Todavía no has asistido a ningún evento',
   EXPIRED: 'No tienes eventos pasados',

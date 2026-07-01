@@ -14,7 +14,7 @@ interface Props {
 }
 
 const FOLDERS: { tab: ProfileTab; icon: React.ReactNode; cls: string; label: string; countKey: 'wantGo' | 'going' | 'gone' | 'expired' }[] = [
-  { tab: 'voy-a-ir',    icon: <Bookmark size={15} />, cls: 'going',    label: 'Voy a ir',    countKey: 'going'    },
+  { tab: 'voy-a-ir',    icon: <Bookmark size={15} />, cls: 'going',    label: 'Confirmados',    countKey: 'going'    },
   { tab: 'me-interesa', icon: <Heart size={15} />,    cls: 'heart',    label: 'Me interesa', countKey: 'wantGo'   },
   { tab: 'fui',         icon: <Sparkles size={15} />, cls: 'check',    label: 'Asistidos',   countKey: 'gone'     },
   { tab: 'pasados',     icon: <ClockAlert size={15} />, cls: 'clock',  label: 'Pasados',     countKey: 'expired'  },

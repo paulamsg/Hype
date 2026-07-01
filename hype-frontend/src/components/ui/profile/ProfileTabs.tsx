@@ -8,7 +8,7 @@ interface ProfileTabsProps {
 
 const TABS: { id: ProfileTab; label: string; icon: React.ReactNode }[] = [
   { id: 'fotos',       label: 'Fotos',       icon: <Camera size={13} /> },
-  { id: 'voy-a-ir',    label: 'Voy a ir',    icon: <Ticket size={13} /> },
+  { id: 'voy-a-ir',    label: 'Confirmados',    icon: <Ticket size={13} /> },
   { id: 'me-interesa', label: 'Me interesa', icon: <Heart size={13} /> },
   { id: 'fui',         label: 'Asistidos',   icon: <Sparkles size={13} /> },
   { id: 'pasados',     label: 'Pasados',     icon: <Clock size={13} /> },
