@@ -133,4 +133,28 @@
     overflow-y: auto;
     padding-right: var(--sp-xs);
   }
+
+  &__suggestions {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    margin-top: var(--sp-md);
+    display: flex;
+    flex-direction: column;
+    padding-right: var(--sp-xs);
+
+    @media (max-width: 1024px) {
+      display: none;
+    }
+  }
+
+  &__suggestions-label {
+    font-family: var(--sans);
+    font-size: var(--text-sm);
+    font-weight: 700;
+    color: var(--ink3);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: var(--sp-sm);
+  }
 }
