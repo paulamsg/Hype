@@ -11,7 +11,6 @@ const VIDEOS = [
   '/videos/11999024_1920_1080_25fps.mp4',
   '/videos/12504903_2560_1440_30fps.mp4',
   '/videos/13082773-hd_1920_1080_60fps.mp4',
-  '/videos/15878108_1920_1080_25fps.mp4',
 ]
 
 const Login = () => {
