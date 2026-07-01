@@ -13,16 +13,27 @@ const SearchUserAside = () => {
   const [friendIds, setFriendIds] = useState<number[]>([])
 
   useEffect(() => {
-    Promise.all([getPendingRequests(), getFriendIds()])
-      .then(([pending, friends]) => { setPendingIds(pending); setFriendIds(friends) })
-      .catch(console.error)
+    const load = async () => {
+      try {
+        const [pending, friends] = await Promise.all([getPendingRequests(), getFriendIds()])
+        setPendingIds(pending)
+        setFriendIds(friends)
+      } catch {}
+    }
+    load()
   }, [])
 
   useEffect(() => {
     if (searchValue.trim() === '') { setSearchUsers([]); return }
-    searchUser(searchValue)
-      .then(setSearchUsers)
-      .catch(() => setSearchUsers([]))
+    const search = async () => {
+      try {
+        const results = await searchUser(searchValue)
+        setSearchUsers(results)
+      } catch {
+        setSearchUsers([])
+      }
+    }
+    search()
   }, [searchValue])
 
   return (

@@ -16,26 +16,24 @@ const PhotoUploadModal = ({ photos, onClose, onUpload }: PhotoUploadModalProps) 
 
   useEffect(() => {
     const fetchEvents = async () => {
-      const data = await getSavedEvents()
-      setSavedEvents(data.savedEvents.filter((e: { id: string; name: string | null }) => e.name !== null))
+      try {
+        const data = await getSavedEvents()
+        setSavedEvents(data.savedEvents.filter((e: { id: string; name: string | null }) => e.name !== null))
+      } catch {}
     }
     fetchEvents()
   }, [token])
 
   const handleUpload = async () => {
-    if (!selectedEventId) {
-      return
-    } else {
+    if (!selectedEventId) return
+    try {
       for (const file of photos) {
         const imageUrl = await uploadImageToCloudinary(file)
-        await postPhoto({
-          url: imageUrl,
-          savedEventId: selectedEventId,
-        })
+        await postPhoto({ url: imageUrl, savedEventId: selectedEventId })
       }
       await refreshProfile()
       onUpload()
-    }
+    } catch {}
   }
   return (
     <div className="modal-overlay" onClick={onClose}>

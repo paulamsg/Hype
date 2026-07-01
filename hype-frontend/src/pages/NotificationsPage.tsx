@@ -25,9 +25,13 @@ const NotificationsPage = () => {
 
   useEffect(() => {
     getAllNotifications()
-    getFriendsCount()
-      .then(({ followingCount }) => setHasFriends(followingCount > 0))
-      .catch(() => {})
+    const loadFriendsCount = async () => {
+      try {
+        const { followingCount } = await getFriendsCount()
+        setHasFriends(followingCount > 0)
+      } catch {}
+    }
+    loadFriendsCount()
   }, [])
 
   const unread = allNotifications.filter(n => !n.read)

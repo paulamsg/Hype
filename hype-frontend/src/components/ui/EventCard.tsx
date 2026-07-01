@@ -14,22 +14,26 @@ const EventCard = (event: Event) => {
   const [showDetail, setShowDetail] = useState(false)
 
   useEffect(() => {
-    getSavedEvents()
-      .then((data) => setIsSaved(data.savedEvents.some((e: { id: string }) => e.id === event.id)))
-      .catch(() => setIsSaved(false))
-    getSharedEventIds()
-      .then((ids) => setHasSent(ids.includes(event.id)))
-      .catch(() => {})
+    const load = async () => {
+      try {
+        const [data, ids] = await Promise.all([getSavedEvents(), getSharedEventIds()])
+        setIsSaved(data.savedEvents.some((e: { id: string }) => e.id === event.id))
+        setHasSent(ids.includes(event.id))
+      } catch {}
+    }
+    load()
   }, [event.id])
 
   const handleClickHeart = async () => {
-    if (isSaved) {
-      await deleteEvent(event)
-      setIsSaved(false)
-    } else {
-      await saveEvent(event)
-      setIsSaved(true)
-    }
+    try {
+      if (isSaved) {
+        await deleteEvent(event)
+        setIsSaved(false)
+      } else {
+        await saveEvent(event)
+        setIsSaved(true)
+      }
+    } catch {}
   }
 
   return (

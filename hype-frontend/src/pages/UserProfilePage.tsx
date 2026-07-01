@@ -17,10 +17,16 @@ const ReadOnlyPhotoGallery = ({ userId }: { userId: number }) => {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    getUserPhotos(userId)
-      .then((data) => setPhotos(data.photos))
-      .catch(() => {})
-      .finally(() => setLoading(false))
+    const load = async () => {
+      try {
+        const data = await getUserPhotos(userId)
+        setPhotos(data.photos)
+      } catch {
+      } finally {
+        setLoading(false)
+      }
+    }
+    load()
   }, [userId])
 
   if (loading) return <p className="photo-gallery__loading">Cargando fotos...</p>
@@ -45,10 +51,16 @@ const ReadOnlyEventList = ({ userId }: { userId: number }) => {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    getUserGoneEvents(userId)
-      .then((data) => setEvents(data.savedEvents))
-      .catch(() => {})
-      .finally(() => setLoading(false))
+    const load = async () => {
+      try {
+        const data = await getUserGoneEvents(userId)
+        setEvents(data.savedEvents)
+      } catch {
+      } finally {
+        setLoading(false)
+      }
+    }
+    load()
   }, [userId])
 
   if (loading) return <p className="photo-gallery__loading">Cargando eventos...</p>
@@ -91,10 +103,17 @@ const UserProfilePage = () => {
 
   useEffect(() => {
     if (!userId) return
-    getUserProfile(Number(userId))
-      .then(setProfile)
-      .catch(() => setNotFound(true))
-      .finally(() => setLoading(false))
+    const load = async () => {
+      try {
+        const data = await getUserProfile(Number(userId))
+        setProfile(data)
+      } catch {
+        setNotFound(true)
+      } finally {
+        setLoading(false)
+      }
+    }
+    load()
   }, [userId])
 
   const handleUnfollow = async () => {

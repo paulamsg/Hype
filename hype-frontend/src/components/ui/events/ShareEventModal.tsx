@@ -22,38 +22,50 @@ const ShareEventModal = ({ event, onClose, onSent }: Props) => {
   const LS_KEY = `hype_shared_friends_${event.id}`
 
   useEffect(() => {
-    getMyGroups().then(setGroups).catch(console.error)
-    getFriends().then(setFriends).catch(console.error)
-    getGroupIdsForEvent(event.id)
-      .then(ids => setSentGroups(new Set(ids)))
-      .catch(console.error)
+    const load = async () => {
+      try {
+        const [myGroups, myFriends, ids] = await Promise.all([
+          getMyGroups(),
+          getFriends(),
+          getGroupIdsForEvent(event.id),
+        ])
+        setGroups(myGroups)
+        setFriends(myFriends)
+        setSentGroups(new Set(ids))
+      } catch {}
+    }
+    load()
     const stored = JSON.parse(localStorage.getItem(LS_KEY) || '[]') as number[]
     if (stored.length) setSentFriends(new Set(stored))
   }, [])
 
   const handleSendToGroup = async (groupId: number) => {
-    await addEventToGroup(groupId, {
-      eventId: event.id,
-      name: event.name,
-      date: event.date,
-      venue: event.venue,
-      city: event.city,
-      image: event.image,
-      category: event.category,
-      genre: event.genre,
-    })
-    setSentGroups(prev => new Set(prev).add(groupId))
-    onSent()
+    try {
+      await addEventToGroup(groupId, {
+        eventId: event.id,
+        name: event.name,
+        date: event.date,
+        venue: event.venue,
+        city: event.city,
+        image: event.image,
+        category: event.category,
+        genre: event.genre,
+      })
+      setSentGroups(prev => new Set(prev).add(groupId))
+      onSent()
+    } catch {}
   }
 
   const handleSendToFriend = async (friendId: number) => {
-    await shareEventToFriend(friendId, { name: event.name, image: event.image, date: event.date, venue: event.venue, city: event.city })
-    setSentFriends(prev => {
-      const updated = new Set(prev).add(friendId)
-      localStorage.setItem(LS_KEY, JSON.stringify([...updated]))
-      return updated
-    })
-    onSent()
+    try {
+      await shareEventToFriend(friendId, { name: event.name, image: event.image, date: event.date, venue: event.venue, city: event.city })
+      setSentFriends(prev => {
+        const updated = new Set(prev).add(friendId)
+        localStorage.setItem(LS_KEY, JSON.stringify([...updated]))
+        return updated
+      })
+      onSent()
+    } catch {}
   }
 
   const filteredFriends = friends.filter(f =>

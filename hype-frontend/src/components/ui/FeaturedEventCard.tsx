@@ -17,22 +17,26 @@ const FeaturedEventCard = ({ hero, ...event }: FeaturedEventCardProps) => {
   const [showDetail, setShowDetail] = useState(false)
 
   useEffect(() => {
-    getSharedEventIds()
-      .then((ids) => setHasSent(ids.includes(event.id)))
-      .catch(() => {})
-    getSavedEvents()
-      .then((data) => setIsSaved(data.savedEvents.some((e: { id: string }) => e.id === event.id)))
-      .catch(() => {})
+    const load = async () => {
+      try {
+        const [ids, data] = await Promise.all([getSharedEventIds(), getSavedEvents()])
+        setHasSent(ids.includes(event.id))
+        setIsSaved(data.savedEvents.some((e: { id: string }) => e.id === event.id))
+      } catch {}
+    }
+    load()
   }, [event.id])
 
   const handleWantGo = async () => {
-    if (isSaved) {
-      await deleteEvent(event)
-      setIsSaved(false)
-    } else {
-      await saveEvent(event)
-      setIsSaved(true)
-    }
+    try {
+      if (isSaved) {
+        await deleteEvent(event)
+        setIsSaved(false)
+      } else {
+        await saveEvent(event)
+        setIsSaved(true)
+      }
+    } catch {}
   }
 
   return (

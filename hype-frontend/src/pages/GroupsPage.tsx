@@ -39,9 +39,11 @@ const GroupsPage = () => {
   }
 
   useEffect(() => {
-    loadGroups().then(() => {
+    const init = async () => {
+      await loadGroups()
       if (locationGroupId) loadGroupDetail(locationGroupId)
-    })
+    }
+    init()
   }, [])
 
   const handleGroupUpdate = () => {

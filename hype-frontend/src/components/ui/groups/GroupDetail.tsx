@@ -54,10 +54,14 @@ const GroupDetail = ({ group, currentUserId, onUpdate, onDeleted }: Props) => {
     if (!isSame) next[vote] = [...next[vote], me]
     setPendingVotes(prev => new Map(prev).set(groupEventId, next))
 
-    const result = await voteOnGroupEvent(group.id, groupEventId, vote)
-    setPendingVotes(prev => { const m = new Map(prev); m.delete(groupEventId); return m })
-    onUpdate()
-    if (result.vote === null) setVoterPanel(null)
+    try {
+      const result = await voteOnGroupEvent(group.id, groupEventId, vote)
+      if (result.vote === null) setVoterPanel(null)
+    } catch {
+    } finally {
+      setPendingVotes(prev => { const m = new Map(prev); m.delete(groupEventId); return m })
+      onUpdate()
+    }
   }
 
   const toggleVoterPanel = (eventId: number, type: VoteType) => {
@@ -74,42 +78,55 @@ const GroupDetail = ({ group, currentUserId, onUpdate, onDeleted }: Props) => {
     try {
       const all = await getFriends()
       setFriends(all.filter((f) => !memberIds.has(f.id)))
+    } catch {
     } finally {
       setLoadingFriends(false)
     }
   }
 
   const handleAddMember = async (friendId: number) => {
-    await addMember(group.id, friendId)
-    onUpdate()
-    setShowAddMember(false)
+    try {
+      await addMember(group.id, friendId)
+      onUpdate()
+      setShowAddMember(false)
+    } catch {}
   }
 
   const handleRemoveMember = async (memberId: number) => {
-    await removeMember(group.id, memberId)
-    onUpdate()
+    try {
+      await removeMember(group.id, memberId)
+      onUpdate()
+    } catch {}
   }
 
   const handleLeave = async () => {
-    await removeMember(group.id, currentUserId)
-    onDeleted()
+    try {
+      await removeMember(group.id, currentUserId)
+      onDeleted()
+    } catch {}
   }
 
   const handleDelete = async () => {
-    await deleteGroup(group.id)
-    onDeleted()
+    try {
+      await deleteGroup(group.id)
+      onDeleted()
+    } catch {}
   }
 
   const handleRemoveEvent = async (groupEventId: number) => {
-    await removeEventFromGroup(group.id, groupEventId)
-    onUpdate()
+    try {
+      await removeEventFromGroup(group.id, groupEventId)
+      onUpdate()
+    } catch {}
   }
 
   const handleSaveName = async () => {
     if (!nameInput.trim() || nameInput === group.name) { setEditingName(false); return }
-    await updateGroupName(group.id, nameInput.trim())
-    setEditingName(false)
-    onUpdate()
+    try {
+      await updateGroupName(group.id, nameInput.trim())
+      setEditingName(false)
+      onUpdate()
+    } catch {}
   }
 
   return (

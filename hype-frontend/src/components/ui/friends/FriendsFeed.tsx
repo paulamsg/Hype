@@ -7,10 +7,16 @@ const FriendsFeed = () => {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    getFriendsFeed()
-      .then(setEvents)
-      .catch(console.error)
-      .finally(() => setLoading(false))
+    const load = async () => {
+      try {
+        const data = await getFriendsFeed()
+        setEvents(data)
+      } catch {
+      } finally {
+        setLoading(false)
+      }
+    }
+    load()
   }, [])
 
   return (

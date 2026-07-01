@@ -25,25 +25,31 @@ const EventDetailModal = ({ event, onClose, friendMode, onResponded, alreadyResp
 
   useEffect(() => {
     if (!friendMode) {
-      getSavedEvents()
-        .then(data => setIsSaved(data.savedEvents.some((e: { id: string }) => e.id === event.id)))
-        .catch(() => {})
-      getSharedEventIds()
-        .then(ids => setHasSent(ids.includes(event.id)))
-        .catch(() => {})
+      const load = async () => {
+        try {
+          const [data, ids] = await Promise.all([getSavedEvents(), getSharedEventIds()])
+          setIsSaved(data.savedEvents.some((e: { id: string }) => e.id === event.id))
+          setHasSent(ids.includes(event.id))
+        } catch {}
+      }
+      load()
     }
   }, [event.id])
 
   const handleSave = async () => {
-    if (isSaved) { await deleteEvent(event); setIsSaved(false) }
-    else { await saveEvent(event); setIsSaved(true) }
+    try {
+      if (isSaved) { await deleteEvent(event); setIsSaved(false) }
+      else { await saveEvent(event); setIsSaved(true) }
+    } catch {}
   }
 
   const handleRespond = async (joined: boolean) => {
-    await respondToEvent(friendMode!.recipientId, event.name, joined)
-    setResponded(true)
-    onResponded?.()
-    setTimeout(() => onClose(isSaved, hasSent), 800)
+    try {
+      await respondToEvent(friendMode!.recipientId, event.name, joined)
+      setResponded(true)
+      onResponded?.()
+      setTimeout(() => onClose(isSaved, hasSent), 800)
+    } catch {}
   }
 
   const price = event.priceMin != null

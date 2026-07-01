@@ -10,7 +10,16 @@ const GroupsAside = () => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    getMyGroups().then(setGroups).catch(console.error).finally(() => setLoaded(true))
+    const load = async () => {
+      try {
+        const data = await getMyGroups()
+        setGroups(data)
+      } catch {
+      } finally {
+        setLoaded(true)
+      }
+    }
+    load()
   }, [])
 
   if (!loaded) return null

@@ -13,7 +13,13 @@ const FriendsModal = ({ onClose, onFriendRemoved }: Props) => {
   const [confirmId, setConfirmId] = useState<number | null>(null)
 
   useEffect(() => {
-    getFriends().then(setFriends).catch(console.error)
+    const load = async () => {
+      try {
+        const data = await getFriends()
+        setFriends(data)
+      } catch {}
+    }
+    load()
   }, [])
 
   const handleRemove = async (friendId: number) => {

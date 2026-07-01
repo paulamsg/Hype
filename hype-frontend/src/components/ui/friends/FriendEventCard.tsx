@@ -43,9 +43,11 @@ const FriendEventCard = (activity: FriendActivity) => {
   const [responded, setResponded] = useState(false)
 
   const handleRespond = async (joined: boolean) => {
-    const eventName = (activity as FriendGroupEvent).name ?? (activity as FriendEventShared).eventName ?? ''
-    await respondToEvent(savedBy.id, eventName, joined)
-    setResponded(true)
+    try {
+      const eventName = (activity as FriendGroupEvent).name ?? (activity as FriendEventShared).eventName ?? ''
+      await respondToEvent(savedBy.id, eventName, joined)
+      setResponded(true)
+    } catch {}
   }
 
   const saved   = activity.type === 'SAVED_EVENT'   ? (activity as FriendSavedEvent)  : null
