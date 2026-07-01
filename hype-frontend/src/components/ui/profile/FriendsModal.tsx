@@ -51,7 +51,12 @@ const FriendsModal = ({ onClose, onFriendRemoved }: Props) => {
                   <div
                     className="friends-modal__avatar friends-modal__avatar--link"
                     onClick={() => { onClose(); navigate(`/usuario/${friend.id}`) }}
-                  >{friend.name.charAt(0).toUpperCase()}</div>
+                  >
+                    {friend.avatarUrl
+                      ? <img src={friend.avatarUrl} alt={friend.name} />
+                      : friend.name.charAt(0).toUpperCase()
+                    }
+                  </div>
                   <div className="friends-modal__info">
                     <span
                       className="friends-modal__name friends-modal__name--link"
