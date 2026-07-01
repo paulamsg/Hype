@@ -25,8 +25,6 @@ export const getEvents = async (req: Request, res: Response) => {
         city: city,
         countryCode: 'ES',
         classificationName: category && category !== 'all' ? category : undefined,
-        startDateTime: date && date !== 'all' ? date : undefined,
-        endDateTime: date && date !== 'all' ? date : undefined,
         size: 50,
         page: page,
         sort: 'date,asc',
