@@ -1,4 +1,4 @@
-import express, { type Request, type Response, type NextFunction } from 'express'
+import express from 'express'
 import cors from 'cors'
 import dotenv from 'dotenv'
 import authRoutes from './routes/auth.routes'
@@ -11,6 +11,7 @@ import followRequestRoutes from './routes/followRequest.routes'
 import followRoutes from './routes/follow.routes'
 import notificationsRoutes from './routes/notifications.routes'
 import groupsRoutes from './routes/groups.routes'
+import { errorHandler } from './middleware/error.middleware'
 import { expireOldEvents } from './jobs/expireEvents.job'
 import { updateFeaturedEvents } from './jobs/featuredEvents.job'
 import nodeCron from 'node-cron'
@@ -49,10 +50,7 @@ app.get('/', (_req, res) => {
   res.json({ message: 'Hype!!' })
 })
 
-app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
-  console.error(err)
-  res.status(500).json({ error: err.message || 'Error interno del servidor' })
-})
+app.use(errorHandler)
 
 const PORT = process.env.PORT || 3000
 app.listen(PORT, () => {
