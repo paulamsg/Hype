@@ -82,7 +82,7 @@ export const deleteAllNotifications = async (req: AuthRequest, res: Response) =>
     if (!userId) return res.status(401).json({ error: 'No autorizado' })
     await prisma.notification.deleteMany({ where: { userId } })
     return res.status(200).json({ message: 'Notificaciones eliminadas' })
-  } catch (error) {
+  } catch {
     return res.status(500).json({ error: 'Error al eliminar las notificaciones' })
   }
 }
@@ -94,7 +94,7 @@ export const getUnreadCount = async (req: AuthRequest, res: Response) => {
 
     const count = await prisma.notification.count({ where: { userId, read: false } })
     return res.status(200).json({ unreadCount: count })
-  } catch (error) {
+  } catch {
     return res.status(500).json({ error: 'Error al obtener el conteo' })
   }
 }
@@ -110,7 +110,7 @@ export const markNotificationRead = async (req: AuthRequest, res: Response) => {
     })
 
     return res.status(200).json({ message: 'Notificación marcada como leída' })
-  } catch (error) {
+  } catch {
     return res.status(500).json({ error: 'Error al marcar la notificación' })
   }
 }
@@ -142,7 +142,7 @@ export const deleteNotification = async (req: AuthRequest, res: Response) => {
     })
 
     return res.status(200).json({ message: 'Solicitud rechazada' })
-  } catch (error) {
+  } catch {
     return res.status(500).json({ error: 'Error al eliminar la solicitud de amistad' })
   }
 }
