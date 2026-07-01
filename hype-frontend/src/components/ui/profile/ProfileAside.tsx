@@ -59,12 +59,15 @@ const ProfileAside = ({ activeTab, onTabChange }: Props) => {
         </div>
       </div>
 
-      <Button
-        label="Editar perfil"
-        variant="outline"
-        size="md"
-        onClick={() => setShowEditModal(true)}
-      />
+      <div className="profile__actions">
+        <Button
+          label="Editar perfil"
+          variant="outline"
+          size="md"
+          onClick={() => setShowEditModal(true)}
+        />
+        <Button label="Cerrar sesión" variant="danger-outline" size="md" onClick={() => setShowLogout(true)} />
+      </div>
       {showEditModal && (
         <>
           <div className="modal-overlay" onClick={() => setShowEditModal(false)} />
@@ -89,10 +92,6 @@ const ProfileAside = ({ activeTab, onTabChange }: Props) => {
             <span className="profile__folder-cnt">{eventsCount[countKey]}</span>
           </div>
         ))}
-      </div>
-
-      <div className="profile__logout">
-        <Button label="Cerrar sesión" variant="danger-outline" size="md" onClick={() => setShowLogout(true)} />
       </div>
 
       {showLogout && (

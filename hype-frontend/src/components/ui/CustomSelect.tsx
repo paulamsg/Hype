@@ -14,7 +14,9 @@ interface CustomSelectProps {
 
 const CustomSelect = ({ value, onChange, options, active }: CustomSelectProps) => {
   const [open, setOpen] = useState(false)
+  const [dropdownPos, setDropdownPos] = useState({ top: 0, right: 0 })
   const ref = useRef<HTMLDivElement>(null)
+  const triggerRef = useRef<HTMLButtonElement>(null)
 
   const selected = options.find((o) => o.value === value)
 
@@ -28,14 +30,25 @@ const CustomSelect = ({ value, onChange, options, active }: CustomSelectProps) =
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
 
+  const handleToggle = () => {
+    if (!open && triggerRef.current) {
+      const rect = triggerRef.current.getBoundingClientRect()
+      setDropdownPos({ top: rect.bottom + 6, right: window.innerWidth - rect.right })
+    }
+    setOpen((prev) => !prev)
+  }
+
   return (
     <div className={`custom-select${active ? ' custom-select--active' : ''}`} ref={ref}>
-      <button type="button" className="custom-select__trigger" onClick={() => setOpen((prev) => !prev)}>
+      <button type="button" className="custom-select__trigger" ref={triggerRef} onClick={handleToggle}>
         <span>{selected?.label}</span>
         <span className={`custom-select__arrow${open ? ' custom-select__arrow--open' : ''}`}>▾</span>
       </button>
       {open && (
-        <ul className="custom-select__dropdown">
+        <ul
+          className="custom-select__dropdown"
+          style={{ position: 'fixed', top: dropdownPos.top, right: dropdownPos.right, left: 'auto' }}
+        >
           {options.map((opt) => (
             <li
               key={opt.value}

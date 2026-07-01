@@ -39,10 +39,7 @@
   }
 
   &__dropdown {
-    position: absolute;
-    top: calc(100% + 6px);
-    right: 0;
-    min-width: 100%;
+    min-width: 160px;
     background: var(--white);
     border: 1px solid var(--b1);
     border-radius: var(--radius-md);
