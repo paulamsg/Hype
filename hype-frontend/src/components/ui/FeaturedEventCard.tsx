@@ -59,13 +59,13 @@ const FeaturedEventCard = ({ hero, ...event }: FeaturedEventCardProps) => {
           <div className="featured-card__actions">
             <button
               className={`featured-card__btn${isSaved ? ' featured-card__btn--saved' : ''}`}
-              onClick={handleWantGo}
+              onClick={(e) => { e.stopPropagation(); handleWantGo() }}
             >
               {isSaved ? '✓ Guardado' : 'Quiero ir'}
             </button>
             <button
               className={`featured-card__btn${hasSent ? ' featured-card__btn--shared' : ''}`}
-              onClick={() => setShowShare(true)}
+              onClick={(e) => { e.stopPropagation(); setShowShare(true) }}
             >
               {hasSent ? 'Compartido' : 'Compartir'}
             </button>
