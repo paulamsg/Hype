@@ -10,13 +10,13 @@ export const authMiddleware = (req: AuthRequest, res: Response, next: NextFuncti
     const authHeader = req.headers.authorization
 
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      return res.status(401).json({ message: 'No autorizado' })
+      return res.status(401).json({ error: 'No autorizado' })
     }
     const token = authHeader.split(' ')[1]
     const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as { userId: number }
     req.userId = decoded.userId
     next()
   } catch (error) {
-    return res.status(401).json({ message: 'Token inválido' })
+    return res.status(401).json({ error: 'Token inválido' })
   }
 }
