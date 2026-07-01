@@ -11,7 +11,7 @@ export const updateUserData = async (user: UpdateUserData) => {
   return response.data
 }
 
-export const searchUser = async (value: String) => {
+export const searchUser = async (value: string) => {
   const token = localStorage.getItem('token')
   const response = await axios.get(`${import.meta.env.VITE_SERVER_URL}/users/search?user=${value}`, {
     headers: {

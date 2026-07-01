@@ -43,7 +43,7 @@ export const respondToEvent = async (req: AuthRequest, res: Response) => {
       data: { userId: recipientId, senderId: userId, type, message },
     })
     return res.status(201).json({ message: 'Respuesta enviada' })
-  } catch (e) {
+  } catch {
     return res.status(500).json({ error: 'Error al enviar la respuesta' })
   }
 }
@@ -71,7 +71,7 @@ export const shareEventToFriend = async (req: AuthRequest, res: Response) => {
       },
     })
     return res.status(201).json({ message: 'Evento enviado' })
-  } catch (e) {
+  } catch {
     return res.status(500).json({ error: 'Error al enviar el evento' })
   }
 }

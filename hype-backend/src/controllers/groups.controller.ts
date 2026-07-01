@@ -15,7 +15,7 @@ export const getGroupIdsForEvent = async (req: AuthRequest, res: Response) => {
       select: { groupId: true },
     })
     return res.status(200).json({ groupIds: rows.map((r) => r.groupId) })
-  } catch (e) {
+  } catch {
     return res.status(500).json({ error: 'Error' })
   }
 }
@@ -30,7 +30,7 @@ export const getSharedEventIds = async (req: AuthRequest, res: Response) => {
       select: { eventId: true },
     })
     return res.status(200).json({ eventIds: [...new Set(events.map(e => e.eventId))] })
-  } catch (e) {
+  } catch {
     return res.status(500).json({ error: 'Error' })
   }
 }
@@ -49,7 +49,7 @@ export const createGroup = async (req: AuthRequest, res: Response) => {
       return created
     })
     return res.status(201).json({ group })
-  } catch (e) {
+  } catch {
     return res.status(500).json({ error: 'Error al crear el grupo' })
   }
 }
@@ -75,7 +75,7 @@ export const getMyGroups = async (req: AuthRequest, res: Response) => {
     }))
 
     return res.status(200).json({ groups })
-  } catch (e) {
+  } catch {
     return res.status(500).json({ error: 'Error al obtener los grupos' })
   }
 }
@@ -149,7 +149,7 @@ export const getGroupById = async (req: AuthRequest, res: Response) => {
         }),
       },
     })
-  } catch (e) {
+  } catch {
     return res.status(500).json({ error: 'Error al obtener el grupo' })
   }
 }
@@ -169,7 +169,7 @@ export const updateGroup = async (req: AuthRequest, res: Response) => {
 
     const updated = await prisma.group.update({ where: { id: groupId }, data: { name: name.trim() } })
     return res.status(200).json({ group: updated })
-  } catch (e) {
+  } catch {
     return res.status(500).json({ error: 'Error al actualizar el grupo' })
   }
 }
@@ -207,7 +207,7 @@ export const addMember = async (req: AuthRequest, res: Response) => {
     ])
 
     return res.status(201).json({ message: 'Miembro añadido' })
-  } catch (e) {
+  } catch {
     return res.status(500).json({ error: 'Error al añadir el miembro' })
   }
 }
@@ -229,7 +229,7 @@ export const removeMember = async (req: AuthRequest, res: Response) => {
 
     await prisma.groupMember.delete({ where: { groupId_userId: { groupId, userId: targetId } } })
     return res.status(200).json({ message: 'Miembro eliminado' })
-  } catch (e) {
+  } catch {
     return res.status(500).json({ error: 'Error al eliminar el miembro' })
   }
 }
@@ -247,7 +247,7 @@ export const deleteGroup = async (req: AuthRequest, res: Response) => {
 
     await prisma.group.delete({ where: { id: groupId } })
     return res.status(200).json({ message: 'Grupo eliminado' })
-  } catch (e) {
+  } catch {
     return res.status(500).json({ error: 'Error al eliminar el grupo' })
   }
 }
@@ -286,7 +286,7 @@ export const addEvent = async (req: AuthRequest, res: Response) => {
     ])
 
     return res.status(201).json({ message: 'Evento añadido' })
-  } catch (e) {
+  } catch {
     return res.status(500).json({ error: 'Error al añadir el evento' })
   }
 }
@@ -310,7 +310,7 @@ export const removeEvent = async (req: AuthRequest, res: Response) => {
 
     await prisma.groupEvent.delete({ where: { id: groupEventId } })
     return res.status(200).json({ message: 'Evento eliminado' })
-  } catch (e) {
+  } catch {
     return res.status(500).json({ error: 'Error al eliminar el evento' })
   }
 }
@@ -349,7 +349,7 @@ export const voteOnGroupEvent = async (req: AuthRequest, res: Response) => {
     })
 
     return res.status(200).json({ vote })
-  } catch (e) {
+  } catch {
     return res.status(500).json({ error: 'Error al votar' })
   }
 }

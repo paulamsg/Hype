@@ -17,7 +17,7 @@ export const getFriends = async (req: AuthRequest, res: Response) => {
     })
 
     return res.status(200).json({ friends: follows.map((f) => f.following) })
-  } catch (e) {
+  } catch {
     return res.status(500).json({ error: 'Error al obtener amigos' })
   }
 }
@@ -38,7 +38,7 @@ export const getFriendIds = async (req: AuthRequest, res: Response) => {
     ]
 
     return res.status(200).json({ friendIds: [...new Set(ids)] })
-  } catch (e) {
+  } catch {
     return res.status(500).json({ error: 'Error al obtener amigos' })
   }
 }
@@ -60,7 +60,7 @@ export const removeFollow = async (req: AuthRequest, res: Response) => {
     })
 
     return res.status(200).json({ message: 'Amistad eliminada' })
-  } catch (e) {
+  } catch {
     return res.status(500).json({ error: 'Error al eliminar la amistad' })
   }
 }

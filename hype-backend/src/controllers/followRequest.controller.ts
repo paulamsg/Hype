@@ -41,7 +41,7 @@ export const postFollowRequet = async (req: AuthRequest, res: Response) => {
     ])
 
     return res.status(201).json({ message: 'Solicitud enviada' })
-  } catch (e) {
+  } catch {
     return res.status(500).json({ error: 'Error al enviar la solicitud' })
   }
 }
@@ -57,7 +57,7 @@ export const getPendingRequests = async (req: AuthRequest, res: Response) => {
     })
 
     return res.status(200).json({ pendingReceiverIds: pending.map((r) => r.receiverId) })
-  } catch (e) {
+  } catch {
     return res.status(500).json({ error: 'Error al obtener las solicitudes pendientes' })
   }
 }
@@ -87,7 +87,7 @@ export const cancelFollowRequest = async (req: AuthRequest, res: Response) => {
     })
 
     return res.status(200).json({ message: 'Solicitud cancelada' })
-  } catch (e) {
+  } catch {
     return res.status(500).json({ error: 'Error al cancelar la solicitud' })
   }
 }
@@ -144,7 +144,7 @@ export const acceptFollowRequest = async (req: AuthRequest, res: Response) => {
     })
 
     return res.status(200).json({ message: 'Solicitud aceptada' })
-  } catch (e) {
+  } catch {
     return res.status(500).json({ error: 'Error al aceptar la solicitud' })
   }
 }

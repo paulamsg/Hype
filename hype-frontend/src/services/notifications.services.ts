@@ -56,7 +56,7 @@ export const markNotificationRead = async (notificationId: number) => {
   })
 }
 
-export const deleteNotification = async (notificationId: Number) => {
+export const deleteNotification = async (notificationId: number) => {
   const token = localStorage.getItem('token')
   const response = await axios.delete(`${import.meta.env.VITE_SERVER_URL}/notifications/${notificationId}`, {
     headers: {

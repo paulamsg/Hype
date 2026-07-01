@@ -31,7 +31,6 @@ export interface AuthContextType {
   user: User | null
   token: string | null
   isAuthenticated: boolean
-  loading: boolean
   saveAuth: (token: string, user: User) => void
   logout: () => void
   updateUser: (user: Partial<User>) => void

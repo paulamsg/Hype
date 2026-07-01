@@ -10,8 +10,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const saved = localStorage.getItem('user')
     return saved ? JSON.parse(saved) : null
   })
-  const [loading, setLoading] = useState(false)
-
   const saveAuth = (token: string, user: User) => {
     localStorage.setItem('token', token)
     localStorage.setItem('user', JSON.stringify(user))
@@ -41,7 +39,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         user,
         token,
         isAuthenticated: !!token,
-        loading,
         saveAuth,
         logout,
         updateUser,
