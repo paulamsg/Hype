@@ -4,6 +4,8 @@
   display: flex;
   flex-direction: column;
   gap: 24px;
+  border-radius: var(--radius-lg);
+  overflow: visible;
 
   &__title {
     font-family: var(--serif);
@@ -83,6 +85,36 @@
         background: var(--b1);
         color: var(--ink3);
         cursor: not-allowed;
+      }
+    }
+
+    .custom-select {
+      width: 100%;
+
+      &__trigger {
+        width: 100%;
+        height: 38px;
+        border-radius: 8px;
+        border: 1px solid var(--b2);
+        background: var(--white);
+        font-size: 13px;
+        justify-content: space-between;
+
+        &:hover {
+          border-color: var(--ink3);
+        }
+      }
+
+      &--active &__trigger {
+        background: var(--white);
+        border-color: var(--blue);
+        font-weight: 400;
+      }
+
+      &__dropdown {
+        left: 0;
+        right: 0;
+        min-width: 100%;
       }
     }
   }

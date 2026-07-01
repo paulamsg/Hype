@@ -8,6 +8,11 @@
     height: 100%;
     overflow-y: auto;
 
+    > .btn {
+      flex-shrink: 0;
+      width: 100%;
+    }
+
     @media (max-width: 768px) {
       height: auto;
       overflow-y: visible;
@@ -130,6 +135,7 @@
 
   &__logout {
     margin-top: auto;
+    flex-shrink: 0;
 
     @media (max-width: 768px) {
       margin-top: 0;
@@ -140,6 +146,7 @@
     display: flex;
     flex-direction: column;
     gap: 8px;
+    flex-shrink: 0;
   }
 
   &__folders-label {

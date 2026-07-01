@@ -30,7 +30,7 @@ const CustomSelect = ({ value, onChange, options, active }: CustomSelectProps) =
 
   return (
     <div className={`custom-select${active ? ' custom-select--active' : ''}`} ref={ref}>
-      <button className="custom-select__trigger" onClick={() => setOpen((prev) => !prev)}>
+      <button type="button" className="custom-select__trigger" onClick={() => setOpen((prev) => !prev)}>
         <span>{selected?.label}</span>
         <span className={`custom-select__arrow${open ? ' custom-select__arrow--open' : ''}`}>▾</span>
       </button>

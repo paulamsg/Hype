@@ -1,8 +1,10 @@
 import { useRef, useState, useEffect } from 'react'
 import { useAuth } from '../../../context/useAuth'
 import Button from '../Button'
+import CustomSelect from '../CustomSelect'
 import { updateUserData } from '../../../services/user.services'
 import { uploadImageToCloudinary } from '../../../services/claudinary.services'
+import { CITIES } from '../../../mocks/cities'
 
 const EditProfileModal = ({ onClose }: { onClose: () => void }) => {
   const { user, updateUser } = useAuth()
@@ -123,13 +125,11 @@ const EditProfileModal = ({ onClose }: { onClose: () => void }) => {
             />
             <label htmlFor="POST-username">Username</label>
             <input id="POST-username" type="text" value={user?.username} disabled />
-            <label htmlFor="POST-location">Localidad</label>
-            <input
-              id="POST-location"
-              type="text"
-              placeholder={user?.location}
-              value={formData.location}
-              onChange={(e) => handleLocationChange(e.target.value)}
+            <label>Localidad</label>
+            <CustomSelect
+              value={formData.location ?? ''}
+              onChange={handleLocationChange}
+              options={CITIES.map((city) => ({ value: city, label: city }))}
             />
             <label htmlFor="POST-bio">Biografía</label>
             <input
