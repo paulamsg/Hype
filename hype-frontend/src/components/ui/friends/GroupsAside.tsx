@@ -2,16 +2,40 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { getMyGroups, type Group } from '../../../services/groups.services'
 import { Users } from 'lucide-react'
+import Button from '../Button'
 
 const GroupsAside = () => {
   const [groups, setGroups] = useState<Group[]>([])
+  const [loaded, setLoaded] = useState(false)
   const navigate = useNavigate()
 
   useEffect(() => {
-    getMyGroups().then(setGroups).catch(console.error)
+    getMyGroups().then(setGroups).catch(console.error).finally(() => setLoaded(true))
   }, [])
 
-  if (groups.length === 0) return null
+  if (!loaded) return null
+
+  if (groups.length === 0) {
+    return (
+      <div className="groups-aside groups-aside--empty">
+        <div className="groups-aside__promo-icon">
+          <Users size={20} />
+        </div>
+        <div className="groups-aside__promo-text">
+          <h3 className="groups-aside__title">Grupos</h3>
+          <p>Crea un grupo con tus amigos y organizad eventos juntos</p>
+        </div>
+        <Button
+          label="Crear grupo"
+          variant="primary"
+          type="button"
+          size="sm"
+          disabled={false}
+          onClick={() => navigate('/grupos')}
+        />
+      </div>
+    )
+  }
 
   return (
     <div className="groups-aside">
