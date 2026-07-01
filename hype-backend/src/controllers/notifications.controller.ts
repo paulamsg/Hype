@@ -20,8 +20,8 @@ export const getNotifications = async (req: AuthRequest, res: Response) => {
     })
 
     return res.status(200).json({ notifications })
-  } catch (error) {
-    return res.status(500).json({ message: 'No se ha podido cargar las notificaciones' })
+  } catch {
+    return res.status(500).json({ error: 'No se ha podido cargar las notificaciones' })
   }
 }
 
@@ -128,7 +128,7 @@ export const deleteNotification = async (req: AuthRequest, res: Response) => {
       where: { id: Number(notificationId) },
     })
 
-    if (!notification) return res.status(404).json({ message: 'Notificación no encontrada' })
+    if (!notification) return res.status(404).json({ error: 'Notificación no encontrada' })
 
     await prisma.followRequest.deleteMany({
       where: {

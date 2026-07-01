@@ -6,20 +6,20 @@ export const updateUserData = async (req: AuthRequest, res: Response) => {
   try {
     const userId = req.userId
     if (!userId) {
-      return res.status(401).json({ message: 'No autorizado' })
+      return res.status(401).json({ error: 'No autorizado' })
     }
     const userData = req.body
     if (!userData) {
-      return res.status(400).json({ message: 'Es necesario pasar un usuario' })
+      return res.status(400).json({ error: 'Es necesario pasar un usuario' })
     }
 
     const updated = await prisma.user.update({
       where: { id: userId },
       data: userData,
     })
-    return res.status(200).json({ message: 'Usuario actualizada', updated })
-  } catch (error) {
-    return res.status(500).json({ message: error })
+    return res.status(200).json({ message: 'Usuario actualizado', updated })
+  } catch {
+    return res.status(500).json({ error: 'Error al actualizar el usuario' })
   }
 }
 
@@ -27,12 +27,12 @@ export const searchUser = async (req: AuthRequest, res: Response) => {
   try {
     const userId = req.userId
     if (!userId) {
-      return res.status(401).json({ message: 'No autorizado' })
+      return res.status(401).json({ error: 'No autorizado' })
     }
 
     const searchUserValue = req.query.user
     if (!searchUserValue) {
-      return res.status(400).json({ message: 'Parámetro requerido' })
+      return res.status(400).json({ error: 'Parámetro requerido' })
     }
 
     const userFounded = await prisma.user.findMany({
@@ -42,8 +42,8 @@ export const searchUser = async (req: AuthRequest, res: Response) => {
       },
     })
     return res.status(200).json(userFounded)
-  } catch (error) {
-    return res.status(500).json({ message: error })
+  } catch {
+    return res.status(500).json({ error: 'Error al buscar el usuario' })
   }
 }
 
@@ -51,25 +51,24 @@ export const getAllUsers = async (req: AuthRequest, res: Response) => {
   try {
     const userId = req.userId
     if (!userId) {
-      return res.status(401).json({ message: 'No autorizado' })
+      return res.status(401).json({ error: 'No autorizado' })
     }
 
     const users = await prisma.user.findMany({
       where: {
         NOT: { id: userId },
       },
-
     })
     return res.status(200).json(users)
-  } catch (error) {
-    return res.status(500).json({ message: error })
+  } catch {
+    return res.status(500).json({ error: 'Error al obtener los usuarios' })
   }
 }
 
 export const getFriendsCount = async (req: AuthRequest, res: Response) => {
   try {
     const userId = req.userId
-    if (!userId) return res.status(401).json({ message: 'No autorizado' })
+    if (!userId) return res.status(401).json({ error: 'No autorizado' })
 
     const followersCount = await prisma.follow.count({
       where: { followingId: userId },
@@ -80,8 +79,8 @@ export const getFriendsCount = async (req: AuthRequest, res: Response) => {
     })
 
     return res.status(200).json({ followersCount, followingCount })
-  } catch (error) {
-    return res.status(500).json({ message: error })
+  } catch {
+    return res.status(500).json({ error: 'Error al obtener el conteo de amigos' })
   }
 }
 
@@ -101,7 +100,7 @@ export const getUserPhotos = async (req: AuthRequest, res: Response) => {
       include: { savedEvent: { select: { eventId: true, name: true } } },
     })
     return res.status(200).json({ photos })
-  } catch (e) {
+  } catch {
     return res.status(500).json({ error: 'Error al obtener las fotos' })
   }
 }
@@ -124,7 +123,7 @@ export const getUserGoneEvents = async (req: AuthRequest, res: Response) => {
       id: e.eventId, name: e.name, date: e.date, venue: e.venue, image: e.image, city: e.city,
     }))
     return res.status(200).json({ savedEvents })
-  } catch (e) {
+  } catch {
     return res.status(500).json({ error: 'Error al obtener los eventos' })
   }
 }
@@ -159,7 +158,7 @@ export const getUserProfile = async (req: AuthRequest, res: Response) => {
       isFriend: !!follow,
       stats: { photosCount, friendsCount },
     })
-  } catch (e) {
+  } catch {
     return res.status(500).json({ error: 'Error al obtener el perfil' })
   }
 }

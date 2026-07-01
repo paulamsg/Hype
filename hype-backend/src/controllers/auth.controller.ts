@@ -11,7 +11,7 @@ export const register = async (req: Request, res: Response) => {
     })
 
     if (emailExist) {
-      return res.status(400).json({ message: 'El email ya está registrado' })
+      return res.status(400).json({ error: 'El email ya está registrado' })
     }
 
     const hashedPassword = await bcrypt.hash(password, 10)
@@ -19,11 +19,11 @@ export const register = async (req: Request, res: Response) => {
     const normalizedName = name
       .toLowerCase()
       .normalize('NFD')
-      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/[̀-ͯ]/g, '')
     const normalizedLastName = lastName
       .toLowerCase()
       .normalize('NFD')
-      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/[̀-ͯ]/g, '')
     const baseUsername = `${normalizedName}${normalizedLastName}`.replace(/\s/g, '')
     const randomNum = Math.floor(Math.random() * 9000) + 1000
     const username = `${baseUsername}_${randomNum}`
@@ -53,8 +53,8 @@ export const register = async (req: Request, res: Response) => {
         location: user.location,
       },
     })
-  } catch (error) {
-    return res.status(500).json({ message: 'Error interno del servidor' })
+  } catch {
+    return res.status(500).json({ error: 'Error interno del servidor' })
   }
 }
 
@@ -69,10 +69,10 @@ export const login = async (req: Request, res: Response) => {
     const validPwd = existsUser && (await bcrypt.compare(password, existsUser.password))
 
     if (!existsUser) {
-      return res.status(401).json({ message: 'Email o contraseña incorrectos' })
+      return res.status(401).json({ error: 'Email o contraseña incorrectos' })
     }
     if (!validPwd) {
-      return res.status(401).json({ message: 'Contraseña incorrecta' })
+      return res.status(401).json({ error: 'Contraseña incorrecta' })
     }
 
     const token = jwt.sign({ userId: existsUser.id }, process.env.JWT_SECRET as string, { expiresIn: '7d' })
@@ -90,7 +90,7 @@ export const login = async (req: Request, res: Response) => {
         avatarUrl: existsUser.avatarUrl,
       },
     })
-  } catch (error) {
-    return res.status(500).json({ message: error })
+  } catch {
+    return res.status(500).json({ error: 'Error interno del servidor' })
   }
 }

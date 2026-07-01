@@ -41,8 +41,8 @@ const Login = () => {
       navigate('/descubre')
     } catch (err) {
       const message =
-        isAxiosError(err) && err.response?.data?.message
-          ? err.response.data.message
+        isAxiosError(err) && (err.response?.data?.error || err.response?.data?.message)
+          ? (err.response.data.error ?? err.response.data.message)
           : 'Email o contraseña incorrectos'
       setError(message)
     } finally {

@@ -1,4 +1,4 @@
-import express from 'express'
+import express, { type Request, type Response, type NextFunction } from 'express'
 import cors from 'cors'
 import dotenv from 'dotenv'
 import authRoutes from './routes/auth.routes'
@@ -45,12 +45,16 @@ nodeCron.schedule('0 0 * * 1', () => {
   updateFeaturedEvents()
 })
 
-const PORT = process.env.PORT || 3000
-
-app.get('/', (req, res) => {
+app.get('/', (_req, res) => {
   res.json({ message: 'Hype!!' })
 })
 
+app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
+  console.error(err)
+  res.status(500).json({ error: err.message || 'Error interno del servidor' })
+})
+
+const PORT = process.env.PORT || 3000
 app.listen(PORT, () => {
   console.log(`El backend esta corriendo en el puerto:  ${PORT}`)
 })

@@ -33,8 +33,8 @@ export const postPhoto = async (req: AuthRequest, res: Response) => {
     })
 
     return res.status(201).json({ photo })
-  } catch (error) {
-    return res.status(500).json({ message: error })
+  } catch {
+    return res.status(500).json({ error: 'Error al subir la foto' })
   }
 }
 
@@ -43,7 +43,7 @@ export const getPhotosByUser = async (req: AuthRequest, res: Response) => {
   try {
     const userId = req.userId
     if (!userId) {
-      return res.status(401).json({ message: 'No autorizado' })
+      return res.status(401).json({ error: 'No autorizado' })
     }
 
     const photos = await prisma.photo.findMany({
@@ -56,8 +56,8 @@ export const getPhotosByUser = async (req: AuthRequest, res: Response) => {
       },
     })
     return res.status(200).json({ photos })
-  } catch (error) {
-    return res.status(500).json({ message: error })
+  } catch {
+    return res.status(500).json({ error: 'Error al obtener las fotos' })
   }
 }
 
@@ -66,7 +66,7 @@ export const deletePhoto = async (req: AuthRequest, res: Response) => {
   try {
     const userId = req.userId
     if (!userId) {
-      return res.status(401).json({ message: 'No autorizado' })
+      return res.status(401).json({ error: 'No autorizado' })
     }
     const photoId = req.params.id
 
@@ -74,14 +74,14 @@ export const deletePhoto = async (req: AuthRequest, res: Response) => {
       where: { id: Number(photoId), userId },
     })
 
-    if (!photo) return res.status(404).json({ message: 'Foto no encontrada' })
+    if (!photo) return res.status(404).json({ error: 'Foto no encontrada' })
 
     const deletedPhoto = await prisma.photo.delete({
       where: { id: Number(photoId) },
     })
 
     return res.status(200).json({ deletedPhoto })
-  } catch (error) {
-    return res.status(500).json({ message: error })
+  } catch {
+    return res.status(500).json({ error: 'Error al eliminar la foto' })
   }
 }

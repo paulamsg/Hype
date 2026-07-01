@@ -7,8 +7,8 @@ export const getFeaturedMockEvents = async (_req: Request, res: Response) => {
       where: { featured: true },
     })
     res.status(200).json({ events })
-  } catch (error) {
-    return res.status(500).json({ message: error })
+  } catch {
+    return res.status(500).json({ error: 'Error al obtener los eventos destacados' })
   }
 }
 
@@ -20,7 +20,7 @@ export const getMockEvents = async (req: Request, res: Response) => {
       orderBy: { date: 'asc' },
     })
     res.status(200).json({ events })
-  } catch (error) {
-    return res.status(500).json({ message: error })
+  } catch {
+    return res.status(500).json({ error: 'Error al obtener los eventos' })
   }
 }

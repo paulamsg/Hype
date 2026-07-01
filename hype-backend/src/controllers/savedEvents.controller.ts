@@ -13,7 +13,7 @@ export const saveEvent = async (req: AuthRequest, res: Response) => {
       },
     })
     if (isAlreadySaved) {
-      return res.status(400).json({ message: 'El evento ya está guardado' })
+      return res.status(400).json({ error: 'El evento ya está guardado' })
     }
 
     const savedEvent = await prisma.savedEvent.create({
@@ -36,8 +36,8 @@ export const saveEvent = async (req: AuthRequest, res: Response) => {
     })
 
     res.status(201).json({ message: 'Evento guardado correctamente', savedEvent })
-  } catch (error) {
-    return res.status(500).json({ message: 'Error' })
+  } catch {
+    return res.status(500).json({ error: 'Error al guardar el evento' })
   }
 }
 
@@ -52,7 +52,7 @@ export const deleteEvent = async (req: AuthRequest, res: Response) => {
     })
 
     if (!isAlreadySaved) {
-      return res.status(404).json({ message: 'Evento no encontrado' })
+      return res.status(404).json({ error: 'Evento no encontrado' })
     } else {
       await prisma.savedEvent.delete({
         where: {
@@ -61,8 +61,8 @@ export const deleteEvent = async (req: AuthRequest, res: Response) => {
       })
     }
     res.status(200).json({ message: 'Evento eliminado correctamente' })
-  } catch (error) {
-    return res.status(500).json({ message: 'Error' })
+  } catch {
+    return res.status(500).json({ error: 'Error al eliminar el evento' })
   }
 }
 
@@ -71,7 +71,7 @@ export const getSavedEvents = async (req: AuthRequest, res: Response) => {
   try {
     const userId = req.userId
     if (!userId) {
-      return res.status(401).json({ message: 'No autorizado' })
+      return res.status(401).json({ error: 'No autorizado' })
     }
 
     const saved = await prisma.savedEvent.findMany({ where: { userId } })
@@ -87,8 +87,8 @@ export const getSavedEvents = async (req: AuthRequest, res: Response) => {
     }))
 
     return res.status(200).json({ savedEvents })
-  } catch (error) {
-    return res.status(500).json({ message: error })
+  } catch {
+    return res.status(500).json({ error: 'Error al obtener los eventos' })
   }
 }
 
@@ -96,7 +96,7 @@ export const getSavedEvents = async (req: AuthRequest, res: Response) => {
 export const getWantEvents = async (req: AuthRequest, res: Response) => {
   try {
     const userId = req.userId
-    if (!userId) return res.status(401).json({ message: 'No autorizado' })
+    if (!userId) return res.status(401).json({ error: 'No autorizado' })
 
     const saved = await prisma.savedEvent.findMany({ where: { userId, folder: 'WANT_GO' } })
     const savedEvents = saved.map((e) => ({
@@ -109,8 +109,8 @@ export const getWantEvents = async (req: AuthRequest, res: Response) => {
       city: e.city,
     }))
     return res.status(200).json({ savedEvents })
-  } catch (error) {
-    return res.status(500).json({ message: error })
+  } catch {
+    return res.status(500).json({ error: 'Error al obtener los eventos' })
   }
 }
 
@@ -118,7 +118,7 @@ export const getWantEvents = async (req: AuthRequest, res: Response) => {
 export const getGoingEvents = async (req: AuthRequest, res: Response) => {
   try {
     const userId = req.userId
-    if (!userId) return res.status(401).json({ message: 'No autorizado' })
+    if (!userId) return res.status(401).json({ error: 'No autorizado' })
 
     const saved = await prisma.savedEvent.findMany({ where: { userId, folder: 'GOING' } })
     const savedEvents = saved.map((e) => ({
@@ -131,8 +131,8 @@ export const getGoingEvents = async (req: AuthRequest, res: Response) => {
       city: e.city,
     }))
     return res.status(200).json({ savedEvents })
-  } catch (error) {
-    return res.status(500).json({ message: error })
+  } catch {
+    return res.status(500).json({ error: 'Error al obtener los eventos' })
   }
 }
 
@@ -140,7 +140,7 @@ export const getGoingEvents = async (req: AuthRequest, res: Response) => {
 export const getGoneEvents = async (req: AuthRequest, res: Response) => {
   try {
     const userId = req.userId
-    if (!userId) return res.status(401).json({ message: 'No autorizado' })
+    if (!userId) return res.status(401).json({ error: 'No autorizado' })
 
     const saved = await prisma.savedEvent.findMany({ where: { userId, folder: 'GONE' } })
     const savedEvents = saved.map((e) => ({
@@ -153,8 +153,8 @@ export const getGoneEvents = async (req: AuthRequest, res: Response) => {
       city: e.city,
     }))
     return res.status(200).json({ savedEvents })
-  } catch (error) {
-    return res.status(500).json({ message: error })
+  } catch {
+    return res.status(500).json({ error: 'Error al obtener los eventos' })
   }
 }
 
@@ -162,7 +162,7 @@ export const getGoneEvents = async (req: AuthRequest, res: Response) => {
 export const getExpiredEvents = async (req: AuthRequest, res: Response) => {
   try {
     const userId = req.userId
-    if (!userId) return res.status(401).json({ message: 'No autorizado' })
+    if (!userId) return res.status(401).json({ error: 'No autorizado' })
 
     const saved = await prisma.savedEvent.findMany({ where: { userId, folder: 'EXPIRED' } })
     const savedEvents = saved.map((e) => ({
@@ -175,8 +175,8 @@ export const getExpiredEvents = async (req: AuthRequest, res: Response) => {
       city: e.city,
     }))
     return res.status(200).json({ savedEvents })
-  } catch (error) {
-    return res.status(500).json({ message: error })
+  } catch {
+    return res.status(500).json({ error: 'Error al obtener los eventos' })
   }
 }
 
@@ -184,7 +184,7 @@ export const getExpiredEvents = async (req: AuthRequest, res: Response) => {
 export const getFriendsFeed = async (req: AuthRequest, res: Response) => {
   try {
     const userId = req.userId
-    if (!userId) return res.status(401).json({ message: 'No autorizado' })
+    if (!userId) return res.status(401).json({ error: 'No autorizado' })
 
     const follows = await prisma.follow.findMany({
       where: { followerId: userId },
@@ -310,8 +310,8 @@ export const getFriendsFeed = async (req: AuthRequest, res: Response) => {
     )
 
     return res.status(200).json({ activities })
-  } catch (error) {
-    return res.status(500).json({ message: 'Error al obtener el feed de amigos' })
+  } catch {
+    return res.status(500).json({ error: 'Error al obtener el feed de amigos' })
   }
 }
 
@@ -320,7 +320,7 @@ export const updateEventFolder = async (req: AuthRequest, res: Response) => {
   try {
     const userId = req.userId
     if (!userId) {
-      return res.status(401).json({ message: 'No autorizado' })
+      return res.status(401).json({ error: 'No autorizado' })
     }
     const eventId = req.params.eventId as string
     const { folder } = req.body
@@ -328,14 +328,14 @@ export const updateEventFolder = async (req: AuthRequest, res: Response) => {
     const folders = ['WANT_GO', 'GOING', 'GONE', 'EXPIRED']
 
     if (!folders.includes(folder)) {
-      return res.status(400).json({ message: 'Folder no válido' })
+      return res.status(400).json({ error: 'Folder no válido' })
     }
     const updated = await prisma.savedEvent.update({
       where: { userId_eventId: { userId, eventId } },
       data: { folder },
     })
-    return res.status(200).json({ message: 'Carpeta actualizado', updated })
-  } catch (error) {
-    return res.status(500).json({ message: error })
+    return res.status(200).json({ message: 'Carpeta actualizada', updated })
+  } catch {
+    return res.status(500).json({ error: 'Error al actualizar la carpeta' })
   }
 }

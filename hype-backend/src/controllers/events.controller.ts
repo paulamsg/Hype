@@ -54,7 +54,7 @@ export const getEvents = async (req: Request, res: Response) => {
     res.status(200).json({
       events: uniqueEvents,
     })
-  } catch (err) {
-    return res.status(500).json({ message: err })
+  } catch {
+    return res.status(500).json({ error: 'Error al obtener los eventos' })
   }
 }
