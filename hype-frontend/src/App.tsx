@@ -1,5 +1,4 @@
 import { Routes, Route, Navigate } from 'react-router-dom'
-import Hype from './pages/HypePage'
 import Login from './pages/LoginPage'
 import Register from './pages/RegisterPage'
 import Discover from './pages/DiscoverPage'
@@ -13,8 +12,7 @@ import UserProfilePage from './pages/UserProfilePage'
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<Navigate to="/hype" replace />} />
-      <Route path="/hype" element={<Hype />} />
+      <Route path="/" element={<Navigate to="/registro" replace />} />
       <Route path="/login" element={<Login />} />
       <Route path="/registro" element={<Register />} />
       <Route path="/style-guide" element={<StyleGuide />} />
