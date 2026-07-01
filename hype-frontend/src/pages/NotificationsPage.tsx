@@ -42,7 +42,7 @@ const NotificationsPage = () => {
       <div className="notifications">
         <div className="notifications__header">
           <h1>Notificaciones</h1>
-          {allNotifications.length > 0 && (
+          {unread.length > 0 && (
             <span
               className="link-red"
               onClick={async () => { await deleteAllNotifications(); setAllNotifications([]) }}
