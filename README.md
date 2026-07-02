@@ -7,18 +7,15 @@ Built as a Final Master's Project (TFM) at ESAT.
 
 ---
 ## UI
-## UI Overview
-
 ### Login & Register
-
+Authentication screens that allow users to sign in to an existing account or create a new one to access the platform.
 <p align="center">
   <img src="https://github.com/user-attachments/assets/8f38c7ba-9b58-4fc6-b040-061528cb3c63" width="48%" />
   <img src="https://github.com/user-attachments/assets/16fda03b-33c4-4683-8ca0-ec250a873148" width="48%" />
 </p>
-
 ---
-
 ### Discover
+Discover is the application's main screen, allowing users to browse real-time cultural events using filters such as category, date, city, and price. It displays featured events when no category is selected and dynamically updates the event grid based on the active filters. Users can view detailed event information, save events, share them with friends or groups, and access external ticket purchase links. When a category is selected, the layout adapts to highlight the most relevant events within that category.
 
 <p align="center">
   <img src="https://github.com/user-attachments/assets/1e2998da-0172-4f3a-a415-6bc856b044cb" width="48%" />
