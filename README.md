@@ -1,3 +1,4 @@
+
 # Hype
 
 A full-stack web application to discover real cultural events in your city, save them in folders, and share plans with your friends.
@@ -6,7 +7,7 @@ Built as a Final Master's Project (TFM) at ESAT.
 
 ---
 ## UI
-
+<img width="947" height="496" alt="image (1)" src="https://github.com/user-attachments/assets/8f38c7ba-9b58-4fc6-b040-061528cb3c63" />
 
 
 
