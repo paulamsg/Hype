@@ -7,7 +7,7 @@ Developed as a **Final Master's Project (TFM)** at ESAT.
 
 ---
 
-# UI Overview
+# UI 
 
 ## 🔐 Login & Register
 
