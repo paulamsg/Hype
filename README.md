@@ -7,9 +7,28 @@ Built as a Final Master's Project (TFM) at ESAT.
 
 ---
 ## UI
-<img width="947" height="496" alt="image (1)" src="https://github.com/user-attachments/assets/8f38c7ba-9b58-4fc6-b040-061528cb3c63" />
+## UI Overview
 
+### Login & Register
 
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/8f38c7ba-9b58-4fc6-b040-061528cb3c63" width="48%" />
+  <img src="https://github.com/user-attachments/assets/16fda03b-33c4-4683-8ca0-ec250a873148" width="48%" />
+</p>
+
+---
+
+### Discover
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/1e2998da-0172-4f3a-a415-6bc856b044cb" width="48%" />
+  <img src="https://github.com/user-attachments/assets/e8aa1bab-4d05-40bf-8440-d01f9b607b30" width="48%" />
+</p>
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/80a45092-bfa1-466c-9256-84af955a3515" width="48%" />
+  <img src="https://github.com/user-attachments/assets/d678642e-46f5-465c-8b38-5ec5d69e8d28" width="48%" />
+</p>
 
 ## Features
 
