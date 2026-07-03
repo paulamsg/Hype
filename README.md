@@ -23,12 +23,28 @@ Authentication screens that allow users to sign in to an existing account or cre
 ## 🔍 Discover
 
 The main screen of the application, where users can browse real-time cultural events using filters such as **category, date, city, and price**. Featured events are displayed when no category is selected, while the event grid updates dynamically according to the active filters. Users can view event details, save events, share them with friends or groups, and access external ticket purchase links.
+### Main screen
+It is the application's main screen, where users can discover events using category, date, city, and price filters.
+It displays featured events when no category is selected, along with a grid of all available events, retrieved in real time from the Ticketmaster API and combined with events created within the platform.
+
   <img src="https://github.com/user-attachments/assets/d678642e-46f5-465c-8b38-5ec5d69e8d28" />
-
-  <img src="https://github.com/user-attachments/assets/1e2998da-0172-4f3a-a415-6bc856b044cb"  />
-  <img src="https://github.com/user-attachments/assets/e8aa1bab-4d05-40bf-8440-d01f9b607b30"  />
-  <img src="https://github.com/user-attachments/assets/80a45092-bfa1-466c-9256-84af955a3515"  />
-
+  
+### Share Event
+This modal allows users to share an event with friends or groups directly from any event card.
+Users can select one of their groups to post the event to the group's feed or search for friends by name or **@username** and send them the event through a notification.
+ 
+   <img src="https://github.com/user-attachments/assets/e8aa1bab-4d05-40bf-8440-d01f9b607b30"  />
+   
+### View Event
+This modal displays all the relevant information about the event, including the image, category, location, date, time, and price.
+From this modal, the user can save the event, share it with friends or groups, and access ticket purchasing directly through an external link.
+ <img src="https://github.com/user-attachments/assets/80a45092-bfa1-466c-9256-84af955a3515"  />
+ 
+### Category screen
+When a category is selected, the screen updates to highlight events within that category.
+It displays a header with the category name and the number of results, a featured hero event, and a grid containing all events that match the active filters.
+  
+<img src="https://github.com/user-attachments/assets/1e2998da-0172-4f3a-a415-6bc856b044cb"  />
 
 ---
 
